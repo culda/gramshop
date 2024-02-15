@@ -1,0 +1,6 @@
+Handle,Title,Body (HTML),Vendor,Type,Tags,Published,Variant Price,Image Src
+SKU1,Casual Cotton T-Shirt,<strong>Comfortable</strong> cotton t-shirt perfect for everyday wear.,Fashionista,T-Shirts,"cotton, casual, everyday",TRUE,19.99,http://example.com/path/to/tshirt-image.jpg
+SKU2,Elegant Silk Dress,<strong>Elegant</strong> silk dress suitable for evening events.,Glamour Boutique,Dresses,"silk, elegant, evening",TRUE,89.99,http://example.com/path/to/dress-image.jpg
+SKU3,Leather Jacket,<strong>Durable</strong> leather jacket with a modern fit.,Urban Trends,Outerwear,"leather, jacket, fashion",TRUE,120.00,http://example.com/path/to/jacket-image.jpg
+SKU4,Denim Jeans,<strong>Classic</strong> denim jeans with a comfortable fit.,DenimWorks,Pants,"denim, jeans, casual",TRUE,49.99,http://example.com/path/to/jeans-image.jpg
+SKU5,Knitted Wool Sweater,<strong>Warm</strong> knitted wool sweater for chilly days.,Cozy Clothing Co,Sweaters,"wool, knitted, warm",TRUE,59.99,http://example.com/path/to/sweater-image.jpg
