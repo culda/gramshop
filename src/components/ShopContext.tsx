@@ -17,6 +17,8 @@ type ProductItem = {
 type ShopContextType = {
   products: ProductItem[];
   cart: ShoppingCart;
+  isProductInCart: (productId: string) => boolean;
+  getProductQuantity: (productId: string) => number;
   addToCart: (product: ProductItem) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
@@ -40,9 +42,11 @@ export const ShopProvider = ({
   children: ReactNode;
 }) => {
   const [cart, setCart] = useState<ShoppingCart>({ items: [] });
+  console.log(cart);
 
   const addToCart = (product: ProductItem) => {
     setCart((currentCart) => {
+      console.log("adding");
       const itemIndex = currentCart.items.findIndex(
         (item) => item.product.id === product.id
       );
@@ -60,14 +64,31 @@ export const ShopProvider = ({
     });
   };
 
+  const getProductQuantity = (productId: string) => {
+    const cartItem = cart.items.find((item) => item.product.id === productId);
+    return cartItem?.quantity || 0;
+  };
+
   const removeFromCart = (productId: string) => {
     setCart((currentCart) => {
-      return {
-        items: currentCart.items.filter(
-          (item) => item.product.id !== productId
-        ),
-      };
+      const itemIndex = currentCart.items.findIndex(
+        (item) => item.product.id === productId
+      );
+      if (itemIndex > -1) {
+        const updatedItems = [...currentCart.items];
+        updatedItems[itemIndex].quantity -= 1;
+        if (updatedItems[itemIndex].quantity === 0) {
+          updatedItems.splice(itemIndex, 1);
+        }
+        return {
+          items: updatedItems,
+        };
+      }
+      return currentCart;
     });
+  };
+  const isProductInCart = (productId: string) => {
+    return cart.items.some((item) => item.product.id === productId);
   };
 
   const clearCart = () => {
@@ -80,6 +101,8 @@ export const ShopProvider = ({
         products,
         cart,
         addToCart,
+        isProductInCart,
+        getProductQuantity,
         removeFromCart,
         clearCart,
       }}

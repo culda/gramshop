@@ -4,6 +4,7 @@ import { ProductItem } from "@/model";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const products = await getProducts(params.id);
+  console.log("loading products");
   return (
     <ShopProvider products={products}>
       <ShopPlp />

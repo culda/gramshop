@@ -2,6 +2,7 @@ export type ProductItem = {
   id: string;
   name: string;
   price: number; // Price in the smallest units of the currency (e.g., cents for USD)
+  image: string;
 };
 
 export type AuthData = {
