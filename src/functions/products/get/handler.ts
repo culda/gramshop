@@ -1,6 +1,6 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
-import { lambdaWrapper } from "../lambdaWrapper";
-import { checkNull, ddb } from "../utils";
+import { lambdaWrapper } from "../../lambdaWrapper";
+import { checkNull, ddb } from "../../utils";
 import { GetItemCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";

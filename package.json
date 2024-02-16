@@ -10,9 +10,11 @@
   },
   "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.511.0",
+    "@aws-sdk/client-s3": "^3.515.0",
     "@aws-sdk/util-dynamodb": "^3.511.0",
     "@types/aws-lambda": "^8.10.133",
     "aws-lambda": "^1.0.7",
+    "fs": "^0.0.1-security",
     "next": "14.1.0",
     "puregram": "^2.25.1",
     "react": "^18",
