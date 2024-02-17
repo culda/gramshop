@@ -9,19 +9,30 @@ import {
   use,
 } from "sst/constructs";
 
-function StorageStack({ stack }: StackContext) {
+function Storage({ stack }: StackContext) {
+  // Buckets
   const ShopifyExportBucket = new Bucket(stack, "ShopifyExportBucket");
 
+  // Tables
+  const ShopsTable = new Table(stack, "ShopsTable", {
+    fields: {
+      id: "string",
+      userId: "string",
+    },
+    primaryIndex: { partitionKey: "id" },
+  });
+
   return {
-    bucket: ShopifyExportBucket,
+    ShopifyExportBucket,
+    ShopsTable,
   };
 }
 
-function SiteStack({ stack }: StackContext) {
-  const { bucket } = use(StorageStack);
+function Site({ stack }: StackContext) {
+  const { ShopifyExportBucket } = use(Storage);
 
   const site = new NextjsSite(stack, "site", {
-    bind: [bucket],
+    bind: [ShopifyExportBucket],
   });
 
   stack.addOutputs({
@@ -29,20 +40,8 @@ function SiteStack({ stack }: StackContext) {
   });
 }
 
-function ShopStack({ stack }: StackContext) {
-  // Tables
-  const shopsTable = new Table(stack, "ShopsTable", {
-    fields: {
-      id: "string",
-      userId: "string",
-    },
-    primaryIndex: { partitionKey: "id" },
-    globalIndexes: {
-      UserIdIndex: {
-        partitionKey: "userId",
-      },
-    },
-  });
+function Shop({ stack }: StackContext) {
+  const { ShopsTable } = use(Storage);
 
   /**
    * Called when a user interacts with a Telegram bot
@@ -67,17 +66,17 @@ function ShopStack({ stack }: StackContext) {
    * Creates a new shop in the database
    */
   const initShopHandler = new Function(stack, "initShopHandler", {
-    bind: [shopsTable],
+    bind: [ShopsTable],
     handler: "src/functions/initShop/handler.handler",
   });
 
   const getProductsHandler = new Function(stack, "getProductsHandler", {
-    bind: [shopsTable],
+    bind: [ShopsTable],
     handler: "src/functions/products/get/handler.handler",
   });
 
   const postProductsHandler = new Function(stack, "postProductsHandler", {
-    bind: [shopsTable],
+    bind: [ShopsTable],
     handler: "src/functions/products/add/handler.handler",
   });
 
@@ -104,6 +103,6 @@ export default {
     };
   },
   stacks(app) {
-    app.stack(StorageStack).stack(SiteStack).stack(ShopStack);
+    app.stack(Storage).stack(Site).stack(Shop);
   },
 } satisfies SSTConfig;
