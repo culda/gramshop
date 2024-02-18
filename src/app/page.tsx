@@ -11,11 +11,6 @@ import { useState } from "react";
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const handleFileUpload = async (file: File) => {
-    // if (!event.target.files || !event.target.files[0]) {
-    //   return;
-    // }
-    // const file = event.target.files[0];
-
     try {
       const reader = new FileReader();
       reader.onloadend = async () => {
@@ -49,12 +44,38 @@ export default function Home() {
   };
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-between">
-      {/* <input type="file" onChange={handleFileUpload} /> */}
-      <FileDrop onUpload={handleFileUpload} />
+    <div>
+      <header className=" text-gray-800 body-font md:px-8">
+        <div className="mx-auto justify-between flex flex-wrap p-5 items-center">
+          <a className="flex title-font font-medium items-center md:mb-0">
+            {/* <img
+              loading="lazy"
+              className="aspect-[1.22] object-contain object-center w-[64px] overflow-hidden"
+              alt="logo"
+              src="/logo-b.webp"
+            /> */}
+            <span className="ml-3 text-xl">
+              <b>Messenger</b>Shop
+            </span>
+          </a>
 
+          {/* <div className="flex flex-row gap-4 text-lg">
+            <a href="#faq">Faq</a>
+            <a href="#demo">Demo</a>
+            <a href="#pricing">Pricing</a>
+          </div> */}
+
+          <div>
+            <Button href="/dashboard">Login</Button>
+          </div>
+        </div>
+      </header>
+      <section className="flex min-h-screen flex-col items-center justify-between">
+        {/* <input type="file" onChange={handleFileUpload} /> */}
+        <FileDrop onUpload={handleFileUpload} />
+      </section>
       {products.length > 0 && (
-        <Fragment>
+        <section>
           <h2 className="text-3xl font-bold mt-8">Shop Preview</h2>
 
           <div className="flex justify-center items-center">
@@ -72,8 +93,8 @@ export default function Home() {
           <div className="mt-4">
             <Button variant="primary">Launch on Telegram</Button>
           </div>
-        </Fragment>
+        </section>
       )}
-    </main>
+    </div>
   );
 }

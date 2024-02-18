@@ -48,7 +48,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           >
             <ul className="list-none p-0 m-0">
               <li className="mb-4" onClick={toggleMenu}>
-                <Link href={"/app"}>
+                <Link href={"/dashboard"}>
                   {/* <Image
                     loading="lazy"
                     className="aspect-[2.22] object-contain object-center w-[102px] overflow-hidden"
@@ -65,14 +65,14 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   Pages
                 </Link>
               </li>
-              <li onClick={toggleMenu}>
+              {/* <li onClick={toggleMenu}>
                 <Link
                   href="/app/plan"
                   className="text-black text-xl font-semibold whitespace-nowrap"
                 >
                   Plan
                 </Link>
-              </li>
+              </li> */}
             </ul>
           </nav>
 

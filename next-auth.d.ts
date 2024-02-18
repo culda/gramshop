@@ -8,16 +8,15 @@ declare module "next-auth" {
    */
   interface Session {
     accessToken: string;
+    expires: string;
     user: User;
   }
 
   interface User {
-    firstName?: string;
-    lastName?: string;
     id?: string;
-    username?: string;
-    photoUrl?: string;
-    platformLogin?: string;
+    name?: string;
+    email?: string;
+    image?: string;
   }
 }
 
@@ -25,10 +24,10 @@ declare module "next-auth/jwt" {
   /** Returned by the `jwt` callback and `getToken`, when using JWT sessions */
   interface JWT {
     user: {
-      firstName?: string;
-      lastName?: string;
       id?: string;
-      username?: string;
+      name?: string;
+      email?: string;
+      image?: string;
     };
     sub?: string;
     token: string;
