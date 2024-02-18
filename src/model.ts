@@ -1,4 +1,4 @@
-export type ProductItem = {
+export type Product = {
   id: string;
   name: string;
   price: number; // Price in the smallest units of the currency (e.g., cents for USD)
@@ -22,12 +22,18 @@ export type AuthData = {
 
 export type ShoppingCart = {
   items: {
-    product: ProductItem;
+    product: Product;
     quantity: number;
   }[];
 };
 
 export type Shop = {
   id: string;
-  items: ProductItem[];
+  userId: string;
+  botToken?: string;
+  items: Product[];
+};
+
+export type User = {
+  id: string;
 };

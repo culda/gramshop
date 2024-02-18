@@ -11,7 +11,7 @@ export async function PUT(req: NextRequest) {
 
   try {
     const parsed = await csvToJson(file);
-    return NextResponse.redirect("preview");
+    return NextResponse.json(parsed);
   } catch (error) {
     console.error(error);
     return NextResponse.json({}, { status: 500 });

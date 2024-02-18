@@ -18,7 +18,7 @@ const ShopPlp = () => {
       <div className="container px-5 py-12 mx-auto">
         <div className="flex flex-wrap -m-4">
           {products.map((product) => (
-            <div key={product.id} className="p-4 relative">
+            <div key={product.id} className="p-4 relative max-w-[120px]">
               <div className="absolute top-0 right-0 bg-blue-800 text-white px-2 py-1 rounded-bl">
                 {getProductQuantity(product.id)}
               </div>
@@ -32,8 +32,9 @@ const ShopPlp = () => {
                 />
               </a>
               <div className="mt-4">
-                <h2 className="text-gray-900 title-font text-lg font-medium">
-                  {product.name} - {product.price}
+                <h2 className="text-gray-900 title-font text-xs font-medium">
+                  {product.name}{" "}
+                  <span className="font-bold">{product.price}</span>
                 </h2>
                 {isProductInCart(product.id) ? (
                   <div className="flex flex-row gap-2 justify-center">

@@ -1,4 +1,4 @@
-import { ProductItem, Shop } from "@/model";
+import { Product, Shop } from "@/model";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { randomUUID } from "crypto";
 import { ApiResponse, ddb } from "../utils";
@@ -8,7 +8,7 @@ import { lambdaWrapper } from "../lambdaWrapper";
 import { marshall } from "@aws-sdk/util-dynamodb";
 
 export type ShopRequestPayload = {
-  items: ProductItem[];
+  items: Product[];
 };
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) =>

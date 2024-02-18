@@ -1,4 +1,4 @@
-import { AuthData, ProductItem } from "@/model";
+import { AuthData, Product } from "@/model";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { Telegram } from "puregram";
 
@@ -7,7 +7,7 @@ const telegram = Telegram.fromToken(
 );
 
 export type CheckoutRequestPayload = {
-  items: ProductItem[];
+  items: Product[];
   auth: AuthData;
 };
 

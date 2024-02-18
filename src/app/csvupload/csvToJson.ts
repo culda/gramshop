@@ -10,7 +10,7 @@ export async function csvToJson(csvContent: string): Promise<unknown> {
 
   // Prepare the prompt
   const prompt = `Please convert the following CSV data into a JSON object matching the schema: 
-  export type ProductItem = {
+  export type Product = {
     id: string;
     name: string;
     price: number; // Price in the smallest units of the currency (e.g., cents for USD)

@@ -1,6 +1,6 @@
 import { ShopProvider } from "@/components/ShopContext";
 import ShopPlp from "@/components/ShopPlp";
-import { ProductItem } from "@/model";
+import { Product } from "@/model";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const products = await getProducts(params.id);
@@ -19,7 +19,7 @@ async function getProducts(shopId: string) {
   if (!res.ok) {
     throw new Error("Failed to fetch products");
   }
-  const data = (await res.json()) as ProductItem[];
+  const data = (await res.json()) as Product[];
   return data;
 }
 

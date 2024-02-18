@@ -3,23 +3,23 @@ import React, { createContext, useContext, useState, ReactNode } from "react";
 
 type ShoppingCart = {
   items: {
-    product: ProductItem;
+    product: Product;
     quantity: number;
   }[];
 };
 
-type ProductItem = {
+type Product = {
   id: string;
   name: string;
   price: number;
 };
 
 type ShopContextType = {
-  products: ProductItem[];
+  products: Product[];
   cart: ShoppingCart;
   isProductInCart: (productId: string) => boolean;
   getProductQuantity: (productId: string) => number;
-  addToCart: (product: ProductItem) => void;
+  addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
 };
@@ -38,13 +38,13 @@ export const ShopProvider = ({
   products,
   children,
 }: {
-  products: ProductItem[];
+  products: Product[];
   children: ReactNode;
 }) => {
   const [cart, setCart] = useState<ShoppingCart>({ items: [] });
   console.log(cart);
 
-  const addToCart = (product: ProductItem) => {
+  const addToCart = (product: Product) => {
     setCart((currentCart) => {
       console.log("adding");
       const itemIndex = currentCart.items.findIndex(

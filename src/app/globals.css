@@ -8,13 +8,13 @@
   --background-end-rgb: 255, 255, 255;
 }
 
-@media (prefers-color-scheme: dark) {
+/* @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
   }
-}
+} */
 
 body {
   color: rgb(var(--foreground-rgb));
@@ -30,4 +30,10 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+.thick-underline {
+  @apply border-b-8 border-blue-800;
+  display: inline-block; /* This is to ensure the border spans only the text width */
+  line-height: 1; /* Adjust line height to control the distance between text and underline */
 }
