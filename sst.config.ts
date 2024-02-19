@@ -19,12 +19,17 @@ function Storage({ stack }: StackContext) {
       id: "string",
       userId: "string",
     },
-    primaryIndex: { partitionKey: "id" },
+    primaryIndex: { partitionKey: "id", sortKey: "userId" },
     globalIndexes: {
       UserIdIndex: {
         partitionKey: "userId",
       },
     },
+  });
+
+  stack.addOutputs({
+    ShopifyExportBucketName: ShopifyExportBucket.bucketName,
+    ShopsTableName: ShopsTable.tableName,
   });
 
   return {
@@ -106,6 +111,7 @@ function Shop({ stack }: StackContext) {
       "POST /initShop": initShopHandler,
       "GET /products": getProductsHandler,
       "GET /shops": getListShopHandler,
+      "GET /shops/{id}": getListShopHandler,
       "POST /products": postProductsHandler,
       "GET /login": loginHandler,
     },

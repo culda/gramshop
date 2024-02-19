@@ -1,0 +1,26 @@
+import { Product } from "@/model";
+import React from "react";
+import { ShopProvider } from "./ShopContext";
+import ShopPlp from "./ShopPlp";
+
+const ShopPreview = ({ products }: { products: Product[] }) => {
+  return (
+    <section>
+      <h2 className="text-3xl font-bold mt-8">Shop Preview</h2>
+
+      <div className="flex justify-center items-center">
+        <div className="bg-white border-4 border-dotted border-gray-300 rounded-lg">
+          <div className="flex justify-center">
+            <div className="max-w-md">
+              <ShopProvider products={products}>
+                <ShopPlp />
+              </ShopProvider>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default ShopPreview;

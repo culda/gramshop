@@ -1,6 +1,6 @@
 import React from "react";
 
-const FileDrop = ({ onUpload }: { onUpload: (file: File) => void }) => {
+const FileDrop = ({ onUpload }: { onUpload: (base64: string) => void }) => {
   const handleDrop = (event) => {
     let dt = event.dataTransfer;
     let files = dt.files;
@@ -17,6 +17,30 @@ const FileDrop = ({ onUpload }: { onUpload: (file: File) => void }) => {
   const handleFiles = (files) => {
     // Process the files here
     console.log(files);
+  };
+
+  const handleFileUpload = async (file: File) => {
+    try {
+      const reader = new FileReader();
+      reader.onloadend = async () => {
+        const base64 = btoa(
+          new Uint8Array(reader.result as ArrayBuffer).reduce(
+            (data, byte) => data + String.fromCharCode(byte),
+            ""
+          )
+        );
+
+        try {
+          await onUpload(base64);
+          console.log("File uploaded successfully");
+        } catch (error) {
+          console.error("Error uploading file", error);
+        }
+      };
+      reader.readAsArrayBuffer(file);
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   return (

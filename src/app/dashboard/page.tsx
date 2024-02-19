@@ -2,6 +2,10 @@ import { Shop } from "@/model";
 import { auth } from "../api/auth/[...nextauth]/auth";
 import ShopScene from "./ShopScene";
 import fetchAuth from "../fetchAuth";
+import AppScene from "@/components/AppScene";
+import Button from "@/components/Button";
+import { isFalseyOrEmptyArray } from "@/utils";
+import { FaArrowRight } from "react-icons/fa";
 
 export default async function Page() {
   const session = await auth();
@@ -14,11 +18,32 @@ export default async function Page() {
   console.log(shops);
 
   return (
-    <header className="w-full mb-6">
-      <h1 className="text-gray-900 text-3xl title-font font-bold mb-4 thick-underline">
-        Dashboard
-      </h1>
-      <ShopScene products={[]} shop={shops[0]} />
-    </header>
+    <AppScene title="Dashboard">
+      <div className="flex flex-col gap-2 mt-8">
+        <h2 className="font-bold title-font text-gray-900 mb-1 text-xl">
+          Shops
+        </h2>
+        {isFalseyOrEmptyArray(shops) && (
+          <h2>You don&apos;t have any shops yet. </h2>
+        )}
+
+        {!isFalseyOrEmptyArray(shops) &&
+          shops.map((shop) => (
+            <Button
+              variant={"secondary"}
+              key={shop.id}
+              href={`/shop/${shop.id}/manage`}
+            >
+              {shop.id}
+            </Button>
+          ))}
+        <Button href={`/dashboard/new`}>
+          <div className="flex flex-row gap-2 items-center">
+            New Shop
+            <FaArrowRight />
+          </div>
+        </Button>
+      </div>
+    </AppScene>
   );
 }
