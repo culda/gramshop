@@ -20,24 +20,17 @@ function Storage({ stack }: StackContext) {
       userId: "string",
     },
     primaryIndex: { partitionKey: "id" },
+    globalIndexes: {
+      UserIdIndex: {
+        partitionKey: "userId",
+      },
+    },
   });
 
   return {
     ShopifyExportBucket,
     ShopsTable,
   };
-}
-
-function Site({ stack }: StackContext) {
-  const { ShopifyExportBucket } = use(Storage);
-
-  const site = new NextjsSite(stack, "site", {
-    bind: [ShopifyExportBucket],
-  });
-
-  stack.addOutputs({
-    SiteUrl: site.url,
-  });
 }
 
 function Shop({ stack }: StackContext) {
@@ -80,18 +73,67 @@ function Shop({ stack }: StackContext) {
     handler: "src/functions/products/add/handler.handler",
   });
 
+  const getListShopHandler = new Function(stack, "getListShopHandler", {
+    bind: [ShopsTable],
+    handler: "src/functions/shop/getlist/handler.handler",
+  });
+
+  const jwtAuthorizer = new Function(stack, "jwtAuthorizer", {
+    handler: "src/functions/jwtAuthorizer/handler.handler",
+    environment: {
+      SECRET: process.env.NEXTAUTH_SECRET as string,
+    },
+  });
+
   const api = new Api(stack, "Api", {
+    authorizers: {
+      jwt: {
+        type: "lambda",
+        function: jwtAuthorizer,
+        identitySource: ["$request.header.Cookie"],
+      },
+    },
     routes: {
-      "POST /shopwebhook": shopTelegramWebhookHandler,
+      "POST /shopwebhook": {
+        function: shopTelegramWebhookHandler,
+        authorizer: "none",
+      },
       "POST /checkout": checkoutHandler,
       "POST /initShop": initShopHandler,
       "GET /products": getProductsHandler,
+      "GET /shops": getListShopHandler,
       "POST /products": postProductsHandler,
+    },
+    defaults: {
+      authorizer: "jwt",
+    },
+  });
+
+  return {
+    Api: api,
+  };
+}
+
+function Site({ stack }: StackContext) {
+  const { ShopifyExportBucket } = use(Storage);
+  const { Api } = use(Shop);
+
+  const site = new NextjsSite(stack, "site", {
+    bind: [ShopifyExportBucket, Api],
+    environment: {
+      NEXT_PUBLIC_API_ENDPOINT:
+        stack.stage === "production"
+          ? (Api.customDomainUrl as string)
+          : Api.url, // available on the client
+      API_ENDPOINT:
+        stack.stage === "production"
+          ? (Api.customDomainUrl as string)
+          : Api.url, // available on the server
     },
   });
 
   stack.addOutputs({
-    ApiEndpoint: api.url,
+    SiteUrl: site.url,
   });
 }
 
@@ -103,6 +145,6 @@ export default {
     };
   },
   stacks(app) {
-    app.stack(Storage).stack(Site).stack(Shop);
+    app.stack(Storage).stack(Shop).stack(Site);
   },
 } satisfies SSTConfig;
