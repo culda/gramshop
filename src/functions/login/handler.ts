@@ -2,12 +2,12 @@ import {
   APIGatewayProxyHandlerV2,
   APIGatewayProxyHandlerV2WithLambdaAuthorizer,
 } from "aws-lambda";
-import { lambdaWrapper } from "../../lambdaWrapper";
-import { checkNull, ddb } from "../../utils";
+import { lambdaWrapper } from "../lambdaWrapper";
+import { checkNull, ddb } from "../utils";
 import { QueryCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
-import { AuthorizerContext } from "@/functions/jwtAuthorizer/handler";
+import { AuthorizerContext } from "../jwtAuthorizer/handler";
 
 export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
   AuthorizerContext
@@ -15,19 +15,7 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
   lambdaWrapper(event, async () => {
     const id = checkNull(event.requestContext.authorizer.lambda.userId, 400);
 
-    const { Items } = await ddb.send(
-      new QueryCommand({
-        TableName: Table.ShopsTable.tableName,
-        IndexName: "UserIdIndex",
-        KeyConditionExpression: "userId = :userId",
-        ExpressionAttributeValues: marshall({ ":userId": id }),
-      })
-    );
-
-    console.log(Items);
-
     return {
       statusCode: 200,
-      body: JSON.stringify(Items),
     };
   });

@@ -51,7 +51,7 @@ function generatePolicy(
     policyDocument: policyDocument,
     context: {
       userId,
-    },
+    } satisfies AuthorizerContext,
   };
 }
 

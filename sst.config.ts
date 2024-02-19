@@ -78,6 +78,10 @@ function Shop({ stack }: StackContext) {
     handler: "src/functions/shop/getlist/handler.handler",
   });
 
+  const loginHandler = new Function(stack, "loginHandler", {
+    handler: "src/functions/login/handler.handler",
+  });
+
   const jwtAuthorizer = new Function(stack, "jwtAuthorizer", {
     handler: "src/functions/jwtAuthorizer/handler.handler",
     environment: {
@@ -103,6 +107,7 @@ function Shop({ stack }: StackContext) {
       "GET /products": getProductsHandler,
       "GET /shops": getListShopHandler,
       "POST /products": postProductsHandler,
+      "GET /login": loginHandler,
     },
     defaults: {
       authorizer: "jwt",
