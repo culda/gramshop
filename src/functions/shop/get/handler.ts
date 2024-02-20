@@ -1,12 +1,9 @@
-import {
-  APIGatewayProxyHandlerV2,
-  APIGatewayProxyHandlerV2WithLambdaAuthorizer,
-} from "aws-lambda";
+import { APIGatewayProxyHandlerV2WithLambdaAuthorizer } from "aws-lambda";
 import { lambdaWrapper } from "../../lambdaWrapper";
 import { checkNull, ddb } from "../../utils";
-import { GetItemCommand, QueryCommand } from "@aws-sdk/client-dynamodb";
+import { GetItemCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
-import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import { marshall } from "@aws-sdk/util-dynamodb";
 import { AuthorizerContext } from "@/functions/jwtAuthorizer/handler";
 
 export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<

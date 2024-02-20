@@ -30,13 +30,12 @@ const ShopScene = ({ shop, edit = false, products }: PpShop) => {
   const snack = useSnackbar();
   const session = useSession();
   const [isLoading, setIsLoading] = useState(false);
-  const { getValues, watch, setValue, formState, register, handleSubmit } =
-    useForm<TpValues>({
-      resolver: zodResolver(schema) as any,
-      defaultValues: {
-        botToken: shop?.botToken,
-      },
-    });
+  const { formState, register, handleSubmit } = useForm<TpValues>({
+    resolver: zodResolver(schema),
+    defaultValues: {
+      botToken: shop?.botToken,
+    },
+  });
 
   const onSubmit = async ({ botToken }: TpValues) => {
     setIsLoading(true);
@@ -93,7 +92,7 @@ const ShopScene = ({ shop, edit = false, products }: PpShop) => {
         onSubmit={handleSubmit(onSubmit)}
         className="container pt-5 mx-auto flex flex-wrap"
       >
-        <Section title="Bot Token" isFirstSection>
+        <Section title="Bot Token">
           <p>Enter the bot token received from BotFather.</p>
           <div className="mt-4">
             <TextField

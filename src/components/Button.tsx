@@ -45,7 +45,7 @@ export default function Button({
 }: ButtonProps) {
   const content = loading ? <LoadingSpinner variant={variant} /> : children;
   const variantClassName = variantStyles[variant];
-  const buttonClassName = `flex items-center justify-center py-2 px-4 h-10 text-gray-700 disabled:bg-gray-400 focus:outline-none rounded text-${size} relative ${variantClassName} ${
+  const buttonClassName = `flex items-center justify-center py-2 px-4 h-10 text-gray-700 disabled:bg-gray-400 focus:outline-none rounded transition duration-300 text-${size} relative ${variantClassName} ${
     active ? "border-2 border-blue-800 " : ""
   }`;
 

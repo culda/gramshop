@@ -1,12 +1,38 @@
 "use client";
+import fetchAuth from "@/app/fetchAuth";
+import Button from "@/components/Button";
 import FileDrop from "@/components/FileDrop";
-import { Product } from "@/model";
+import Section from "@/components/Section";
+import ShopPreview from "@/components/ShopPreview";
+import { useSnackbar } from "@/components/SnackbarProvider";
+import SupportedShops from "@/components/SupportedShops";
+import TextField from "@/components/TextField";
+import { PutShopRequest } from "@/functions/shop/put/handler";
+import { Product, Shop } from "@/model";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import React, { useState } from "react";
+import { useForm } from "react-hook-form";
+import * as z from "zod";
+
+type TpValues = {
+  name: string;
+};
+
+const schema = z.object({
+  name: z.string({ required_error: "Bot token is required" }),
+});
 
 const ShopAddScene = () => {
   const [products, setProducts] = useState<Product[]>([]);
+  const snack = useSnackbar();
+  const router = useRouter();
+  const { getValues, formState, register, handleSubmit } = useForm<TpValues>({
+    resolver: zodResolver(schema),
+  });
 
   const handleFileUpload = async (base64: string) => {
+    setProducts([]);
     const res = await fetch("/csvupload", {
       method: "PUT",
       headers: {
@@ -18,10 +44,79 @@ const ShopAddScene = () => {
     setProducts(products);
   };
 
+  const createShop = async (values: TpValues) => {
+    const res = await fetchAuth(
+      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/shops`,
+      {
+        method: "PUT",
+        body: JSON.stringify({
+          name: values.name,
+          products,
+        } satisfies PutShopRequest),
+      }
+    );
+
+    if (!res.ok) {
+      snack({
+        key: "shop-error",
+        text: "Error creating shop",
+        variant: "error",
+      });
+      return;
+    }
+    snack({
+      key: "shop-created",
+      text: "Shop created",
+      variant: "success",
+    });
+
+    const shop = (await res.json()) as Shop;
+
+    router.push(`/dashboard/${shop.id}/manage`);
+  };
+
   return (
-    <div>
-      <FileDrop onUpload={handleFileUpload} />
-    </div>
+    <form id="shop-add-form" onSubmit={handleSubmit(createShop)}>
+      <Section title="Name">
+        <p>
+          Pick a name for your shop. This will appear on the shop&apos;s
+          branding
+        </p>
+        <div className="mt-4">
+          <TextField
+            registerProps={register("name")}
+            errorMessage={formState.errors.name?.message}
+            inputProps={{
+              size: 1,
+            }}
+            editMode
+          />
+        </div>
+      </Section>
+      <Section title="Products">
+        <p>
+          Drops a .csv file containing your products. The file should include a
+          name and a price for each product.
+        </p>
+        <SupportedShops />
+        <div className="mt-4">
+          <FileDrop onUpload={handleFileUpload} />
+        </div>
+      </Section>
+      <Section title="Preview">
+        <ShopPreview products={products} />
+      </Section>
+      <Button
+        form="shop-add-form"
+        type="submit"
+        className="w-full"
+        loading={formState.isSubmitting}
+        disabled={products.length === 0 || !formState.isValid}
+        variant="primary"
+      >
+        Done
+      </Button>
+    </form>
   );
 };
 

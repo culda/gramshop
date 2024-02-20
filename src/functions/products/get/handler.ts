@@ -21,6 +21,6 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) =>
     const shop = unmarshall(checkNull(Item, 404)) as Shop;
     return {
       statusCode: 200,
-      body: JSON.stringify(shop.items),
+      body: JSON.stringify(shop.products),
     };
   });

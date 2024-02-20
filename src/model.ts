@@ -31,7 +31,7 @@ export type Shop = {
   id: string;
   userId: string;
   botToken?: string;
-  items: Product[];
+  products: Product[];
 };
 
 export type User = {

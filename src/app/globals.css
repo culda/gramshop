@@ -37,3 +37,17 @@ body {
   display: inline-block; /* This is to ensure the border spans only the text width */
   line-height: 1; /* Adjust line height to control the distance between text and underline */
 }
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+.loader {
+  border-top-color: #3498db; /* Use your color */
+  animation: spin 1s linear infinite;
+}

@@ -6,8 +6,6 @@ import ShopPlp from "./ShopPlp";
 const ShopPreview = ({ products }: { products: Product[] }) => {
   return (
     <section>
-      <h2 className="text-3xl font-bold mt-8">Shop Preview</h2>
-
       <div className="flex justify-center items-center">
         <div className="bg-white border-4 border-dotted border-gray-300 rounded-lg">
           <div className="flex justify-center">
