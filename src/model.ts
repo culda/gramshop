@@ -28,6 +28,7 @@ export type ShoppingCart = {
 };
 
 export type Shop = {
+  name: string;
   id: string;
   userId: string;
   botToken?: string;

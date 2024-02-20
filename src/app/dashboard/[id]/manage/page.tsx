@@ -11,13 +11,12 @@ const Page = async ({
   };
 }) => {
   const shopId = params.id;
-  const shopRes = await fetchAuth(
-    `${process.env.API_ENDPOINT}/shops/${shopId}`
-  );
+  const shopRes = await fetchAuth(`shops/${shopId}`);
   const shop = (await shopRes.json()) as Shop;
+  console.log(shop);
   return (
-    <AppScene title={shopId}>
-      <ShopScene products={[]} shop={shop} />
+    <AppScene title={shop.name}>
+      <ShopScene shop={shop} />
     </AppScene>
   );
 };

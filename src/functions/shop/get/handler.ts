@@ -1,10 +1,11 @@
 import { APIGatewayProxyHandlerV2WithLambdaAuthorizer } from "aws-lambda";
 import { lambdaWrapper } from "../../lambdaWrapper";
-import { checkNull, ddb } from "../../utils";
+import { ApiResponse, checkNull, ddb } from "../../utils";
 import { GetItemCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
-import { marshall } from "@aws-sdk/util-dynamodb";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { AuthorizerContext } from "@/functions/jwtAuthorizer/handler";
+import { Shop } from "@/model";
 
 export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
   AuthorizerContext
@@ -23,8 +24,14 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
       })
     );
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(Item),
-    };
+    if (!Item) {
+      return ApiResponse({
+        status: 404,
+        message: "Shop not found",
+      });
+    }
+
+    return ApiResponse({
+      body: unmarshall(Item) as Shop,
+    });
   });

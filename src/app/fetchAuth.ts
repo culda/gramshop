@@ -2,7 +2,7 @@
 
 import { cookies } from "next/headers";
 
-async function fetchAuth(url: string, options: RequestInit = {}) {
+async function fetchAuth(path: string, options: RequestInit = {}) {
   const cookieStore = cookies();
   const sessionToken = cookieStore.get("next-auth.session-token")?.value;
 
@@ -17,7 +17,7 @@ async function fetchAuth(url: string, options: RequestInit = {}) {
   }
 
   // Perform the fetch request with the authentication cookie included
-  return await fetch(url, options);
+  return await fetch(`${process.env.API_ENDPOINT}/${path}`, options);
 }
 
 export default fetchAuth;

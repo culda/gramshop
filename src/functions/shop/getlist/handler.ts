@@ -1,9 +1,6 @@
-import {
-  APIGatewayProxyHandlerV2,
-  APIGatewayProxyHandlerV2WithLambdaAuthorizer,
-} from "aws-lambda";
+import { APIGatewayProxyHandlerV2WithLambdaAuthorizer } from "aws-lambda";
 import { lambdaWrapper } from "../../lambdaWrapper";
-import { checkNull, ddb } from "../../utils";
+import { ApiResponse, checkNull, ddb } from "../../utils";
 import { QueryCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
@@ -24,8 +21,7 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
       })
     );
 
-    return {
-      statusCode: 200,
-      body: JSON.stringify(Items),
-    };
+    return ApiResponse({
+      body: Items,
+    });
   });

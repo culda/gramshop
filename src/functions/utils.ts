@@ -8,14 +8,14 @@ import { APIGatewayProxyResultV2 } from "aws-lambda";
 export const ddb = new DynamoDBClient({ region: "us-east-1" });
 
 type ApiResponseParams = {
-  status: number;
+  status?: number;
   body?: any;
   message?: string;
 };
 
 // The ApiResponse function
 export function ApiResponse({
-  status,
+  status = 200,
   body,
   message,
 }: ApiResponseParams): APIGatewayProxyResultV2 {

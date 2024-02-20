@@ -27,6 +27,7 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
     const shopRequest = JSON.parse(event.body as string) as PutShopRequest;
     const shop: Shop = {
       id,
+      name: shopRequest.name,
       userId,
       products: shopRequest.products,
     };

@@ -83,6 +83,11 @@ function Shop({ stack }: StackContext) {
     handler: "src/functions/shop/getlist/handler.handler",
   });
 
+  const getShopHandler = new Function(stack, "getShopHandler", {
+    bind: [ShopsTable],
+    handler: "src/functions/shop/get/handler.handler",
+  });
+
   const putShopHandler = new Function(stack, "putShopHandler", {
     bind: [ShopsTable],
     handler: "src/functions/shop/put/handler.handler",
@@ -116,7 +121,7 @@ function Shop({ stack }: StackContext) {
       "POST /initShop": initShopHandler,
       "GET /products": getProductsHandler,
       "GET /shops": getListShopHandler,
-      "GET /shops/{id}": getListShopHandler,
+      "GET /shops/{id}": getShopHandler,
       "PUT /shops": putShopHandler,
       "POST /products": postProductsHandler,
       "GET /login": loginHandler,

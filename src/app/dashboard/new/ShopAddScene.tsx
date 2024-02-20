@@ -1,5 +1,4 @@
 "use client";
-import fetchAuth from "@/app/fetchAuth";
 import Button from "@/components/Button";
 import FileDrop from "@/components/FileDrop";
 import Section from "@/components/Section";
@@ -33,7 +32,7 @@ const ShopAddScene = () => {
 
   const handleFileUpload = async (base64: string) => {
     setProducts([]);
-    const res = await fetch("/csvupload", {
+    const res = await fetch("/api/csvupload", {
       method: "PUT",
       headers: {
         "Content-Type": "application/octet-stream; base64",
@@ -45,16 +44,13 @@ const ShopAddScene = () => {
   };
 
   const createShop = async (values: TpValues) => {
-    const res = await fetchAuth(
-      `${process.env.NEXT_PUBLIC_API_ENDPOINT}/shops`,
-      {
-        method: "PUT",
-        body: JSON.stringify({
-          name: values.name,
-          products,
-        } satisfies PutShopRequest),
-      }
-    );
+    const res = await fetch("/api/shop", {
+      method: "PUT",
+      body: JSON.stringify({
+        name: values.name,
+        products,
+      } satisfies PutShopRequest),
+    });
 
     if (!res.ok) {
       snack({
@@ -71,6 +67,7 @@ const ShopAddScene = () => {
     });
 
     const shop = (await res.json()) as Shop;
+    console.log(shop);
 
     router.push(`/dashboard/${shop.id}/manage`);
   };

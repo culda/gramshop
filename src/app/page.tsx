@@ -12,7 +12,7 @@ import { useState } from "react";
 export default function Home() {
   const [products, setProducts] = useState<Product[]>([]);
   const handleFileUpload = async (base64: string) => {
-    const res = await fetch("/csvupload", {
+    const res = await fetch("/api/csvupload", {
       method: "PUT",
       headers: {
         "Content-Type": "application/octet-stream; base64",

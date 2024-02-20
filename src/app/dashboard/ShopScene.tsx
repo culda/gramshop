@@ -11,11 +11,12 @@ import { Product, Shop } from "@/model";
 import { useSnackbar } from "@/components/SnackbarProvider";
 import Section from "@/components/Section";
 import Button from "@/components/Button";
+import ShopPreview from "@/components/ShopPreview";
+import { FaCopy } from "react-icons/fa";
 
 type PpShop = {
   shop: Shop;
   edit?: boolean;
-  products: Product[];
 };
 
 export type TpValues = {
@@ -26,7 +27,7 @@ const schema = z.object({
   botToken: z.string({ required_error: "Bot token is required" }),
 });
 
-const ShopScene = ({ shop, edit = false, products }: PpShop) => {
+const ShopScene = ({ shop, edit = false }: PpShop) => {
   const snack = useSnackbar();
   const session = useSession();
   const [isLoading, setIsLoading] = useState(false);
@@ -104,6 +105,10 @@ const ShopScene = ({ shop, edit = false, products }: PpShop) => {
               editMode={edit}
             />
           </div>
+        </Section>
+
+        <Section title="Preview">
+          <ShopPreview products={shop.products} />
         </Section>
 
         {edit && (

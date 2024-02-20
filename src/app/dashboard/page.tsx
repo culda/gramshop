@@ -1,6 +1,4 @@
 import { Shop } from "@/model";
-import { auth } from "../api/auth/[...nextauth]/auth";
-import ShopScene from "./ShopScene";
 import fetchAuth from "../fetchAuth";
 import AppScene from "@/components/AppScene";
 import Button from "@/components/Button";
@@ -8,11 +6,7 @@ import { isFalseyOrEmptyArray } from "@/utils";
 import { FaArrowRight } from "react-icons/fa";
 
 export default async function Page() {
-  const session = await auth();
-
-  const shopsRes = await fetchAuth(
-    `${process.env.API_ENDPOINT}/shops?id=${session?.user.id}`
-  );
+  const shopsRes = await fetchAuth(`${process.env.API_ENDPOINT}/shops`);
 
   const shops = (await shopsRes.json()) as Shop[];
   console.log(shops);
