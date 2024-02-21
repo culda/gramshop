@@ -5,6 +5,7 @@ import { QueryCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { AuthorizerContext } from "@/functions/jwtAuthorizer/handler";
+import { Shop } from "@/model";
 
 export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
   AuthorizerContext
@@ -21,7 +22,9 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
       })
     );
 
+    const shops = Items?.map((item) => unmarshall(item)) as Shop[];
+
     return ApiResponse({
-      body: Items,
+      body: shops,
     });
   });

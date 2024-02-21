@@ -42,7 +42,6 @@ export const ShopProvider = ({
   children: ReactNode;
 }) => {
   const [cart, setCart] = useState<ShoppingCart>({ items: [] });
-  console.log(cart);
 
   const addToCart = (product: Product) => {
     setCart((currentCart) => {
