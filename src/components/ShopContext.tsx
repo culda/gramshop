@@ -1,5 +1,12 @@
 "use client";
-import React, { createContext, useContext, useState, ReactNode } from "react";
+import { useParams } from "next/navigation";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  ReactNode,
+  useEffect,
+} from "react";
 
 type ShoppingCart = {
   items: {
@@ -35,13 +42,49 @@ export const useShop = () => {
 };
 
 export const ShopProvider = ({
+  preview = false,
   products,
   children,
 }: {
+  preview?: boolean;
   products: Product[];
   children: ReactNode;
 }) => {
   const [cart, setCart] = useState<ShoppingCart>({ items: [] });
+  const { params } = useParams();
+
+  // const checkout = () => {
+  //   const checkoutData = {
+  //     shopId: this.shopId,
+  //     items: ShopApp.cart,
+  //     auth: this.initDataUnsafe,
+  //   };
+  //   fetch("https://r8r37qb7jd.execute-api.us-east-1.amazonaws.com/checkout", {
+  //     method: "POST",
+  //     body: JSON.stringify(checkoutData),
+  //     headers: {
+  //       "Content-Type": "application/json",
+  //     },
+  //   });
+  // };
+
+  useEffect(() => {
+    if (preview) {
+      return;
+    }
+    console.log(params);
+
+    Telegram.WebApp.ready();
+    Telegram.WebApp.MainButton.setParams({
+      text: "Checkout",
+      is_visible: true,
+    }).onClick(() => {
+      // Implement checkout logic or function call here
+      console.log("Checkout clicked");
+    });
+
+    // No need to call fetchProducts() here as it's assumed to be handled within the useShop hook
+  }, [preview]); // The empty dependency array ensures this effect runs only once on mount
 
   const addToCart = (product: Product) => {
     setCart((currentCart) => {

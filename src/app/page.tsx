@@ -3,7 +3,7 @@
 import Button from "@/components/Button";
 import FileDrop from "@/components/FileDrop";
 import { ShopProvider } from "@/components/ShopContext";
-import ShopPlp from "@/components/ShopPlp";
+import ShopPlp from "@/components/shop/ShopPlp";
 import ShopPreview from "@/components/ShopPreview";
 import { Product } from "@/model";
 import React, { Fragment } from "react";

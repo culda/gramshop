@@ -24,6 +24,9 @@ function Storage({ stack }: StackContext) {
       UserIdIndex: {
         partitionKey: "userId",
       },
+      PublicIndex: {
+        partitionKey: "id",
+      },
     },
   });
 
@@ -124,7 +127,10 @@ function Shop({ stack }: StackContext) {
       },
       "POST /checkout": checkoutHandler,
       "POST /initShop": initShopHandler,
-      "GET /products": getProductsHandler,
+      "GET /products": {
+        function: getProductsHandler,
+        authorizer: "none",
+      },
       "GET /shops": getListShopHandler,
       "GET /shops/{id}": getShopHandler,
       "PUT /shops": putShopHandler,

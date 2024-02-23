@@ -1,10 +1,10 @@
 "use client";
-import React from "react";
-import { useShop } from "./ShopContext";
+import React, { useEffect } from "react";
+import { useShop } from "../ShopContext";
 import Image from "next/image";
-import Button from "./Button";
+import Button from "../Button";
 
-const ShopPlp = () => {
+export const ShopPlp = () => {
   const {
     products,
     addToCart,
@@ -64,5 +64,3 @@ const ShopPlp = () => {
     </section>
   );
 };
-
-export default ShopPlp;

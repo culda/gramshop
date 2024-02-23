@@ -1,7 +1,7 @@
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { lambdaWrapper } from "../../lambdaWrapper";
 import { ApiResponse, checkNull, ddb } from "../../utils";
-import { GetItemCommand } from "@aws-sdk/client-dynamodb";
+import { QueryCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { Shop } from "@/model";
@@ -11,14 +11,24 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) =>
     console.log(event.queryStringParameters);
     const id = checkNull(event?.queryStringParameters?.shopId, 400);
 
-    const { Item } = await ddb.send(
-      new GetItemCommand({
+    const { Items } = await ddb.send(
+      new QueryCommand({
         TableName: Table.ShopsTable.tableName,
-        Key: marshall({ id }),
+        IndexName: "PublicIndex",
+        KeyConditionExpression: "id = :id",
+        ExpressionAttributeValues: marshall({ ":id": id }),
+        ProjectionExpression: "products",
       })
     );
 
-    const shop = unmarshall(checkNull(Item, 404)) as Shop;
+    if (!Items || Items.length === 0) {
+      return ApiResponse({
+        status: 404,
+        body: { message: "Shop not found" },
+      });
+    }
+
+    const shop = unmarshall(Items[0]) as Pick<Shop, "products">;
     return ApiResponse({
       body: shop,
     });

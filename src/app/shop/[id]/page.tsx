@@ -1,6 +1,6 @@
 import { ShopProvider } from "@/components/ShopContext";
-import ShopPlp from "@/components/ShopPlp";
-import { Product } from "@/model";
+import { ShopPlp } from "@/components/shop/ShopPlp";
+import { Product, Shop } from "@/model";
 
 const Page = async ({ params }: { params: { id: string } }) => {
   const products = await getProducts(params.id);
@@ -12,14 +12,14 @@ const Page = async ({ params }: { params: { id: string } }) => {
   );
 };
 
-async function getProducts(shopId: string) {
+async function getProducts(shopId: string): Promise<Product[]> {
   const res = await fetch(
-    `https://r8r37qb7jd.execute-api.us-east-1.amazonaws.com/products?shopId=${shopId}`
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/products?shopId=${shopId}`
   );
   if (!res.ok) {
     throw new Error("Failed to fetch products");
   }
-  const data = (await res.json()) as Product[];
+  const data = (await res.json()) as Pick<Shop, "products">["products"];
   return data;
 }
 

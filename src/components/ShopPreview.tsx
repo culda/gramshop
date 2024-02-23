@@ -1,7 +1,7 @@
 import { Product } from "@/model";
 import React from "react";
 import { ShopProvider } from "./ShopContext";
-import ShopPlp from "./ShopPlp";
+import { ShopPlp } from "./shop/ShopPlp";
 
 const ShopPreview = ({ products }: { products: Product[] }) => {
   return (
@@ -10,7 +10,7 @@ const ShopPreview = ({ products }: { products: Product[] }) => {
         <div className="bg-white border-4 border-dotted border-gray-300 rounded-lg">
           <div className="flex justify-center">
             <div className="max-w-md">
-              <ShopProvider products={products}>
+              <ShopProvider products={products} preview>
                 <ShopPlp />
               </ShopProvider>
             </div>
