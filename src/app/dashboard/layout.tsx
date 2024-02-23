@@ -62,17 +62,17 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                   href="/dashboard"
                   className="text-black text-xl font-semibold whitespace-nowrap"
                 >
-                  Pages
+                  Shops
                 </Link>
               </li>
-              {/* <li onClick={toggleMenu}>
+              <li onClick={toggleMenu}>
                 <Link
-                  href="/app/plan"
+                  href="/dashboard/howto"
                   className="text-black text-xl font-semibold whitespace-nowrap"
                 >
-                  Plan
+                  How to
                 </Link>
-              </li> */}
+              </li>
             </ul>
           </nav>
 

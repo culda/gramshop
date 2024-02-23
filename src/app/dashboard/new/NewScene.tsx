@@ -22,11 +22,11 @@ const schema = z.object({
   name: z.string({ required_error: "Bot token is required" }),
 });
 
-const ShopAddScene = () => {
+export const NewScene = () => {
   const [products, setProducts] = useState<Product[]>([]);
   const snack = useSnackbar();
   const router = useRouter();
-  const { getValues, formState, register, handleSubmit } = useForm<TpValues>({
+  const { formState, register, handleSubmit } = useForm<TpValues>({
     resolver: zodResolver(schema),
   });
 
@@ -116,5 +116,3 @@ const ShopAddScene = () => {
     </form>
   );
 };
-
-export default ShopAddScene;

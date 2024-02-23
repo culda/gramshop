@@ -1,6 +1,6 @@
 import fetchAuth from "@/app/fetchAuth";
 import { Shop } from "@/model";
-import Scene from "./Scene";
+import { TelegramScene } from "./TelegramScene";
 
 const Page = async ({
   params,
@@ -12,7 +12,7 @@ const Page = async ({
   const shopId = params.id;
   const shopRes = await fetchAuth(`shops/${shopId}`);
   const shop = (await shopRes.json()) as Shop;
-  return <Scene shop={shop} />;
+  return <TelegramScene shop={shop} />;
 };
 
 export default Page;

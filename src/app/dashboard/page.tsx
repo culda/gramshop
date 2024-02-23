@@ -6,7 +6,7 @@ import { isFalseyOrEmptyArray } from "@/utils";
 import { FaArrowRight } from "react-icons/fa";
 
 export default async function Page() {
-  const shopsRes = await fetchAuth(`${process.env.API_ENDPOINT}/shops`);
+  const shopsRes = await fetchAuth("shops");
 
   const shops = (await shopsRes.json()) as Shop[];
   console.log(shops);
@@ -26,7 +26,7 @@ export default async function Page() {
             <Button
               variant={"secondary"}
               key={shop.id}
-              href={`/shop/${shop.id}/manage`}
+              href={`/dashboard/${shop.id}/manage`}
             >
               {shop.id}
             </Button>

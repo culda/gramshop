@@ -1,7 +1,7 @@
-import ShopScene from "@/app/dashboard/ShopScene";
 import fetchAuth from "@/app/fetchAuth";
 import AppScene from "@/components/AppScene";
 import { Shop } from "@/model";
+import { ManageScene } from "./ManageScene";
 
 const Page = async ({
   params,
@@ -15,7 +15,7 @@ const Page = async ({
   const shop = (await shopRes.json()) as Shop;
   return (
     <AppScene title={shop.name}>
-      <ShopScene shop={shop} />
+      <ManageScene shop={shop} />
     </AppScene>
   );
 };

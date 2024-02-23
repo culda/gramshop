@@ -7,6 +7,7 @@ import { Table } from "sst/node/table";
 import { lambdaWrapper } from "../../lambdaWrapper";
 import { marshall } from "@aws-sdk/util-dynamodb";
 import { AuthorizerContext } from "@/functions/jwtAuthorizer/handler";
+import { nanoid } from "nanoid";
 
 export type PutShopRequest = {
   name: string;
@@ -22,7 +23,7 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
       event.requestContext.authorizer.lambda.userId,
       400
     );
-    const id = randomUUID();
+    const id = nanoid(10);
 
     const shopRequest = JSON.parse(event.body as string) as PutShopRequest;
     const shop: Shop = {

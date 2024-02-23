@@ -62,5 +62,7 @@ export default function Snackbar({
         </button>
       )}
     </div>
-  ) : null;
+  ) : (
+    <div />
+  );
 }

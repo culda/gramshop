@@ -11,7 +11,7 @@ type PpTextField = {
   onCopy?: () => void;
   pretext?: string;
   inputProps?: React.InputHTMLAttributes<HTMLInputElement>;
-  registerProps: UseFormRegisterReturn;
+  registerProps?: UseFormRegisterReturn;
   errorMessage?: string;
 };
 
@@ -23,6 +23,7 @@ const TextField = forwardRef<
     {
       editMode = false,
       textarea,
+      defaultValue,
       onCopy,
       errorMessage,
       pretext,
@@ -43,6 +44,7 @@ const TextField = forwardRef<
           <div className="flex border-zinc-300 border default-focus-within rounded-md bg-neutral-50">
             <textarea
               disabled={!editMode}
+              defaultValue={defaultValue}
               className={inputClass}
               rows={6}
               {...registerProps}
@@ -59,6 +61,7 @@ const TextField = forwardRef<
               type="text"
               className={inputClass}
               disabled={!editMode}
+              defaultValue={defaultValue}
               {...inputProps}
               {...registerProps}
             />

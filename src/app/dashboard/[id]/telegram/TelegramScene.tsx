@@ -13,14 +13,14 @@ import Button from "@/components/Button";
 import { PostShopRequest } from "@/functions/shop/post/handler";
 
 export type TpValues = {
-  botToken: string;
+  providerToken: string;
 };
 
 const schema = z.object({
-  botToken: z.string({ required_error: "Bot token is required" }),
+  providerToken: z.string({ required_error: "Bot token is required" }),
 });
 
-const Scene = ({ shop }: { shop: Shop }) => {
+export const TelegramScene = ({ shop }: { shop: Shop }) => {
   const [isLoading, setIsLoading] = React.useState(false);
   const snack = useSnackbar();
   const router = useRouter();
@@ -28,11 +28,11 @@ const Scene = ({ shop }: { shop: Shop }) => {
   const { formState, register, handleSubmit } = useForm<TpValues>({
     resolver: zodResolver(schema),
     defaultValues: {
-      botToken: shop?.botToken,
+      providerToken: shop?.providerToken,
     },
   });
 
-  const onSubmit = async ({ botToken }: TpValues) => {
+  const onSubmit = async ({ providerToken }: TpValues) => {
     setIsLoading(true);
 
     try {
@@ -40,7 +40,7 @@ const Scene = ({ shop }: { shop: Shop }) => {
         method: "POST",
         body: JSON.stringify({
           id: shop.id,
-          botToken,
+          providerToken,
         } satisfies PostShopRequest),
       });
       snack({
@@ -62,14 +62,36 @@ const Scene = ({ shop }: { shop: Shop }) => {
   };
 
   return (
-    <AppScene title="Connect a Telegram bot">
+    <AppScene title="Payment provider">
       <form id="bot-token-form" onSubmit={handleSubmit(onSubmit)}>
-        <Section title="Bot Token">
-          <p>Enter the bot token received from BotFather.</p>
+        <Section title="Create your bot on Telegram">
+          <p>
+            Visit{" "}
+            <a className="font-medium underline" href="https://t.me/botfather">
+              BotFather
+            </a>
+            , Telegram's bot management tool, and follow the instructions to
+            create a new bot.
+          </p>
+        </Section>
+        <Section title="Set up payments">
+          <p>
+            Navigate to your bot settings, then to Payments, and connect a
+            payment provider of your choice, such as Stripe. You'll need to
+            follow the provider's setup process.
+          </p>
+        </Section>
+        <Section title="Provider Token">
+          <p>
+            The provider token you just created is used to generate invoices for
+            users when they checkout. Enter the token in the field below to
+            complete the setup.
+          </p>
           <div className="mt-4">
             <TextField
-              registerProps={register("botToken")}
-              errorMessage={formState.errors.botToken?.message}
+              registerProps={register("providerToken")}
+              errorMessage={formState.errors.providerToken?.message}
+              defaultValue={shop.providerToken}
               editMode
             />
           </div>
@@ -82,11 +104,9 @@ const Scene = ({ shop }: { shop: Shop }) => {
           disabled={!formState.isValid}
           variant="primary"
         >
-          Done
+          Submit
         </Button>
       </form>
     </AppScene>
   );
 };
-
-export default Scene;

@@ -1,11 +1,11 @@
 import AppScene from "@/components/AppScene";
 import React from "react";
-import ShopAddScene from "./ShopAddScene";
+import { NewScene } from "./NewScene";
 
 const Page = async () => {
   return (
     <AppScene title={"New Shop"}>
-      <ShopAddScene />
+      <NewScene />
     </AppScene>
   );
 };

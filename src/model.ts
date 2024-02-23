@@ -31,7 +31,7 @@ export type Shop = {
   name: string;
   id: string;
   userId: string;
-  botToken?: string;
+  providerToken?: string;
   products: Product[];
 };
 
