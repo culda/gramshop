@@ -2,9 +2,9 @@
 
 import Button from "@/components/Button";
 import FileDrop from "@/components/FileDrop";
-import { ShopProvider } from "@/components/ShopContext";
+import { ShopProvider } from "@/components/shop/ShopContext";
 import ShopPlp from "@/components/shop/ShopPlp";
-import ShopPreview from "@/components/ShopPreview";
+import ShopPreview from "@/components/shop/ShopPreview";
 import { Product } from "@/model";
 import React, { Fragment } from "react";
 import { useState } from "react";

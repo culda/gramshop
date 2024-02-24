@@ -17,7 +17,7 @@ export async function POST(req: NextRequest) {
   //   return NextResponse.error();
   // }
 
-  const menuUrl = `https://${process.env.NEXT_PUBLIC_DOMAIN}/shops/${id}`;
+  const menuUrl = `https://${process.env.NEXT_PUBLIC_DOMAIN}/shop/${id}`;
 
   console.log(menuUrl);
 

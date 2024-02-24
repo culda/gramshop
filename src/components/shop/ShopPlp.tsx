@@ -1,6 +1,6 @@
 "use client";
 import React, { useEffect } from "react";
-import { useShop } from "../ShopContext";
+import { useShop } from "./ShopContext";
 import Image from "next/image";
 import Button from "../Button";
 
@@ -45,7 +45,7 @@ export const ShopPlp = () => {
                       +
                     </Button>
                     <Button
-                      className="bg-red-600"
+                      variant="error"
                       onClick={() => removeFromCart(product.id)}
                     >
                       -

@@ -1,11 +1,12 @@
 "use client";
-import { useParams } from "next/navigation";
+import Script from "next/script";
 import React, {
   createContext,
   useContext,
   useState,
   ReactNode,
   useEffect,
+  Fragment,
 } from "react";
 
 type ShoppingCart = {
@@ -53,13 +54,13 @@ export const ShopProvider = ({
   children: ReactNode;
 }) => {
   const [cart, setCart] = useState<ShoppingCart>({ items: [] });
-  const { params } = useParams();
+  const [scriptLoaded, setScriptLoaded] = useState(false);
 
   const checkout = () => {
     const checkoutData = {
       shopId: id,
       items: cart,
-      auth: Telegram.WebApp.initDataUnsafe,
+      auth: window.Telegram.WebApp.initDataUnsafe,
     };
     fetch("https://r8r37qb7jd.execute-api.us-east-1.amazonaws.com/checkout", {
       method: "POST",
@@ -72,17 +73,18 @@ export const ShopProvider = ({
       return;
     }
 
-    Telegram.WebApp.ready();
-    Telegram.WebApp.MainButton.setParams({
+    if (!scriptLoaded) {
+      return;
+    }
+
+    window.Telegram.WebApp.ready();
+    window.Telegram.WebApp.MainButton.setParams({
       text: "Checkout",
       is_visible: true,
     }).onClick(() => {
-      // Implement checkout logic or function call here
       console.log("Checkout clicked");
     });
-
-    // No need to call fetchProducts() here as it's assumed to be handled within the useShop hook
-  }, [preview]); // The empty dependency array ensures this effect runs only once on mount
+  }, [preview, scriptLoaded]);
 
   const addToCart = (product: Product) => {
     setCart((currentCart) => {
@@ -147,7 +149,14 @@ export const ShopProvider = ({
         clearCart,
       }}
     >
-      {children}
+      <Fragment>
+        <Script
+          onLoad={() => setScriptLoaded(true)}
+          src="https://telegram.org/js/telegram-web-app.js?1"
+        />
+
+        {children}
+      </Fragment>
     </ShopContext.Provider>
   );
 };

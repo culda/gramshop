@@ -1,7 +1,7 @@
 import { Product } from "@/model";
 import React from "react";
 import { ShopProvider } from "./ShopContext";
-import { ShopPlp } from "./shop/ShopPlp";
+import { ShopPlp } from "./ShopPlp";
 
 const ShopPreview = ({ products }: { products: Product[] }) => {
   return (

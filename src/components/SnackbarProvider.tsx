@@ -18,27 +18,32 @@ export default function SnackbarProvider({
 
   return (
     <SnackbarContext.Provider value={{ queue, dispatch }}>
-      {queue.map((snack, index) => (
-        <div
-          key={snack.key}
-          className={`fixed top-0 z-50 flex w-full m-4 -mt-${index + 1} left-${
-            index + 4
-          }`}
-        >
-          <Snackbar
-            text={snack.text}
-            variant={snack.variant}
-            icon={snack.icon}
-            dismissable={snack.dismissable}
-            autodeleteTime={snack.autodeleteTime}
-            handleClose={() =>
-              dispatch({ type: "REMOVE_SNACKBAR", payload: { key: snack.key } })
-            }
-            open
-          />
-        </div>
-      ))}
-      {children}
+      <div>
+        {queue.map((snack, index) => (
+          <div
+            key={snack.key}
+            className={`fixed top-0 z-50 flex w-full m-4 -mt-${
+              index + 1
+            } left-${index + 4}`}
+          >
+            <Snackbar
+              text={snack.text}
+              variant={snack.variant}
+              icon={snack.icon}
+              dismissable={snack.dismissable}
+              autodeleteTime={snack.autodeleteTime}
+              handleClose={() =>
+                dispatch({
+                  type: "REMOVE_SNACKBAR",
+                  payload: { key: snack.key },
+                })
+              }
+              open
+            />
+          </div>
+        ))}
+        {children}
+      </div>
     </SnackbarContext.Provider>
   );
 }

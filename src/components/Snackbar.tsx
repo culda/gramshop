@@ -63,6 +63,6 @@ export default function Snackbar({
       )}
     </div>
   ) : (
-    <div />
+    <div> </div>
   );
 }

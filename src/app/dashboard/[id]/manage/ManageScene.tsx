@@ -1,7 +1,7 @@
 "use client";
 import { Shop } from "@/model";
 import Section from "@/components/Section";
-import ShopPreview from "@/components/ShopPreview";
+import ShopPreview from "@/components/shop/ShopPreview";
 import Button from "@/components/Button";
 import TextField from "@/components/TextField";
 import { useSnackbar } from "@/components/SnackbarProvider";

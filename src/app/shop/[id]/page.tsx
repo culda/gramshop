@@ -1,4 +1,4 @@
-import { ShopProvider } from "@/components/ShopContext";
+import { ShopProvider } from "@/components/shop/ShopContext";
 import { ShopPlp } from "@/components/shop/ShopPlp";
 import { Product, Shop } from "@/model";
 

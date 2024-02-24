@@ -5,6 +5,7 @@ const variantStyles = {
   primary: "text-white bg-blue-800 hover:bg-blue-900 border-0",
   secondary: "text-black bg-orange-300 hover:bg-orange-400 border-0",
   text: "bg-transparent hover:bg-gray-100 hover:border-gray-300",
+  error: "text-white bg-red-600 hover:bg-red-700 border-0",
 };
 
 type Size = "sm" | "md" | "lg";
@@ -19,7 +20,7 @@ const LoadingSpinner = ({ variant }: { variant: Variant }) => (
   </div>
 );
 
-type Variant = "primary" | "secondary" | "text";
+type Variant = "primary" | "secondary" | "text" | "error";
 
 type ButtonProps = {
   children: React.ReactNode;

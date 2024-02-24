@@ -2,7 +2,7 @@
 import Button from "@/components/Button";
 import FileDrop from "@/components/FileDrop";
 import Section from "@/components/Section";
-import ShopPreview from "@/components/ShopPreview";
+import ShopPreview from "@/components/shop/ShopPreview";
 import { useSnackbar } from "@/components/SnackbarProvider";
 import SupportedShops from "@/components/SupportedShops";
 import TextField from "@/components/TextField";
