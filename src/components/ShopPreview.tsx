@@ -10,7 +10,7 @@ const ShopPreview = ({ products }: { products: Product[] }) => {
         <div className="bg-white border-4 border-dotted border-gray-300 rounded-lg">
           <div className="flex justify-center">
             <div className="max-w-md">
-              <ShopProvider products={products} preview>
+              <ShopProvider id={"1"} products={products} preview>
                 <ShopPlp />
               </ShopProvider>
             </div>

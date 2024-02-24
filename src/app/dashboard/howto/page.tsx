@@ -10,12 +10,10 @@ export default function Page() {
         <p>
           Due to Telegram's robust security features, the process of creating a
           bot and setting up payment integration must be done by you, the shop
-          owner. This ensures that sensitive information, such as your bot token
-          remains confidential and under your control. Telegram's policies are
-          designed to protect both you and your customers by ensuring that all
-          integrations are securely managed by the account holder. This
-          step-by-step process ensures that your shop operates securely and
-          efficiently on the Telegram platform.
+          owner. Telegram's policies are designed to protect both you and your
+          customers by ensuring that all integrations are securely managed by
+          the account holder. This step-by-step process ensures that your shop
+          operates securely and efficiently on the Telegram platform.
         </p>
       </Section>
       <Section title="Create your bot on Telegram">

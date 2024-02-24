@@ -13,15 +13,16 @@ import Button from "@/components/Button";
 import { PostShopRequest } from "@/functions/shop/post/handler";
 
 export type TpValues = {
+  botToken: string;
   providerToken: string;
 };
 
 const schema = z.object({
+  botToken: z.string({ required_error: "Bot token is required" }),
   providerToken: z.string({ required_error: "Bot token is required" }),
 });
 
 export const TelegramScene = ({ shop }: { shop: Shop }) => {
-  const [isLoading, setIsLoading] = React.useState(false);
   const snack = useSnackbar();
   const router = useRouter();
 
@@ -32,14 +33,13 @@ export const TelegramScene = ({ shop }: { shop: Shop }) => {
     },
   });
 
-  const onSubmit = async ({ providerToken }: TpValues) => {
-    setIsLoading(true);
-
+  const onSubmit = async ({ providerToken, botToken }: TpValues) => {
     try {
       await fetch("/api/shopupdate", {
         method: "POST",
         body: JSON.stringify({
           id: shop.id,
+          botToken,
           providerToken,
         } satisfies PostShopRequest),
       });
@@ -56,8 +56,6 @@ export const TelegramScene = ({ shop }: { shop: Shop }) => {
         text: "Something went wrong",
         variant: "error",
       });
-    } finally {
-      setIsLoading(false);
     }
   };
 
@@ -81,11 +79,24 @@ export const TelegramScene = ({ shop }: { shop: Shop }) => {
             follow the provider's setup process.
           </p>
         </Section>
+        <Section title="Bot Token">
+          <p>
+            The bot token is used to validate incoming checkout requests from
+            your users on the our servers.
+          </p>
+          <div className="mt-4">
+            <TextField
+              registerProps={register("botToken")}
+              errorMessage={formState.errors.botToken?.message}
+              defaultValue={shop.botToken}
+              editMode
+            />
+          </div>
+        </Section>
         <Section title="Provider Token">
           <p>
-            The provider token you just created is used to generate invoices for
-            users when they checkout. Enter the token in the field below to
-            complete the setup.
+            The provider token is used to generate invoices for users when they
+            checkout.
           </p>
           <div className="mt-4">
             <TextField

@@ -17,7 +17,7 @@ const cookies: Partial<CookiesOptions> = {
       domain:
         process.env.NODE_ENV === "production"
           ? process.env.NEXT_PUBLIC_DOMAIN
-          : "localhost",
+          : "afd-86-123-132-45.ngrok-free.app",
       secure: false,
     },
   },

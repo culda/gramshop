@@ -43,36 +43,34 @@ export const useShop = () => {
 
 export const ShopProvider = ({
   preview = false,
+  id,
   products,
   children,
 }: {
   preview?: boolean;
+  id: string;
   products: Product[];
   children: ReactNode;
 }) => {
   const [cart, setCart] = useState<ShoppingCart>({ items: [] });
   const { params } = useParams();
 
-  // const checkout = () => {
-  //   const checkoutData = {
-  //     shopId: this.shopId,
-  //     items: ShopApp.cart,
-  //     auth: this.initDataUnsafe,
-  //   };
-  //   fetch("https://r8r37qb7jd.execute-api.us-east-1.amazonaws.com/checkout", {
-  //     method: "POST",
-  //     body: JSON.stringify(checkoutData),
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //     },
-  //   });
-  // };
+  const checkout = () => {
+    const checkoutData = {
+      shopId: id,
+      items: cart,
+      auth: Telegram.WebApp.initDataUnsafe,
+    };
+    fetch("https://r8r37qb7jd.execute-api.us-east-1.amazonaws.com/checkout", {
+      method: "POST",
+      body: JSON.stringify(checkoutData),
+    });
+  };
 
   useEffect(() => {
     if (preview) {
       return;
     }
-    console.log(params);
 
     Telegram.WebApp.ready();
     Telegram.WebApp.MainButton.setParams({
