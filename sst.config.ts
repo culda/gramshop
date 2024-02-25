@@ -1,4 +1,5 @@
 import { SSTConfig } from "sst";
+import * as lambda from "aws-cdk-lib/aws-lambda";
 import {
   NextjsSite,
   Function,
@@ -11,7 +12,13 @@ import {
 
 function Storage({ stack }: StackContext) {
   // Buckets
-  const ShopifyExportBucket = new Bucket(stack, "ShopifyExportBucket");
+  const ImagesBucket = new Bucket(stack, "ImagesBucket", {
+    cdk: {
+      bucket: {
+        publicReadAccess: true,
+      },
+    },
+  });
 
   // Tables
   const ShopsTable = new Table(stack, "ShopsTable", {
@@ -31,17 +38,17 @@ function Storage({ stack }: StackContext) {
   });
 
   stack.addOutputs({
-    ShopifyExportBucketName: ShopifyExportBucket.bucketName,
     ShopsTableName: ShopsTable.tableName,
   });
 
   return {
-    ShopifyExportBucket,
+    ImagesBucket,
     ShopsTable,
   };
 }
 
 function Shop({ stack }: StackContext) {
+  const { ImagesBucket } = use(Storage);
   const { ShopsTable } = use(Storage);
 
   /**
@@ -92,9 +99,14 @@ function Shop({ stack }: StackContext) {
   });
 
   const putShopHandler = new Function(stack, "putShopHandler", {
-    bind: [ShopsTable],
+    bind: [ImagesBucket, ShopsTable],
     handler: "src/functions/shop/put/handler.handler",
   });
+  putShopHandler.addLayers(
+    new lambda.LayerVersion(stack, "SharpLayer", {
+      code: lambda.Code.fromAsset("src/layers/sharp"),
+    })
+  );
 
   const postShopHandler = new Function(stack, "postShopHandler", {
     bind: [ShopsTable],
@@ -149,11 +161,11 @@ function Shop({ stack }: StackContext) {
 }
 
 function Site({ stack }: StackContext) {
-  const { ShopifyExportBucket } = use(Storage);
+  const { ImagesBucket } = use(Storage);
   const { Api } = use(Shop);
 
   const site = new NextjsSite(stack, "site", {
-    bind: [ShopifyExportBucket, Api],
+    bind: [ImagesBucket, Api],
     environment: {
       NEXT_PUBLIC_API_ENDPOINT:
         stack.stage === "production"

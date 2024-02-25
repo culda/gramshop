@@ -1,4 +1,5 @@
 "use client";
+import { Product } from "@/model";
 import Script from "next/script";
 import React, {
   createContext,
@@ -14,12 +15,6 @@ type ShoppingCart = {
     product: Product;
     quantity: number;
   }[];
-};
-
-type Product = {
-  id: string;
-  name: string;
-  price: number;
 };
 
 type ShopContextType = {

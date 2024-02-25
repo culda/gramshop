@@ -1,28 +1,74 @@
-import { S3 } from "@aws-sdk/client-s3";
 import { NextRequest, NextResponse } from "next/server";
-import { Bucket } from "sst/node/bucket";
 import { csvToJson } from "./csvToJson";
+import { Product } from "@/model";
+import { S3 } from "@aws-sdk/client-s3";
+import { randomUUID } from "crypto";
+import { Bucket } from "sst/node/bucket";
+import { nanoid } from "nanoid";
 
 const s3 = new S3({ region: "us-east-1" });
+
+export type CsvUploadResponse = {
+  id: string;
+  products: Product[];
+};
 
 export async function PUT(req: NextRequest) {
   const base64 = await req.text();
   const file = Buffer.from(base64, "base64").toLocaleString();
 
   try {
-    const parsed = await csvToJson(file);
-    return NextResponse.json(parsed);
+    const parsed = (await csvToJson(file)) as Product[];
+    const shopId = nanoid(10);
+    const products = await productImagesToS3(shopId, parsed);
+    return NextResponse.json({
+      id: shopId,
+      products,
+    } satisfies CsvUploadResponse);
   } catch (error) {
     console.error(error);
     return NextResponse.json({}, { status: 500 });
   }
 }
 
-async function uploadFile(fileName: string, file: Buffer) {
-  const result = await s3.putObject({
-    Bucket: Bucket.ShopifyExportBucket.bucketName,
-    Key: fileName,
-    Body: file,
-  });
-  console.log(result);
+async function productImagesToS3(
+  shopId: string,
+  products: Product[]
+): Promise<Product[]> {
+  for (let product of products) {
+    if (product.image) {
+      let response = await fetch(product.image);
+      let imageBuffer = await response.arrayBuffer();
+
+      try {
+        const sharp = require("sharp");
+
+        // Image optimization
+        imageBuffer = await sharp(imageBuffer)
+          .resize({
+            width: 1080,
+            height: 1080,
+            fit: "inside",
+            withoutEnlargement: true,
+          }) // Resize to max width/height
+          .toFormat("webp") // Convert to Webp with 80% quality
+          .toBuffer();
+      } catch (err) {
+        console.log(err);
+      }
+
+      const imageKey = `${shopId}/${product.id}/${randomUUID()}`;
+      const imageBucket = Bucket.ImagesBucket.bucketName;
+      await s3.putObject({
+        Bucket: imageBucket,
+        Key: imageKey,
+        Body: Buffer.from(imageBuffer),
+        ContentType: "image/webp",
+      });
+
+      product.image = `https://${imageBucket}.s3.amazonaws.com/${imageKey}`;
+    }
+  }
+
+  return products;
 }

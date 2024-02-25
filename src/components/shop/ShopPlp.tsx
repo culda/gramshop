@@ -1,5 +1,6 @@
+/* eslint-disable @next/next/no-img-element */
 "use client";
-import React, { useEffect } from "react";
+import React from "react";
 import { useShop } from "./ShopContext";
 import Image from "next/image";
 import Button from "../Button";
@@ -23,10 +24,10 @@ export const ShopPlp = () => {
                 {getProductQuantity(product.id)}
               </div>
               <a className="block relative  rounded overflow-hidden">
-                <Image
-                  alt="ecommerce"
+                <img
+                  alt={product.name}
                   className="object-cover object-center w-full h-full block"
-                  src="https://dummyimage.com/500x500"
+                  src={product.image}
                   width={120}
                   height={120}
                 />

@@ -1,6 +1,5 @@
 import { Product, Shop } from "@/model";
 import { APIGatewayProxyHandlerV2WithLambdaAuthorizer } from "aws-lambda";
-import { randomUUID } from "crypto";
 import { ApiResponse, checkNull, ddb } from "../../utils";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
@@ -10,6 +9,7 @@ import { AuthorizerContext } from "@/functions/jwtAuthorizer/handler";
 import { nanoid } from "nanoid";
 
 export type PutShopRequest = {
+  id: string;
   name: string;
   products: Product[];
 };
@@ -32,6 +32,8 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
       userId,
       products: shopRequest.products,
     };
+
+    console.log(shop);
 
     await ddb.send(
       new PutItemCommand({

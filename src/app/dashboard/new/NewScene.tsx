@@ -1,4 +1,5 @@
 "use client";
+import { CsvUploadResponse } from "@/app/api/csvupload/route";
 import Button from "@/components/Button";
 import FileDrop from "@/components/FileDrop";
 import Section from "@/components/Section";
@@ -19,11 +20,11 @@ type TpValues = {
 };
 
 const schema = z.object({
-  name: z.string({ required_error: "Bot token is required" }),
+  name: z.string({ required_error: "Shop name is required" }),
 });
 
 export const NewScene = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [upload, setUpload] = useState<CsvUploadResponse | null>();
   const snack = useSnackbar();
   const router = useRouter();
   const { formState, register, handleSubmit } = useForm<TpValues>({
@@ -31,7 +32,7 @@ export const NewScene = () => {
   });
 
   const handleFileUpload = async (base64: string) => {
-    setProducts([]);
+    setUpload(null);
     const res = await fetch("/api/csvupload", {
       method: "PUT",
       headers: {
@@ -39,16 +40,21 @@ export const NewScene = () => {
       },
       body: base64,
     });
-    const products = (await res.json()) as Product[];
-    setProducts(products);
+    const upload = (await res.json()) as CsvUploadResponse;
+    setUpload(upload);
   };
 
   const createShop = async (values: TpValues) => {
+    if (!upload) {
+      return;
+    }
+
     const res = await fetch("/api/shop", {
       method: "PUT",
       body: JSON.stringify({
+        id: "123",
         name: values.name,
-        products,
+        products: upload?.products,
       } satisfies PutShopRequest),
     });
 
@@ -83,9 +89,6 @@ export const NewScene = () => {
           <TextField
             registerProps={register("name")}
             errorMessage={formState.errors.name?.message}
-            inputProps={{
-              size: 1,
-            }}
             editMode
           />
         </div>
@@ -101,14 +104,14 @@ export const NewScene = () => {
         </div>
       </Section>
       <Section title="Preview">
-        <ShopPreview products={products} />
+        {upload && <ShopPreview products={upload?.products} />}
       </Section>
       <Button
         form="shop-add-form"
         type="submit"
         className="w-full"
         loading={formState.isSubmitting}
-        disabled={products.length === 0 || !formState.isValid}
+        disabled={upload?.products.length === 0 || !formState.isValid}
         variant="primary"
       >
         Done
