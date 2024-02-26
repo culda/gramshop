@@ -1,5 +1,5 @@
 "use client";
-import { signIn, signOut } from "next-auth/react";
+import { signIn } from "next-auth/react";
 import Button from "@/components/Button";
 import { PpParams } from "./page";
 
@@ -20,10 +20,6 @@ export default function Page({ callbackUrl }: PpParams["searchParams"]) {
         >
           {" "}
           Sign in with Google
-        </Button>
-        <Button variant="text" onClick={() => signOut()}>
-          {" "}
-          Sign out
         </Button>
       </div>
     </div>

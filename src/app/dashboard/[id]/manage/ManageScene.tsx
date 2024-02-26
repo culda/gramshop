@@ -3,7 +3,6 @@ import { Shop } from "@/model";
 import Section from "@/components/Section";
 import ShopPreview from "@/components/shop/ShopPreview";
 import Button from "@/components/Button";
-import TextField from "@/components/TextField";
 import { useSnackbar } from "@/components/SnackbarProvider";
 
 type PpShop = {
@@ -65,7 +64,7 @@ export const ManageScene = ({ shop }: PpShop) => {
         </Button>
       </Section>
       <Section className="mt-8" title="Preview">
-        <ShopPreview products={shop.products} />
+        <ShopPreview currency={shop.currency} products={shop.products} />
       </Section>
     </div>
   );
