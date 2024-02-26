@@ -76,7 +76,7 @@ const TextField = forwardRef<
         )}
 
         <div
-          className={`mt-2 h-8 text-sm ${errorMessage ? "text-red-600" : ""} ${
+          className={`mt-2 h-4 text-sm ${errorMessage ? "text-red-600" : ""} ${
             errorMessage ? "visible" : "invisible"
           }`}
         >

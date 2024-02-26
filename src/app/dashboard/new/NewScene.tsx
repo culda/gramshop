@@ -1,6 +1,7 @@
 "use client";
 import { CsvUploadResponse } from "@/app/api/csvupload/route";
 import Button from "@/components/Button";
+import CurrencySelect from "@/components/CurrencySelect";
 import FileDrop from "@/components/FileDrop";
 import Section from "@/components/Section";
 import ShopPreview from "@/components/shop/ShopPreview";
@@ -8,7 +9,7 @@ import { useSnackbar } from "@/components/SnackbarProvider";
 import SupportedShops from "@/components/SupportedShops";
 import TextField from "@/components/TextField";
 import { PutShopRequest } from "@/functions/shop/put/handler";
-import { Product, Shop } from "@/model";
+import { Product, Shop, Currency } from "@/model";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -17,17 +18,19 @@ import * as z from "zod";
 
 type TpValues = {
   name: string;
+  currency: string;
 };
 
 const schema = z.object({
-  name: z.string({ required_error: "Shop name is required" }),
+  name: z.string().nonempty({ message: "Shop name is required" }),
+  currency: z.nativeEnum(Currency),
 });
 
 export const NewScene = () => {
   const [upload, setUpload] = useState<CsvUploadResponse | null>();
   const snack = useSnackbar();
   const router = useRouter();
-  const { formState, register, handleSubmit } = useForm<TpValues>({
+  const { formState, register, handleSubmit, getValues } = useForm<TpValues>({
     resolver: zodResolver(schema),
   });
 
@@ -55,6 +58,7 @@ export const NewScene = () => {
         id: "123",
         name: values.name,
         products: upload?.products,
+        currency: values.currency as Currency,
       } satisfies PutShopRequest),
     });
 
@@ -93,7 +97,13 @@ export const NewScene = () => {
           />
         </div>
       </Section>
-      <Section title="Products">
+      <Section title="Shop currency">
+        <p>Enter the currency you want to use for your shop.</p>
+        <div className="mt-4">
+          <CurrencySelect editMode registerProps={register("currency")} />
+        </div>
+      </Section>
+      <Section className="mt-8" title="Products">
         <p>
           Drops a .csv file containing your products. The file should include a
           name and a price for each product.
@@ -103,13 +113,18 @@ export const NewScene = () => {
           <FileDrop onUpload={handleFileUpload} />
         </div>
       </Section>
-      <Section title="Preview">
-        {upload && <ShopPreview products={upload?.products} />}
+      <Section className="mt-8" title="Preview">
+        {upload && (
+          <ShopPreview
+            currency={getValues("currency") as Currency}
+            products={upload?.products}
+          />
+        )}
       </Section>
       <Button
         form="shop-add-form"
         type="submit"
-        className="w-full"
+        className="w-full mt-8"
         loading={formState.isSubmitting}
         disabled={upload?.products.length === 0 || !formState.isValid}
         variant="primary"

@@ -1,12 +1,18 @@
 const Section = ({
   title,
   children,
+  className,
 }: {
   children: React.ReactNode;
   title?: React.ReactNode;
+  className?: string;
 }) => {
   return (
-    <section className="flex flex-grow relative pb-10 sm:items-center">
+    <section
+      className={`flex flex-grow relative sm:items-center ${
+        className ? className : ""
+      }`}
+    >
       <div className="flex-grow  flex sm:items-center items-start flex-row">
         <div className=" flex flex-col flex-grow sm:pl-6 mt-6 sm:mt-0 gap-2">
           {title && (

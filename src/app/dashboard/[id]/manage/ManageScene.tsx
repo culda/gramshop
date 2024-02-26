@@ -64,7 +64,7 @@ export const ManageScene = ({ shop }: PpShop) => {
           Tokens
         </Button>
       </Section>
-      <Section title="Preview">
+      <Section className="mt-8" title="Preview">
         <ShopPreview products={shop.products} />
       </Section>
     </div>

@@ -1,4 +1,4 @@
-import { Product, Shop } from "@/model";
+import { Currency, Product, Shop } from "@/model";
 import { APIGatewayProxyHandlerV2WithLambdaAuthorizer } from "aws-lambda";
 import { ApiResponse, checkNull, ddb } from "../../utils";
 import { PutItemCommand } from "@aws-sdk/client-dynamodb";
@@ -11,6 +11,7 @@ import { nanoid } from "nanoid";
 export type PutShopRequest = {
   id: string;
   name: string;
+  currency: string;
   products: Product[];
 };
 
@@ -30,6 +31,7 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
       id,
       name: shopRequest.name,
       userId,
+      currency: shopRequest.currency as Currency,
       products: shopRequest.products,
     };
 

@@ -1,5 +1,5 @@
 "use client";
-import { Product } from "@/model";
+import { Currency, Product } from "@/model";
 import Script from "next/script";
 import React, {
   createContext,
@@ -18,10 +18,12 @@ type ShoppingCart = {
 };
 
 type ShopContextType = {
+  currency: Currency;
   products: Product[];
   cart: ShoppingCart;
   isProductInCart: (productId: string) => boolean;
   getProductQuantity: (productId: string) => number;
+  getQuantityHtml: (productId: string) => ReactNode;
   addToCart: (product: Product) => void;
   removeFromCart: (productId: string) => void;
   clearCart: () => void;
@@ -41,10 +43,12 @@ export const ShopProvider = ({
   preview = false,
   id,
   products,
+  currency,
   children,
 }: {
   preview?: boolean;
   id: string;
+  currency: Currency;
   products: Product[];
   children: ReactNode;
 }) => {
@@ -101,6 +105,19 @@ export const ShopProvider = ({
     });
   };
 
+  const getQuantityHtml = (productId: string) => {
+    const quantity = getProductQuantity(productId);
+    if (quantity === 0) {
+      return null;
+    }
+
+    return (
+      <div className="absolute w-8 top-0 z-50 right-0 bg-blue-800 text-white text-center px-2 py-1 rounded-lg">
+        {quantity}
+      </div>
+    );
+  };
+
   const getProductQuantity = (productId: string) => {
     const cartItem = cart.items.find((item) => item.product.id === productId);
     return cartItem?.quantity || 0;
@@ -135,10 +152,12 @@ export const ShopProvider = ({
   return (
     <ShopContext.Provider
       value={{
+        currency,
         products,
         cart,
         addToCart,
         isProductInCart,
+        getQuantityHtml,
         getProductQuantity,
         removeFromCart,
         clearCart,

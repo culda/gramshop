@@ -4,12 +4,14 @@ import React from "react";
 import { useShop } from "./ShopContext";
 import Image from "next/image";
 import Button from "../Button";
+import { convertToLargeUnit, getCurrencySymbol } from "@/model";
 
 export const ShopPlp = () => {
   const {
     products,
+    currency,
     addToCart,
-    getProductQuantity,
+    getQuantityHtml,
     removeFromCart,
     isProductInCart,
   } = useShop();
@@ -20,44 +22,46 @@ export const ShopPlp = () => {
         <div className="flex flex-wrap -m-4">
           {products.map((product) => (
             <div key={product.id} className="p-4 relative max-w-[120px]">
-              <div className="absolute top-0 right-0 bg-blue-800 text-white px-2 py-1 rounded-bl">
-                {getProductQuantity(product.id)}
-              </div>
-              <a className="block relative  rounded overflow-hidden">
+              {/* Conditional rendering for quantity */}
+              {getQuantityHtml(product.id)}
+              <a className="block relative h-[120px] rounded overflow-hidden">
                 <img
                   alt={product.name}
                   className="object-cover object-center w-full h-full block"
                   src={product.image}
-                  width={120}
-                  height={120}
                 />
               </a>
-              <div className="mt-4">
+              <div className="mt-4 h-[64px]">
+                {" "}
+                {/* Fixed height for alignment */}
                 <h2 className="text-gray-900 title-font text-xs font-medium">
-                  {product.name}{" "}
-                  <span className="font-bold">{product.price}</span>
+                  <span className="font-bold">
+                    {getCurrencySymbol(currency)}
+                    {convertToLargeUnit(product.price)}
+                  </span>{" "}
+                  {product.name}
                 </h2>
-                {isProductInCart(product.id) ? (
-                  <div className="flex flex-row gap-2 justify-center">
-                    <Button
-                      className="bg-blue-300"
-                      onClick={() => addToCart(product)}
-                    >
-                      +
-                    </Button>
-                    <Button
-                      variant="error"
-                      onClick={() => removeFromCart(product.id)}
-                    >
-                      -
-                    </Button>
-                  </div>
-                ) : (
-                  <div className="flex justify-center">
-                    <Button onClick={() => addToCart(product)}>ADD</Button>
-                  </div>
-                )}
               </div>
+              {isProductInCart(product.id) ? (
+                <div className="flex flex-row gap-2 justify-center">
+                  <Button
+                    className="bg-blue-300"
+                    onClick={() => addToCart(product)}
+                  >
+                    +
+                  </Button>
+                  <Button
+                    variant="error"
+                    onClick={() => removeFromCart(product.id)}
+                  >
+                    -
+                  </Button>
+                </div>
+              ) : (
+                <div className="flex justify-center">
+                  <Button onClick={() => addToCart(product)}>ADD</Button>
+                </div>
+              )}
             </div>
           ))}
         </div>

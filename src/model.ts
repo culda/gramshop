@@ -32,9 +32,33 @@ export type Shop = {
   id: string;
   userId: string;
   providerToken?: string;
+  currency: Currency;
   botToken?: string;
   products: Product[];
 };
+
+export enum Currency {
+  USD = "USD",
+  EUR = "EUR",
+  GBP = "GBP",
+}
+
+export function getCurrencySymbol(currency: Currency): string {
+  switch (currency) {
+    case Currency.USD:
+      return "$";
+    case Currency.EUR:
+      return "€";
+    case Currency.GBP:
+      return "£";
+    default:
+      return "";
+  }
+}
+
+export function convertToLargeUnit(value: number): number {
+  return value / 100;
+}
 
 export type User = {
   id: string;
