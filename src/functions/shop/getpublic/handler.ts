@@ -9,7 +9,7 @@ import { Shop } from "@/model";
 export const handler: APIGatewayProxyHandlerV2 = async (event) =>
   lambdaWrapper(event, async () => {
     console.log(event.queryStringParameters);
-    const id = checkNull(event?.queryStringParameters?.shopId, 400);
+    const id = checkNull(event?.queryStringParameters?.id, 400);
 
     const { Items } = await ddb.send(
       new QueryCommand({
@@ -17,7 +17,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) =>
         IndexName: "PublicIndex",
         KeyConditionExpression: "id = :id",
         ExpressionAttributeValues: marshall({ ":id": id }),
-        ProjectionExpression: "products",
+        ProjectionExpression: "products, currency",
       })
     );
 

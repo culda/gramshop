@@ -12,13 +12,10 @@ const cookies: Partial<CookiesOptions> = {
     name: `next-auth.session-token`,
     options: {
       httpOnly: true,
-      sameSite: "Lax",
       path: "/",
       domain:
-        process.env.NODE_ENV === "production"
-          ? process.env.NEXT_PUBLIC_DOMAIN
-          : "afd-86-123-132-45.ngrok-free.app",
-      secure: false,
+        process.env.NODE_ENV === "production" ? "gramshop.co" : "localhost",
+      secure: process.env.NODE_ENV === "production" ? true : false,
     },
   },
   callbackUrl: {
@@ -36,6 +33,7 @@ export const config = {
   pages: {
     signIn: "/login",
   },
+  secret: process.env.NEXTAUTH_SECRET,
   providers: [
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,

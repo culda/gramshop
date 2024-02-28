@@ -5,7 +5,7 @@ import { NextRequest, NextResponse } from "next/server";
 type PostCheckoutRequest = {
   shopId: string;
   items: Product[];
-  auth: Telegram.WebApp.initDataUnsafe;
+  // auth: Telegram.WebApp.initDataUnsafe;
 };
 
 export async function POST(req: NextRequest) {

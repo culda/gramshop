@@ -6,8 +6,8 @@ import { isFalseyOrEmptyArray } from "@/utils";
 import { FaArrowRight } from "react-icons/fa";
 
 export default async function Page() {
+  console.log("dashboard");
   const shopsRes = await fetchAuth("shops");
-
   const shops = (await shopsRes.json()) as Shop[];
   console.log(shops);
 

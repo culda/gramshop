@@ -1,26 +1,31 @@
 import { ShopProvider } from "@/components/shop/ShopContext";
 import { ShopPlp } from "@/components/shop/ShopPlp";
-import { Product, Shop } from "@/model";
+import { Shop } from "@/model";
+
+export type PublicShopResponse = Pick<Shop, "products" | "currency">;
 
 const Page = async ({ params }: { params: { id: string } }) => {
-  const products = await getProducts(params.id);
-  console.log("loading products", products);
+  const shop = await getShopPublic(params.id);
   return (
-    <ShopProvider products={products} id={params.id}>
+    <ShopProvider
+      currency={shop.currency}
+      products={shop.products}
+      id={params.id}
+    >
       <ShopPlp />
     </ShopProvider>
   );
 };
 
-async function getProducts(shopId: string): Promise<Product[]> {
+async function getShopPublic(shopId: string): Promise<PublicShopResponse> {
   const res = await fetch(
-    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/products?shopId=${shopId}`
+    `${process.env.NEXT_PUBLIC_API_ENDPOINT}/public/shop?id=${shopId}`
   );
   if (!res.ok) {
-    throw new Error("Failed to fetch products");
+    throw new Error("Failed to fetch shop");
   }
-  const data = (await res.json()) as Pick<Shop, "products">;
-  return data.products;
+  const data = (await res.json()) as PublicShopResponse;
+  return data;
 }
 
 export default Page;

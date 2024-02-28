@@ -2,10 +2,8 @@
 
 import Button from "@/components/Button";
 import FileDrop from "@/components/FileDrop";
-import { ShopProvider } from "@/components/shop/ShopContext";
-import ShopPlp from "@/components/shop/ShopPlp";
 import ShopPreview from "@/components/shop/ShopPreview";
-import { Product } from "@/model";
+import { Currency, Product } from "@/model";
 import React, { Fragment } from "react";
 import { useState } from "react";
 
@@ -35,7 +33,7 @@ export default function Home() {
               src="/logo-b.webp"
             /> */}
             <span className="ml-3 text-xl">
-              <b>Messenger</b>Shop
+              <b>Gram</b>Shop
             </span>
           </a>
 
@@ -57,7 +55,7 @@ export default function Home() {
       {products.length > 0 && (
         <Fragment>
           {" "}
-          <ShopPreview products={products} />
+          <ShopPreview currency={Currency.USD} products={products} />
           <div className="mt-4">
             <Button variant="primary">Launch on Telegram</Button>
           </div>

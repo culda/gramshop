@@ -69,23 +69,9 @@ function Shop({ stack }: StackContext) {
     handler: "src/functions/checkout/handler.handler",
   });
 
-  /**
-   * Called when the client sets up the shop
-   * Creates a new shop in the database
-   */
-  const initShopHandler = new Function(stack, "initShopHandler", {
+  const getPublicShopHandler = new Function(stack, "getPublicShopHandler", {
     bind: [ShopsTable],
-    handler: "src/functions/initShop/handler.handler",
-  });
-
-  const getProductsHandler = new Function(stack, "getProductsHandler", {
-    bind: [ShopsTable],
-    handler: "src/functions/products/get/handler.handler",
-  });
-
-  const postProductsHandler = new Function(stack, "postProductsHandler", {
-    bind: [ShopsTable],
-    handler: "src/functions/products/add/handler.handler",
+    handler: "src/functions/shop/getpublic/handler.handler",
   });
 
   const getListShopHandler = new Function(stack, "getListShopHandler", {
@@ -113,10 +99,6 @@ function Shop({ stack }: StackContext) {
     handler: "src/functions/shop/post/handler.handler",
   });
 
-  const loginHandler = new Function(stack, "loginHandler", {
-    handler: "src/functions/login/handler.handler",
-  });
-
   const jwtAuthorizer = new Function(stack, "jwtAuthorizer", {
     handler: "src/functions/jwtAuthorizer/handler.handler",
     environment: {
@@ -132,23 +114,22 @@ function Shop({ stack }: StackContext) {
         identitySource: ["$request.header.Cookie"],
       },
     },
+    customDomain:
+      stack.stage === "production" ? "api.gramshop.co" : "api-dev.gramshop.co",
     routes: {
       "POST /shopwebhook": {
         function: shopTelegramWebhookHandler,
         authorizer: "none",
       },
       "POST /checkout": checkoutHandler,
-      "POST /initShop": initShopHandler,
-      "GET /products": {
-        function: getProductsHandler,
+      "GET /public/shop": {
+        function: getPublicShopHandler,
         authorizer: "none",
       },
       "GET /shops": getListShopHandler,
       "GET /shops/{id}": getShopHandler,
       "PUT /shops": putShopHandler,
       "POST /shops": postShopHandler,
-      "POST /products": postProductsHandler,
-      "GET /login": loginHandler,
     },
     defaults: {
       authorizer: "jwt",
@@ -176,6 +157,15 @@ function Site({ stack }: StackContext) {
           ? (Api.customDomainUrl as string)
           : Api.url, // available on the server
     },
+    customDomain:
+      stack.stage === "production"
+        ? {
+            domainName: "gramshop.co",
+            domainAlias: `www.gramshop.co`,
+          }
+        : {
+            domainName: `dev.gramshop.co`,
+          },
   });
 
   stack.addOutputs({

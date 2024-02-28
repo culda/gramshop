@@ -68,15 +68,15 @@ export const TelegramScene = ({ shop }: { shop: Shop }) => {
             <a className="font-medium underline" href="https://t.me/botfather">
               BotFather
             </a>
-            , Telegram's bot management tool, and follow the instructions to
-            create a new bot.
+            , Telegram&apos;s bot management tool, and follow the instructions
+            to create a new bot.
           </p>
         </Section>
         <Section title="Set up payments">
           <p>
             Navigate to your bot settings, then to Payments, and connect a
-            payment provider of your choice, such as Stripe. You'll need to
-            follow the provider's setup process.
+            payment provider of your choice, such as Stripe. You&apos;ll need to
+            follow the provider&apos;s setup process.
           </p>
         </Section>
         <Section title="Bot Token">
