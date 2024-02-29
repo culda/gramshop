@@ -1,5 +1,6 @@
 "use client";
-import { Currency, Product } from "@/model";
+import { CheckoutRequest } from "@/functions/checkout/handler";
+import { Currency, Product, ShoppingCart } from "@/model";
 import Script from "next/script";
 import React, {
   createContext,
@@ -8,14 +9,8 @@ import React, {
   ReactNode,
   useEffect,
   Fragment,
+  useCallback,
 } from "react";
-
-type ShoppingCart = {
-  items: {
-    product: Product;
-    quantity: number;
-  }[];
-};
 
 type ShopContextType = {
   currency: Currency;
@@ -55,17 +50,17 @@ export const ShopProvider = ({
   const [cart, setCart] = useState<ShoppingCart>({ items: [] });
   const [scriptLoaded, setScriptLoaded] = useState(false);
 
-  const checkout = () => {
+  const checkout = useCallback(() => {
     const checkoutData = {
       shopId: id,
-      items: cart,
-      auth: window.Telegram.WebApp.initDataUnsafe,
-    };
-    fetch("https://r8r37qb7jd.execute-api.us-east-1.amazonaws.com/checkout", {
+      cart,
+      authData: window.Telegram.WebApp.initData,
+    } satisfies CheckoutRequest;
+    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/checkout`, {
       method: "POST",
       body: JSON.stringify(checkoutData),
     });
-  };
+  }, [cart, id]);
 
   useEffect(() => {
     if (preview) {
@@ -82,8 +77,9 @@ export const ShopProvider = ({
       is_visible: true,
     }).onClick(() => {
       console.log("Checkout clicked");
+      checkout();
     });
-  }, [preview, scriptLoaded]);
+  }, [preview, scriptLoaded, checkout]);
 
   const addToCart = (product: Product) => {
     setCart((currentCart) => {

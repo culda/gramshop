@@ -60,7 +60,7 @@ export const TelegramScene = ({ shop }: { shop: Shop }) => {
   };
 
   return (
-    <AppScene title="Payment provider">
+    <AppScene title="Tokens">
       <form id="bot-token-form" onSubmit={handleSubmit(onSubmit)}>
         <Section title="Create your bot on Telegram">
           <p>
@@ -74,15 +74,15 @@ export const TelegramScene = ({ shop }: { shop: Shop }) => {
         </Section>
         <Section title="Set up payments">
           <p>
-            Navigate to your bot settings, then to Payments, and connect a
-            payment provider of your choice, such as Stripe. You&apos;ll need to
-            follow the provider&apos;s setup process.
+            Open your bot settings, go to Payments, and connect a payment
+            provider of your choice, such as Stripe. You&apos;ll need to follow
+            the provider&apos;s setup process.
           </p>
         </Section>
         <Section title="Bot Token">
           <p>
             The bot token is used to validate incoming checkout requests from
-            your users on the our servers.
+            your users on our servers.
           </p>
           <div className="mt-4">
             <TextField
@@ -115,7 +115,7 @@ export const TelegramScene = ({ shop }: { shop: Shop }) => {
           disabled={!formState.isValid}
           variant="primary"
         >
-          Submit
+          Update
         </Button>
       </form>
     </AppScene>

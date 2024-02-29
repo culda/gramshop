@@ -18,13 +18,7 @@ export async function POST(req: NextRequest) {
 
   const menuUrl = `https://${process.env.NEXT_PUBLIC_DOMAIN}/shop/${id}`;
   const telegram = Telegram.fromToken(shop.botToken);
-  telegram.api.setChatMenuButton({
-    menu_button: {
-      type: "web_app",
-      text: "Shop Now",
-      web_app: { url: menuUrl },
-    },
-  });
+  telegram.api.setChatMenuButton({});
 
   return NextResponse.json({});
 }

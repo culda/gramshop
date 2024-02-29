@@ -28,7 +28,7 @@ export default async function Page() {
               key={shop.id}
               href={`/dashboard/${shop.id}/manage`}
             >
-              {shop.id}
+              {shop.name}
             </Button>
           ))}
         <Button href={`/dashboard/new`}>

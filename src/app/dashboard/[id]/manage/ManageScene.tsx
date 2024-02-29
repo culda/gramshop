@@ -30,6 +30,25 @@ export const ManageScene = ({ shop }: PpShop) => {
       });
     }
   };
+  const disable = async () => {
+    const res = await fetch(`/api/shopdisable`, {
+      method: "POST",
+      body: JSON.stringify({ id: shop.id }),
+    });
+    if (res.ok) {
+      snack({
+        key: "shop-disabled",
+        text: "Shop disabled",
+        variant: "success",
+      });
+    } else {
+      snack({
+        key: "shop-disable-failed",
+        text: "Shop disable failed",
+        variant: "error",
+      });
+    }
+  };
   return (
     <div className="text-gray-600 body-font">
       {/* <Section title={"Shop URL"}>
@@ -55,10 +74,15 @@ export const ManageScene = ({ shop }: PpShop) => {
           }
         />
       </Section> */}
-      <Section title="Setup">
+      <div className="flex flex-row gap-2 mb-4">
         <Button onClick={activate} variant="primary">
-          Activate Menu Button
+          Activate
         </Button>
+        <Button onClick={disable} variant="error">
+          Disable
+        </Button>
+      </div>
+      <Section title="Setup">
         <Button href={`/dashboard/${shop.id}/telegram`} variant="primary">
           Tokens
         </Button>

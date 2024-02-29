@@ -13,7 +13,7 @@ export async function csvToJson(csvContent: string): Promise<unknown> {
   export type Product = {
     id: string;
     name: string;
-    price: number; // Price in the smallest units of the currency (e.g., cents for USD)
+    price: number;
     image: string;
   };
 

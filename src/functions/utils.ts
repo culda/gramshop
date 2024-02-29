@@ -1,8 +1,4 @@
-import {
-  DynamoDBClient,
-  GetItemCommand,
-  QueryCommand,
-} from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient } from "@aws-sdk/client-dynamodb";
 import { APIGatewayProxyResultV2 } from "aws-lambda";
 
 export const ddb = new DynamoDBClient({ region: "us-east-1" });
@@ -39,6 +35,18 @@ export function checkNull<T>(
   statusCode: number
 ): T {
   if (value === null || value === undefined) {
+    throw new Error(
+      JSON.stringify({
+        statusCode,
+        message: "Value is null",
+      })
+    );
+  }
+  return value as T;
+}
+
+export function checkTrue<T>(value: unknown, statusCode: number): T {
+  if (value !== true) {
     throw new Error(
       JSON.stringify({
         statusCode,

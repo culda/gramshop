@@ -5,17 +5,19 @@ export type Product = {
   image: string;
 };
 
+export type TgUser = {
+  id: number;
+  first_name: string;
+  last_name: string;
+  username: string;
+  language_code: string;
+  is_premium: boolean;
+  allows_write_to_pm: boolean;
+};
+
 export type AuthData = {
   query_id: string;
-  user: {
-    id: number;
-    first_name: string;
-    last_name: string;
-    username: string;
-    language_code: string;
-    is_premium: boolean;
-    allows_write_to_pm: boolean;
-  };
+  user: TgUser;
   auth_date: string;
   hash: string;
 };
@@ -56,8 +58,9 @@ export function getCurrencySymbol(currency: Currency): string {
   }
 }
 
-export function convertToLargeUnit(value: number): number {
-  return value / 100;
+export function convertToLargeUnit(value: number): string {
+  const largeUnitValue = value / 100;
+  return largeUnitValue.toFixed(2);
 }
 
 export type User = {

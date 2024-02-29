@@ -27,6 +27,7 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
       id: req.id,
       userId,
       providerToken: req.providerToken,
+      botToken: req.botToken,
       name: req.name,
     });
 
@@ -38,6 +39,7 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
 export async function ddbUpdateShop({
   id,
   userId,
+  botToken,
   providerToken,
   name,
 }: PostShopRequest): Promise<Shop> {
@@ -48,6 +50,11 @@ export async function ddbUpdateShop({
   if (providerToken) {
     expressionAttributeValues[":providerToken"] = { S: providerToken };
     updateExpression += " providerToken = :providerToken,";
+  }
+
+  if (botToken) {
+    expressionAttributeValues[":botToken"] = { S: botToken };
+    updateExpression += " botToken = :botToken,";
   }
 
   if (name) {

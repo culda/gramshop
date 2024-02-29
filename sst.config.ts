@@ -62,10 +62,8 @@ function Shop({ stack }: StackContext) {
     }
   );
 
-  /**
-   * Called when the user clicks on the 'Checkout' button in the web app
-   */
   const checkoutHandler = new Function(stack, "checkoutHandler", {
+    bind: [ShopsTable],
     handler: "src/functions/checkout/handler.handler",
   });
 
@@ -121,7 +119,13 @@ function Shop({ stack }: StackContext) {
         function: shopTelegramWebhookHandler,
         authorizer: "none",
       },
-      "POST /checkout": checkoutHandler,
+      /**
+       * Called when the user clicks on the 'Checkout' button in the web app
+       */
+      "POST /checkout": {
+        function: checkoutHandler,
+        authorizer: "none",
+      },
       "GET /public/shop": {
         function: getPublicShopHandler,
         authorizer: "none",

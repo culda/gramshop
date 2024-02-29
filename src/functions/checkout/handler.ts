@@ -1,39 +1,75 @@
-import { AuthData, Product } from "@/model";
+import { AuthData, Currency, Shop, ShoppingCart, TgUser } from "@/model";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { Telegram } from "puregram";
+import { lambdaWrapper } from "../lambdaWrapper";
+import { ApiResponse, checkNull, checkTrue, ddb } from "../utils";
+import { QueryCommand } from "@aws-sdk/client-dynamodb";
+import { Table } from "sst/node/table";
+import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
+import { validateDataFromTelegram } from "./validate";
 
-const telegram = Telegram.fromToken(
-  "6491571682:AAFpv1_jUUF7UvZAoZmvZAiDBa0wRegrdXU" as string
-);
-
-export type CheckoutRequestPayload = {
-  items: Product[];
-  auth: AuthData;
+export type CheckoutRequest = {
+  shopId: string;
+  cart: ShoppingCart;
+  authData: string;
 };
 
-export const handler: APIGatewayProxyHandlerV2 = async (event) => {
-  console.log(event.body);
-  const checkoutPayload: CheckoutRequestPayload = JSON.parse(
-    event.body as string
-  );
-  sendInvoiceToChat(checkoutPayload);
-  return {
-    statusCode: 200,
-  };
-};
+export const handler: APIGatewayProxyHandlerV2 = async (event) =>
+  lambdaWrapper(event, async () => {
+    console.log(event.body);
+    const data: CheckoutRequest = JSON.parse(event.body as string);
+    const { Items } = await ddb.send(
+      new QueryCommand({
+        TableName: Table.ShopsTable.tableName,
+        IndexName: "PublicIndex",
+        KeyConditionExpression: "id = :id",
+        ExpressionAttributeValues: marshall({ ":id": data.shopId }),
+        ProjectionExpression: "currency, botToken, providerToken",
+      })
+    );
+    if (!Items) {
+      return ApiResponse({
+        status: 404,
+      });
+    }
 
-async function sendInvoiceToChat(checkoutPayload: CheckoutRequestPayload) {
-  const chatId = checkoutPayload.auth.user.id;
+    const shops = Items?.map((item) => unmarshall(item)) as Shop[];
+    const shop = shops[0];
+
+    checkTrue(validateDataFromTelegram(data.authData, shop.botToken!), 401);
+
+    const authData = new URLSearchParams(data.authData);
+    const user = JSON.parse(authData.get("user") as string) as TgUser;
+
+    await sendInvoiceToChat(
+      user.id,
+      data.cart,
+      shop.currency,
+      shop.botToken!,
+      shop.providerToken!
+    );
+    return {
+      statusCode: 200,
+    };
+  });
+
+async function sendInvoiceToChat(
+  chatId: number,
+  cart: ShoppingCart,
+  currency: Currency,
+  botToken: string,
+  providerToken: string
+) {
   const title = "Your Purchase";
   const description = "Items you selected";
   const payload = "Unique-Payload-123"; // This should be unique for each invoice
-  const providerToken = "284685063:TEST:MDYzZjc4YWU4NDVj"; // From BotFather
   const startParameter = "start"; // Used in deep-linking
-  const currency = "USD"; // Currency code
-  const prices = checkoutPayload.items.map((item) => ({
-    label: item.name,
-    amount: item.price, // Ensure this is in the smallest currency unit (e.g., cents)
+  const prices = cart.items.map((item) => ({
+    label: item.product.name,
+    amount: item.product.price, // Ensure this is in the smallest currency unit (e.g., cents)
   }));
+
+  const telegram = Telegram.fromToken(botToken);
 
   try {
     await telegram.api.sendInvoice({

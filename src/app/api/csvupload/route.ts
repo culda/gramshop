@@ -18,7 +18,12 @@ export async function PUT(req: NextRequest) {
   const file = Buffer.from(base64, "base64").toLocaleString();
 
   try {
-    const parsed = (await csvToJson(file)) as Product[];
+    const parsed = ((await csvToJson(file)) as Product[]).map((product) => {
+      return {
+        ...product,
+        price: product.price * 100,
+      };
+    });
     const shopId = nanoid(10);
     const products = await productImagesToS3(shopId, parsed);
     return NextResponse.json({

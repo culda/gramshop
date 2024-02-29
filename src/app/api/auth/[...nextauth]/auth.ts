@@ -44,10 +44,6 @@ export const config = {
     strategy: "jwt",
   },
   callbacks: {
-    signIn: async () => {
-      await fetchAuth(`${process.env.API_ENDPOINT}/login`);
-      return true;
-    },
     session: async ({ session, token }) => {
       if (token.user) {
         session.user = token.user;
