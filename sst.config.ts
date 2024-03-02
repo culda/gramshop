@@ -37,13 +37,17 @@ function Storage({ stack }: StackContext) {
     },
   });
 
-  stack.addOutputs({
-    ShopsTableName: ShopsTable.tableName,
+  const TempShopsTable = new Table(stack, "TempShopTable", {
+    fields: {
+      id: "string",
+    },
+    primaryIndex: { partitionKey: "id" },
   });
 
   return {
     ImagesBucket,
     ShopsTable,
+    TempShopsTable,
   };
 }
 
@@ -146,11 +150,12 @@ function Shop({ stack }: StackContext) {
 }
 
 function Site({ stack }: StackContext) {
-  const { ImagesBucket } = use(Storage);
+  const { ImagesBucket, TempShopsTable } = use(Storage);
   const { Api } = use(Shop);
 
   const site = new NextjsSite(stack, "site", {
-    bind: [ImagesBucket, Api],
+    bind: [ImagesBucket, TempShopsTable, Api],
+    permissions: ["dynamodb"],
     environment: {
       NEXT_PUBLIC_API_ENDPOINT:
         stack.stage === "production"

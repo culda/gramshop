@@ -3,13 +3,15 @@
 import Button from "@/components/Button";
 import FileDrop from "@/components/FileDrop";
 import ShopPreview from "@/components/shop/ShopPreview";
-import { Currency, Product } from "@/model";
-import React, { Fragment } from "react";
+import { Currency, TempShop } from "@/model";
+import React from "react";
 import { useState } from "react";
+import Section from "@/components/Section";
 
 export default function Home() {
-  const [products, setProducts] = useState<Product[]>([]);
+  const [upload, setUpload] = useState<TempShop | null>();
   const handleFileUpload = async (base64: string) => {
+    setUpload(null);
     const res = await fetch("/api/csvupload", {
       method: "PUT",
       headers: {
@@ -17,12 +19,12 @@ export default function Home() {
       },
       body: base64,
     });
-    const products = (await res.json()) as Product[];
-    setProducts(products);
+    const upload = (await res.json()) as TempShop;
+    setUpload(upload);
   };
 
   return (
-    <div>
+    <div className="min-h-screen px-8">
       <header className=" text-gray-800 body-font md:px-8">
         <div className="mx-auto justify-between flex flex-wrap p-5 items-center">
           <a className="flex title-font font-medium items-center md:mb-0">
@@ -48,18 +50,18 @@ export default function Home() {
           </div>
         </div>
       </header>
-      <section className="flex min-h-screen flex-col items-center justify-between">
-        {/* <input type="file" onChange={handleFileUpload} /> */}
+      <section className="flex h-[280px] items-center justify-between">
         <FileDrop onUpload={handleFileUpload} />
       </section>
-      {products.length > 0 && (
-        <Fragment>
-          {" "}
-          <ShopPreview currency={Currency.USD} products={products} />
-          <div className="mt-4">
-            <Button variant="primary">Launch on Telegram</Button>
+      {upload && (
+        <Section className="my-8" title="Preview">
+          <ShopPreview currency={Currency.USD} products={upload.products} />
+          <div className="flex justify-center mt-4">
+            <Button href={`/dashboard/new?id=${upload.id}`} variant="primary">
+              Launch on Telegram
+            </Button>
           </div>
-        </Fragment>
+        </Section>
       )}
     </div>
   );

@@ -1,17 +1,20 @@
 import { NextRequest, NextResponse } from "next/server";
 import { csvToJson } from "./csvToJson";
-import { Product } from "@/model";
+import { Product, TempShop } from "@/model";
 import { S3 } from "@aws-sdk/client-s3";
 import { randomUUID } from "crypto";
 import { Bucket } from "sst/node/bucket";
 import { nanoid } from "nanoid";
+import {
+  DynamoDBClient,
+  PutItemCommand,
+  UpdateItemCommand,
+} from "@aws-sdk/client-dynamodb";
+import { Table } from "sst/node/table";
+import { marshall } from "@aws-sdk/util-dynamodb";
 
 const s3 = new S3({ region: "us-east-1" });
-
-export type CsvUploadResponse = {
-  id: string;
-  products: Product[];
-};
+const ddb = new DynamoDBClient({ region: "us-east-1" });
 
 export async function PUT(req: NextRequest) {
   const base64 = await req.text();
@@ -26,14 +29,26 @@ export async function PUT(req: NextRequest) {
     });
     const shopId = nanoid(10);
     const products = await productImagesToS3(shopId, parsed);
+    await updateTempShop(shopId, products);
     return NextResponse.json({
       id: shopId,
       products,
-    } satisfies CsvUploadResponse);
+    } satisfies TempShop);
   } catch (error) {
     console.error(error);
     return NextResponse.json({}, { status: 500 });
   }
+}
+
+async function updateTempShop(shopId: string, products: Product[]) {
+  await ddb.send(
+    new UpdateItemCommand({
+      TableName: Table.TempShopTable.tableName,
+      Key: { id: { S: shopId } },
+      UpdateExpression: "SET products = :products",
+      ExpressionAttributeValues: marshall({ ":products": products }),
+    })
+  );
 }
 
 async function productImagesToS3(

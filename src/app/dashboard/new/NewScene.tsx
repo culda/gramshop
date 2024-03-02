@@ -1,5 +1,4 @@
 "use client";
-import { CsvUploadResponse } from "@/app/api/csvupload/route";
 import Button from "@/components/Button";
 import CurrencySelect from "@/components/CurrencySelect";
 import FileDrop from "@/components/FileDrop";
@@ -9,7 +8,7 @@ import { useSnackbar } from "@/components/SnackbarProvider";
 import SupportedShops from "@/components/SupportedShops";
 import TextField from "@/components/TextField";
 import { PutShopRequest } from "@/functions/shop/put/handler";
-import { Product, Shop, Currency } from "@/model";
+import { Product, Shop, Currency, TempShop } from "@/model";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
@@ -26,8 +25,8 @@ const schema = z.object({
   currency: z.nativeEnum(Currency),
 });
 
-export const NewScene = () => {
-  const [upload, setUpload] = useState<CsvUploadResponse | null>();
+export const NewScene = ({ ts }: { ts?: TempShop }) => {
+  const [upload, setUpload] = useState<TempShop | undefined>(ts);
   const snack = useSnackbar();
   const router = useRouter();
   const { formState, register, handleSubmit, getValues } = useForm<TpValues>({
@@ -35,7 +34,7 @@ export const NewScene = () => {
   });
 
   const handleFileUpload = async (base64: string) => {
-    setUpload(null);
+    setUpload(undefined);
     const res = await fetch("/api/csvupload", {
       method: "PUT",
       headers: {
@@ -43,7 +42,7 @@ export const NewScene = () => {
       },
       body: base64,
     });
-    const upload = (await res.json()) as CsvUploadResponse;
+    const upload = (await res.json()) as TempShop;
     setUpload(upload);
   };
 

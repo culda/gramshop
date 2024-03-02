@@ -13,7 +13,7 @@ const Section = ({
         className ? className : ""
       }`}
     >
-      <div className="flex-grow  flex sm:items-center items-start flex-row">
+      <div className="flex-grow  flex sm:items-center items-start flex-row ml-4">
         <div className=" flex flex-col flex-grow sm:pl-6 mt-6 sm:mt-0 gap-2">
           {title && (
             <h2 className="font-bold title-font text-gray-900 mb-1 text-xl">

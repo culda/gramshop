@@ -111,7 +111,7 @@ const FileDrop = ({ onUpload }: { onUpload: (base64: string) => void }) => {
   }
 
   return (
-    <div className="flex justify-center items-center">
+    <div className="flex justify-center items-center w-full">
       <div
         ref={dropAreaRef}
         id="drop-area"

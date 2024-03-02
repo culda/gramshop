@@ -39,6 +39,11 @@ export type Shop = {
   products: Product[];
 };
 
+export type TempShop = {
+  id: string;
+  products: Product[];
+};
+
 export enum Currency {
   USD = "USD",
   EUR = "EUR",
