@@ -29,7 +29,6 @@ export async function PUT(req: NextRequest) {
     });
     const shopId = nanoid(10);
     const products = await productImagesToS3(shopId, parsed);
-    console.log("parsed", parsed);
     await updateTempShop(shopId, products);
     return NextResponse.json({
       id: shopId,

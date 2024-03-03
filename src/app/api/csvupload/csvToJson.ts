@@ -39,7 +39,6 @@ export async function csvToJson(csvContent: string): Promise<unknown> {
 
     // Extract and parse the JSON from the response
     try {
-      console.log("res", response.choices[0].message.content);
       const jsonResponse = JSON.parse(
         response.choices[0].message.content as string
       );
