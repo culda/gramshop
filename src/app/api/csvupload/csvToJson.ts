@@ -13,7 +13,7 @@ export async function csvToJson(csvContent: string): Promise<unknown> {
   export type Product = {
     id: string;
     name: string;
-    price: number;
+    price: string; // Numerical value only, no currency symbol
     image: string;
   };
 
@@ -39,6 +39,7 @@ export async function csvToJson(csvContent: string): Promise<unknown> {
 
     // Extract and parse the JSON from the response
     try {
+      console.log("res", response.choices[0].message.content);
       const jsonResponse = JSON.parse(
         response.choices[0].message.content as string
       );

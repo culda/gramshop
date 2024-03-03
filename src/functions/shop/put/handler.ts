@@ -33,6 +33,7 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
       userId,
       currency: shopRequest.currency as Currency,
       products: shopRequest.products,
+      active: false,
     };
 
     console.log(shop);

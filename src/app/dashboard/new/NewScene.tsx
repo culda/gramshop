@@ -29,9 +29,15 @@ export const NewScene = ({ ts }: { ts?: TempShop }) => {
   const [upload, setUpload] = useState<TempShop | undefined>(ts);
   const snack = useSnackbar();
   const router = useRouter();
-  const { formState, register, handleSubmit, getValues } = useForm<TpValues>({
-    resolver: zodResolver(schema),
-  });
+  const { formState, register, handleSubmit, getValues, watch } =
+    useForm<TpValues>({
+      resolver: zodResolver(schema),
+      defaultValues: {
+        currency: Currency.USD,
+      },
+    });
+
+  const currency = watch("currency");
 
   const handleFileUpload = async (base64: string) => {
     setUpload(undefined);
@@ -115,7 +121,7 @@ export const NewScene = ({ ts }: { ts?: TempShop }) => {
       <Section className="mt-8" title="Preview">
         {upload && (
           <ShopPreview
-            currency={getValues("currency") as Currency}
+            currency={currency as Currency}
             products={upload?.products}
           />
         )}
@@ -123,7 +129,7 @@ export const NewScene = ({ ts }: { ts?: TempShop }) => {
       <Button
         form="shop-add-form"
         type="submit"
-        className="w-full mt-8"
+        className="w-full mt-8 ml-4"
         loading={formState.isSubmitting}
         disabled={upload?.products.length === 0 || !formState.isValid}
         variant="primary"

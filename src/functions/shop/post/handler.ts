@@ -29,6 +29,7 @@ export const handler: APIGatewayProxyHandlerV2WithLambdaAuthorizer<
       providerToken: req.providerToken,
       botToken: req.botToken,
       name: req.name,
+      activationRequested: req.activationRequested,
     });
 
     return ApiResponse({
@@ -41,6 +42,7 @@ export async function ddbUpdateShop({
   userId,
   botToken,
   providerToken,
+  activationRequested,
   name,
 }: PostShopRequest): Promise<Shop> {
   const expressionAttributeValues: Record<string, AttributeValue> = {};
@@ -60,6 +62,13 @@ export async function ddbUpdateShop({
   if (name) {
     expressionAttributeValues[":name"] = { S: name };
     updateExpression += " name = :name,";
+  }
+
+  if (activationRequested) {
+    expressionAttributeValues[":activationRequested"] = {
+      BOOL: activationRequested,
+    };
+    updateExpression += " activationRequested = :activationRequested,";
   }
 
   updateExpression = updateExpression.slice(0, -1); // Remove the trailing comma

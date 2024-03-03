@@ -1,7 +1,7 @@
 export type Product = {
   id: string;
   name: string;
-  price: number; // Price in the smallest units of the currency (e.g., cents for USD)
+  price: string; // Price in the smallest units of the currency (e.g., cents for USD)
   image: string;
 };
 
@@ -37,6 +37,8 @@ export type Shop = {
   currency: Currency;
   botToken?: string;
   products: Product[];
+  active: boolean;
+  activationRequested?: boolean;
 };
 
 export type TempShop = {
@@ -63,9 +65,13 @@ export function getCurrencySymbol(currency: Currency): string {
   }
 }
 
-export function convertToLargeUnit(value: number): string {
-  const largeUnitValue = value / 100;
+export function convertToLargeUnit(value: string): string {
+  const largeUnitValue = parseFloat(value) / 100;
   return largeUnitValue.toFixed(2);
+}
+export function convertToSmallUnit(value: string): string {
+  const smallUnitValue = Math.floor(parseFloat(value) * 100).toString();
+  return smallUnitValue;
 }
 
 export type User = {

@@ -19,7 +19,7 @@ export const ShopPlp = () => {
   return (
     <section className="text-gray-600 body-font">
       <div className="container px-5 py-12 mx-auto">
-        <div className="flex flex-wrap -m-4">
+        <div className="flex flex-wrap justify-center -m-4">
           {products.map((product) => (
             <div key={product.id} className="p-4 relative max-w-[120px]">
               {/* Conditional rendering for quantity */}

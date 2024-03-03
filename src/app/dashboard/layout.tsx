@@ -3,6 +3,7 @@ import Link from "next/link";
 import React, { useState } from "react";
 import { FaPlus } from "react-icons/fa";
 import Image from "next/image";
+import { Logo } from "@/components/Logo";
 
 export default function Layout({ children }: { children: React.ReactNode }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -48,13 +49,7 @@ export default function Layout({ children }: { children: React.ReactNode }) {
           <ul className="list-none p-0 m-0">
             <li className="mb-4" onClick={toggleMenu}>
               <Link href={"/dashboard"}>
-                LOGO
-                {/* <Image
-                    loading="lazy"
-                    className="aspect-[2.22] object-contain object-center w-[102px] overflow-hidden"
-                    alt="logo"
-                    src="/logo.webp"
-                  /> */}
+                <Logo />
               </Link>
             </li>
             <li className="mb-4" onClick={toggleMenu}>

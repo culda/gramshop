@@ -12,6 +12,16 @@ export async function POST(req: NextRequest) {
   const shopRes = await fetchAuth(`shops/${id}`);
   const shop = (await shopRes.json()) as Shop;
 
+  if (!shop.active) {
+    await fetchAuth("shops", {
+      method: "POST",
+      body: JSON.stringify({
+        id: shop.id,
+        activationRequested: true,
+      }),
+    });
+  }
+
   if (!shop.botToken) {
     return NextResponse.json({ error: "Bot token not setup" }, { status: 400 });
   }

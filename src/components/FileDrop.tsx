@@ -122,7 +122,7 @@ const FileDrop = ({ onUpload }: { onUpload: (base64: string) => void }) => {
         onDrop={handleDropEvent}
       >
         <p className="text-gray-700 text-lg pointer-events-none">
-          Drag and drop your files here
+          Drag and drop your CSV product export here
         </p>
         <input
           ref={inputRef}
@@ -136,7 +136,7 @@ const FileDrop = ({ onUpload }: { onUpload: (base64: string) => void }) => {
           className="mx-auto mt-4"
           onClick={() => inputRef.current?.click()}
         >
-          Or select files
+          Or select file
         </Button>
       </div>
     </div>

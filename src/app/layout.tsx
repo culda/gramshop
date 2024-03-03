@@ -1,10 +1,10 @@
 "use client";
-import { Inter } from "next/font/google";
+import { Alatsi, Inter } from "next/font/google";
 import "./globals.css";
 import SnackbarProvider from "@/components/SnackbarProvider";
 import { SessionProvider } from "next-auth/react";
 
-const inter = Inter({ subsets: ["latin"] });
+const font = Inter({ weight: "400", subsets: ["latin"] });
 
 export default function RootLayout({
   children,
@@ -13,7 +13,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>
+      <body className={font.className}>
         <SnackbarProvider>
           <SessionProvider>{children}</SessionProvider>
         </SnackbarProvider>

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { csvToJson } from "./csvToJson";
-import { Product, TempShop } from "@/model";
+import { Product, TempShop, convertToSmallUnit } from "@/model";
 import { S3 } from "@aws-sdk/client-s3";
 import { randomUUID } from "crypto";
 import { Bucket } from "sst/node/bucket";
@@ -24,11 +24,12 @@ export async function PUT(req: NextRequest) {
     const parsed = ((await csvToJson(file)) as Product[]).map((product) => {
       return {
         ...product,
-        price: product.price * 100,
+        price: convertToSmallUnit(product.price),
       };
     });
     const shopId = nanoid(10);
     const products = await productImagesToS3(shopId, parsed);
+    console.log("parsed", parsed);
     await updateTempShop(shopId, products);
     return NextResponse.json({
       id: shopId,
