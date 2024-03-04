@@ -5,11 +5,7 @@ import { S3 } from "@aws-sdk/client-s3";
 import { randomUUID } from "crypto";
 import { Bucket } from "sst/node/bucket";
 import { nanoid } from "nanoid";
-import {
-  DynamoDBClient,
-  PutItemCommand,
-  UpdateItemCommand,
-} from "@aws-sdk/client-dynamodb";
+import { DynamoDBClient, UpdateItemCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
 import { marshall } from "@aws-sdk/util-dynamodb";
 

@@ -17,19 +17,13 @@ export const ManageScene = ({ shop }: PpShop) => {
       method: "POST",
       body: JSON.stringify({ id: shop.id }),
     });
-    if (res.ok) {
-      snack({
-        key: "shop-activated",
-        text: "Shop activated",
-        variant: "success",
-      });
-    } else {
-      snack({
-        key: "shop-activation-failed",
-        text: "Shop activation failed",
-        variant: "error",
-      });
-    }
+    const data = await res.json();
+    const msg = data.message;
+    snack({
+      key: "shop-activate",
+      text: msg,
+      variant: res.ok ? "success" : "error",
+    });
   };
 
   const unsetMenu = async () => {
@@ -45,45 +39,17 @@ export const ManageScene = ({ shop }: PpShop) => {
       method: "POST",
       body: JSON.stringify({ id: shop.id }),
     });
-    if (res.ok) {
-      snack({
-        key: "shop-disabled",
-        text: "Shop disabled",
-        variant: "success",
-      });
-    } else {
-      snack({
-        key: "shop-disable-failed",
-        text: "Shop disable failed",
-        variant: "error",
-      });
-    }
+    const data = await res.json();
+    const msg = data.message;
+    snack({
+      key: "shop-unset",
+      text: msg,
+      variant: res.ok ? "success" : "error",
+    });
   };
+
   return (
     <div className="text-gray-600 body-font pl-6">
-      {/* <Section title={"Shop URL"}>
-        <p>
-          Configure your shop menu button via{" "}
-          <a
-            className="font-medium underline"
-            href="https://t.me/botfather"
-            target="_blank"
-          >
-            BotFather
-          </a>
-          .
-        </p>
-        <TextField
-          defaultValue={`https://shop.com/${shop.id}`}
-          onCopy={() =>
-            snack({
-              key: "shop-url-copied",
-              text: "Copied",
-              variant: "success",
-            })
-          }
-        />
-      </Section> */}
       <Section title="Setup" className="mb-8">
         {!shop.active && (
           <Button onClick={setMenu} variant="secondary">

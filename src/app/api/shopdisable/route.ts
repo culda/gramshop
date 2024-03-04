@@ -13,12 +13,11 @@ export async function POST(req: NextRequest) {
   const shop = (await shopRes.json()) as Shop;
 
   if (!shop.botToken) {
-    return NextResponse.json({ error: "Bot token not setup" }, { status: 400 });
+    return NextResponse.json({ error: "Bot token required" }, { status: 400 });
   }
 
-  const menuUrl = `https://${process.env.NEXT_PUBLIC_DOMAIN}/shop/${id}`;
   const telegram = Telegram.fromToken(shop.botToken);
   telegram.api.setChatMenuButton({});
 
-  return NextResponse.json({});
+  return NextResponse.json({ message: "Menu button unset" });
 }

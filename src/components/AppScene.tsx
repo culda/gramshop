@@ -8,7 +8,7 @@ export default function AppScene({
   children: React.ReactNode;
 }) {
   return (
-    <div className="flex flex-col py-6 max-w-md">
+    <div className="flex flex-col py-6 max-w-md min-h-screen">
       {title ? (
         <header className="w-full mb-6">
           <h2 className="text-sm title-font text-gray-500 tracking-widest">

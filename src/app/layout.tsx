@@ -1,5 +1,6 @@
 "use client";
-import { Alatsi, Inter } from "next/font/google";
+import { Inter } from "next/font/google";
+import { GoogleTagManager } from "@next/third-parties/google";
 import "./globals.css";
 import SnackbarProvider from "@/components/SnackbarProvider";
 import { SessionProvider } from "next-auth/react";
@@ -13,7 +14,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head></head>
       <body className={font.className}>
+        <GoogleTagManager gtmId="GTM-KW4844N3" />
         <SnackbarProvider>
           <SessionProvider>{children}</SessionProvider>
         </SnackbarProvider>

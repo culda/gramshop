@@ -62,7 +62,7 @@ export const TelegramScene = ({ shop }: { shop: Shop }) => {
   return (
     <AppScene title="Tokens">
       <form id="bot-token-form" onSubmit={handleSubmit(onSubmit)}>
-        <Section title="Create your bot on Telegram">
+        <Section title="Create your bot on Telegram" className="mb-6">
           <p>
             Visit{" "}
             <a className="font-medium underline" href="https://t.me/botfather">
@@ -72,7 +72,7 @@ export const TelegramScene = ({ shop }: { shop: Shop }) => {
             to create a new bot.
           </p>
         </Section>
-        <Section title="Set up payments">
+        <Section title="Set up payments" className="mb-6">
           <p>
             Open your bot settings, go to Payments, and connect a payment
             provider of your choice, such as Stripe. You&apos;ll need to follow

@@ -12,7 +12,7 @@ export async function POST(req: NextRequest) {
   const shopRes = await fetchAuth(`shops/${id}`);
   const shop = (await shopRes.json()) as Shop;
 
-  if (!shop.active) {
+  if (!shop.active && !shop.activationRequested) {
     await fetchAuth("shops", {
       method: "POST",
       body: JSON.stringify({
@@ -22,8 +22,12 @@ export async function POST(req: NextRequest) {
     });
   }
 
+  if (!shop.active) {
+    return NextResponse.json({ message: "Activation requested" });
+  }
+
   if (!shop.botToken) {
-    return NextResponse.json({ error: "Bot token not setup" }, { status: 400 });
+    return NextResponse.json({ error: "Bot token required" }, { status: 400 });
   }
 
   const menuUrl = `https://${process.env.NEXT_PUBLIC_DOMAIN}/shop/${id}`;
@@ -36,5 +40,5 @@ export async function POST(req: NextRequest) {
     },
   });
 
-  return NextResponse.json({});
+  return NextResponse.json({ message: "Menu button set" });
 }

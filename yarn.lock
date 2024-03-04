@@ -3964,6 +3964,18 @@ __metadata:
   languageName: node
   linkType: hard
 
+"@next/third-parties@npm:^14.1.1":
+  version: 14.1.1
+  resolution: "@next/third-parties@npm:14.1.1"
+  dependencies:
+    third-party-capital: "npm:1.0.20"
+  peerDependencies:
+    next: ^13.0.0 || ^14.0.0
+    react: ^18.2.0
+  checksum: 10/f1310f2863ce8cacb0e3b1ebe76955c3442f60f1d30be12ca32ac91e534584afc9aecf137c08ec27ba56d982c7c340da0ccb152dab647b63a4ebbf3eeb554a1c
+  languageName: node
+  linkType: hard
+
 "@nodelib/fs.scandir@npm:2.1.5":
   version: 2.1.5
   resolution: "@nodelib/fs.scandir@npm:2.1.5"
@@ -8268,6 +8280,7 @@ __metadata:
     "@aws-sdk/client-s3": "npm:^3.515.0"
     "@aws-sdk/util-dynamodb": "npm:^3.511.0"
     "@hookform/resolvers": "npm:^3.3.4"
+    "@next/third-parties": "npm:^14.1.1"
     "@types/aws-lambda": "npm:^8.10.133"
     "@types/jest": "npm:^29.5.12"
     "@types/node": "npm:^20"
@@ -12613,6 +12626,13 @@ __metadata:
   dependencies:
     any-promise: "npm:^1.0.0"
   checksum: 10/486e1283a867440a904e36741ff1a177faa827cf94d69506f7e3ae4187b9afdf9ec368b3d8da225c192bfe2eb943f3f0080594156bf39f21b57cd1411e2e7f6d
+  languageName: node
+  linkType: hard
+
+"third-party-capital@npm:1.0.20":
+  version: 1.0.20
+  resolution: "third-party-capital@npm:1.0.20"
+  checksum: 10/40e2531b428a21f05531fc62ef82859c0071211eff09588baf75d4b525096bbdb4f93e17e2d538849db8d4fc3cceb074933d7be59fddc26f86718fbbe852a97f
   languageName: node
   linkType: hard
 
