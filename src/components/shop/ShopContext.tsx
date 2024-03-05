@@ -10,6 +10,7 @@ import React, {
   useEffect,
   Fragment,
   useCallback,
+  useRef,
 } from "react";
 
 type ShopContextType = {
@@ -49,20 +50,38 @@ export const ShopProvider = ({
 }) => {
   const [cart, setCart] = useState<ShoppingCart>({ items: [] });
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [webappLoaded, setWebappLoaded] = useState(false);
+  const [initiateCheckout, setInitiateCheckout] = useState(false);
 
-  const checkout = useCallback(() => {
+  const checkout = useCallback(async () => {
+    if (!webappLoaded) {
+      return;
+    }
+
     const checkoutData = {
       shopId: id,
       cart,
       authData: window.Telegram.WebApp.initData,
     } satisfies CheckoutRequest;
-    fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/checkout`, {
+    await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/checkout`, {
       method: "POST",
       body: JSON.stringify(checkoutData),
     });
-  }, [cart, id]);
+    window.Telegram.WebApp.close();
+  }, [cart, id, webappLoaded]);
 
   useEffect(() => {
+    if (initiateCheckout) {
+      checkout();
+      setInitiateCheckout(false); // Reset the trigger
+    }
+  }, [checkout, initiateCheckout]); // Ensure checkout function is correctly referenced if needed
+
+  useEffect(() => {
+    if (webappLoaded) {
+      return;
+    }
+
     if (preview) {
       return;
     }
@@ -75,15 +94,29 @@ export const ShopProvider = ({
     window.Telegram.WebApp.MainButton.setParams({
       text: "Checkout",
       is_visible: true,
-    }).onClick(() => {
-      console.log("Checkout clicked");
-      checkout();
+    }).onClick(() => setInitiateCheckout(true));
+
+    setWebappLoaded(true);
+  }, [webappLoaded, preview, scriptLoaded, checkout]);
+
+  useEffect(() => {
+    if (!window.Telegram) {
+      return;
+    }
+
+    const totalQuantity = cart.items.reduce(
+      (total, item) => total + item.quantity,
+      0
+    );
+
+    window.Telegram.WebApp.MainButton.setParams({
+      text: `Checkout (${totalQuantity})`,
+      is_visible: true,
     });
-  }, [preview, scriptLoaded, checkout]);
+  }, [cart]);
 
   const addToCart = (product: Product) => {
     setCart((currentCart) => {
-      console.log("adding");
       const itemIndex = currentCart.items.findIndex(
         (item) => item.product.id === product.id
       );
@@ -137,6 +170,7 @@ export const ShopProvider = ({
       return currentCart;
     });
   };
+
   const isProductInCart = (productId: string) => {
     return cart.items.some((item) => item.product.id === productId);
   };

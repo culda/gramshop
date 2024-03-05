@@ -9,6 +9,8 @@ import { useState } from "react";
 import { Logo } from "@/components/Logo";
 import SupportedShops from "@/components/SupportedShops";
 import Link from "next/link";
+import { FaLightbulb, FaMoneyBill, FaRocket } from "react-icons/fa";
+import FAQSection from "@/components/FaqSection";
 
 export default function Home() {
   const [upload, setUpload] = useState<TempShop | null>();
@@ -26,7 +28,7 @@ export default function Home() {
   };
 
   return (
-    <div className="min-h-screen">
+    <div className="landing">
       <header className=" text-gray-800 body-font md:px-8">
         <div className="mx-auto justify-between flex flex-wrap p-5 items-center">
           <a className="flex title-font font-medium items-center md:mb-0">
@@ -80,6 +82,99 @@ export default function Home() {
           </div>
         </section>
       )}
+
+      {/* features */}
+      <section className="">
+        <div className="container px-5 py-24 mx-auto flex flex-wrap">
+          <div className="w-full md:w-1/2 mb-10 md:mb-0  rounded-lg overflow-hidden relative">
+            <img
+              alt="feature"
+              className="object-cover object-center w-full h-full"
+              src="/demo.webp"
+            />
+          </div>
+          <div className="flex flex-col flex-wrap md:py-6 -mb-10 md:w-1/2 md:pl-12 md:text-left text-center">
+            <div className="flex flex-col mb-10 md:items-start items-center">
+              <div className="w-12 h-12 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-500 mb-5">
+                <FaRocket className="text-xl" />
+              </div>
+              <div className="flex-grow">
+                <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                  Unlock a new sales channel
+                </h2>
+                <p className="leading-relaxed text-base">
+                  Telegram&apos;s 800 million active users will instantly gain
+                  access to your shop.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col mb-10 md:items-start items-center">
+              <div className="w-12 h-12 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-500 mb-5">
+                <FaLightbulb className="text-xl" />
+              </div>
+              <div className="flex-grow">
+                <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                  Integrated UX
+                </h2>
+                <p className="leading-relaxed text-base">
+                  Users never leave Telegram. The shopping UX is 100% within the
+                  Telegram client (web or app).
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ */}
+      <section className="bg-gray-100 py-8">
+        <FAQSection />
+      </section>
+
+      <footer className="bg-gray-200 text-gray-600 body-font">
+        <div className="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+          <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
+            <a className="flex title-font font-medium items-center md:mb-0">
+              <Logo />
+            </a>
+            <p className="mt-2 text-sm text-gray-500">
+              Gramshop helps you sell on Telegram
+            </p>
+          </div>
+          <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
+            <div className="lg:w-1/4 md:w-1/2 w-full px-4">
+              <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+                Support
+              </h2>
+              <nav className="list-none mb-10 flex flex-col md:items-start items-center gap-2">
+                <li>
+                  <a
+                    href="https://t.me/+FTPqqyO__eYyNTFk"
+                    target="_blank"
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    <div className="flex flex-row gap-2">
+                      <img
+                        className="text-sm w-6 h-6"
+                        src="/telegram-logo.svg"
+                        alt="telegram"
+                      ></img>
+                      Telegram
+                    </div>
+                  </a>
+                </li>
+              </nav>
+            </div>
+          </div>
+        </div>
+        <div className="bg-gray-100">
+          <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
+            <p className="text-gray-500 text-sm text-center sm:text-left">
+              © 2024 Gramshop
+            </p>
+          </div>
+        </div>
+      </footer>
     </div>
   );
 }

@@ -1,12 +1,13 @@
-import { AuthData, Currency, Shop, ShoppingCart, TgUser } from "@/model";
+import { Currency, Shop, ShoppingCart, TgUser } from "@/model";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { Telegram } from "puregram";
 import { lambdaWrapper } from "../lambdaWrapper";
-import { ApiResponse, checkNull, checkTrue, ddb } from "../utils";
+import { ApiResponse, checkTrue, ddb } from "../utils";
 import { QueryCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { validateDataFromTelegram } from "./validate";
+import { randomUUID } from "crypto";
 
 export type CheckoutRequest = {
   shopId: string;
@@ -41,32 +42,41 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) =>
     const authData = new URLSearchParams(data.authData);
     const user = JSON.parse(authData.get("user") as string) as TgUser;
 
-    await sendInvoiceToChat(
-      user.id,
-      data.cart,
-      shop.currency,
-      shop.botToken!,
-      shop.providerToken!
-    );
+    await sendInvoiceToChat({
+      chatId: user.id,
+      cart: data.cart,
+      currency: shop.currency,
+      botToken: shop.botToken!,
+      providerToken: shop.providerToken!,
+    });
     return {
       statusCode: 200,
     };
   });
 
-async function sendInvoiceToChat(
-  chatId: number,
-  cart: ShoppingCart,
-  currency: Currency,
-  botToken: string,
-  providerToken: string
-) {
+async function sendInvoiceToChat({
+  chatId,
+  cart,
+  currency,
+  botToken,
+  providerToken,
+}: {
+  chatId: number;
+  cart: ShoppingCart;
+  currency: Currency;
+  botToken: string;
+  providerToken: string;
+}) {
   const title = "Your Purchase";
-  const description = "Items you selected";
-  const payload = "Unique-Payload-123"; // This should be unique for each invoice
+  const description = cart.items
+    .map((item) => `${item.product.name} x ${item.quantity}`)
+    .join(", "); // List items purchased in the description
+  const payload = randomUUID();
   const startParameter = "start"; // Used in deep-linking
+
   const prices = cart.items.map((item) => ({
     label: item.product.name,
-    amount: item.product.price, // Ensure this is in the smallest currency unit (e.g., cents)
+    amount: parseInt(item.product.price) * item.quantity,
   }));
 
   const telegram = Telegram.fromToken(botToken);
