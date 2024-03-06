@@ -22,7 +22,7 @@ export default function Page() {
           the site, place an order, fill out a form, and in connection with
           other activities, services, features, or resources we make available.
           Users may be asked for, as appropriate, name, email address, mailing
-          address, phone number, etc.
+          address, phone number, etc.#
         </p>
         <h2>3. Use of Collected Information</h2>
         <p>

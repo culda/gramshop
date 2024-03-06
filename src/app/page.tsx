@@ -165,6 +165,29 @@ export default function Home() {
                 </li>
               </nav>
             </div>
+            <div className="lg:w-1/4 md:w-1/2 w-full px-4">
+              <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+                Site Map
+              </h2>
+              <nav className="list-none mb-10 flex flex-col md:items-start items-center gap-2">
+                <li>
+                  <Link
+                    href="/legal/privacy"
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    <div className="flex flex-row gap-2">Privacy Policy</div>
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    href="/legal/terms"
+                    className="text-gray-600 hover:text-gray-800"
+                  >
+                    <div className="flex flex-row gap-2">Terms of Service</div>
+                  </Link>
+                </li>
+              </nav>
+            </div>
           </div>
         </div>
         <div className="bg-gray-100">
