@@ -48,8 +48,9 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
     event.headers["x-telegram-bot-api-secret-token"] !==
     process.env.TELEGRAM_WEBHOOK_SECRET
   ) {
+    console.log("Unauthorized");
     return {
-      statucCode: 401,
+      statusCode: 401,
     };
   }
 
@@ -61,22 +62,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) => {
       throw new Error("Telegram not found");
     }
 
-    const invoice = await handleUpdate({ update, telegram });
-
-    if (invoice) {
-      // set invoice status to processed
-      await ddb.send(
-        new UpdateItemCommand({
-          TableName: Table.InvoicesTable.tableName,
-          Key: marshall({ id: invoice }),
-          UpdateExpression: "set #status = :status",
-          ExpressionAttributeNames: {
-            "#status": "status",
-          },
-          ExpressionAttributeValues: marshall({ ":status": "paid" }),
-        })
-      );
-    }
+    await handleUpdate({ update, telegram });
   } catch (err) {
     console.log(err);
   } finally {
@@ -139,11 +125,34 @@ async function handleUpdate({
   const context = telegram.updates.handleUpdate(update);
 
   if (context?.is("pre_checkout_query")) {
+    console.log("pre_checkout_query", context.id);
     await telegram.api.answerPreCheckoutQuery({
       pre_checkout_query_id: context.id,
       ok: true,
     });
 
     return context.payload.invoice_payload;
+  }
+
+  if (context?.is("successful_payment")) {
+    console.log("successful_payment", context.id);
+    const { id, invoice } = context;
+
+    // set invoice status to processed
+    // await ddb.send(
+    //   new UpdateItemCommand({
+    //     TableName: Table.InvoicesTable.tableName,
+    //     Key: marshall({ id }),
+    //     UpdateExpression: "set #status = :status",
+    //     ExpressionAttributeNames: {
+    //       "#status": "status",
+    //     },
+    //     ExpressionAttributeValues: marshall({ ":status": "paid" }),
+    //   })
+    // );
+  }
+
+  if (context?.is("message")) {
+    console.log("message", context);
   }
 }

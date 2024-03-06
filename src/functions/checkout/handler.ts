@@ -53,6 +53,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) =>
           cart: data.cart,
           currency: shop.currency,
           status: "pending",
+          created: new Date().toISOString(),
         } satisfies Invoice),
       })
     );

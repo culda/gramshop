@@ -48,6 +48,7 @@ export type Invoice = {
   cart: ShoppingCart;
   currency: Currency;
   status: "pending" | "paid" | "failed";
+  created: string;
 };
 
 export type TempShop = {

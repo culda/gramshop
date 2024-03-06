@@ -26,7 +26,7 @@ export default function Page() {
           create a new bot.
         </p>
       </Section>
-      <Section title="Set up payments">
+      <Section title="Setup a payment provider">
         <p>
           White still on BotFather, navigate to your bot settings, then to
           Payments, and connect a payment provider of your choice, such as
@@ -37,12 +37,14 @@ export default function Page() {
           checkout.
         </p>
         <p>
-          The provider token is used to generate invoices for users when they
-          checkout. Once the user receives the invoice, they will follow the
-          payment instructions issued by the custom integration between the
-          payment provider and Telegram.{" "}
+          Once the user receives the invoice, they will follow the payment
+          instructions issued by the custom integration between the payment
+          provider and Telegram.{" "}
         </p>
-        <p>This platform has no control over the payment process.</p>
+        <p>
+          This platform receives invoice updates for reporting purposes and has
+          no control over the payment process.
+        </p>
       </Section>
     </AppScene>
   );

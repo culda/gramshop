@@ -72,15 +72,15 @@ function Shop({ stack }: StackContext) {
     {
       bind: [InvoicesTable, ShopsTable],
       handler: "src/functions/shopTelegramWebhook/handler.handler",
+      environment: {
+        TELEGRAM_WEBHOOK_SECRET: process.env.TELEGRAM_WEBHOOK_SECRET as string,
+      },
     }
   );
 
   const checkoutHandler = new Function(stack, "checkoutHandler", {
     bind: [ShopsTable, InvoicesTable],
     handler: "src/functions/checkout/handler.handler",
-    environment: {
-      TELEGRAM_WEBHOOK_SECRET: process.env.TELEGRAM_WEBHOOK_SECRET as string,
-    },
   });
 
   const getPublicShopHandler = new Function(stack, "getPublicShopHandler", {
