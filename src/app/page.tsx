@@ -86,20 +86,28 @@ export default function Home() {
       {/* features */}
       <section className="">
         <div className="container px-5 py-24 mx-auto flex flex-wrap">
-          <div className="w-full md:w-1/2 mb-10 md:mb-0  rounded-lg overflow-hidden relative">
-            <img
-              alt="feature"
-              className="object-cover object-center w-full h-full"
-              src="/demo.webp"
-            />
+          <div className="w-full md:w-1/2 mb-10 md:mb-0 pb-[120%] md:pb-[60%] rounded-lg overflow-hidden relative">
+            <iframe
+              style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "100%",
+                border: 0,
+              }}
+              src="https://www.tella.tv/video/cltg3p20l00000gjm6wl3gkvn/embed?b=0&title=0&a=0&loop=1&t=0&muted=0&wt=0"
+              allowFullScreen
+              allowTransparency
+            ></iframe>
           </div>
           <div className="flex flex-col flex-wrap md:py-6 -mb-10 md:w-1/2 md:pl-12 md:text-left text-center">
             <div className="flex flex-col mb-10 md:items-start items-center">
               <div className="w-12 h-12 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-500 mb-5">
-                <FaRocket className="text-xl" />
+                <FaMoneyBill className="text-xl" />
               </div>
               <div className="flex-grow">
-                <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
+                <h2 className="text-gray-900 mb-3">
                   Unlock a new sales channel
                 </h2>
                 <p className="leading-relaxed text-base">
@@ -110,14 +118,13 @@ export default function Home() {
             </div>
             <div className="flex flex-col mb-10 md:items-start items-center">
               <div className="w-12 h-12 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-500 mb-5">
-                <FaLightbulb className="text-xl" />
+                <FaRocket className="text-xl" />
               </div>
               <div className="flex-grow">
-                <h2 className="text-gray-900 text-lg title-font font-medium mb-3">
-                  Integrated UX
-                </h2>
+                <h2 className="text-gray-900  mb-3">Ultra-fast checkout</h2>
                 <p className="leading-relaxed text-base">
-                  Users never leave Telegram. The shopping UX is 100% within the
+                  Users will checkout in 30 seconds while never leaving
+                  Telegram. The shopping experience is 100% integrated into the
                   Telegram client (web or app).
                 </p>
               </div>
