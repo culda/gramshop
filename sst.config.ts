@@ -44,16 +44,24 @@ function Storage({ stack }: StackContext) {
     primaryIndex: { partitionKey: "id" },
   });
 
+  const InvoicesTable = new Table(stack, "InvoicesTable", {
+    fields: {
+      id: "string",
+    },
+    primaryIndex: { partitionKey: "id" },
+  });
+
   return {
     ImagesBucket,
     ShopsTable,
     TempShopsTable,
+    InvoicesTable,
   };
 }
 
 function Shop({ stack }: StackContext) {
   const { ImagesBucket } = use(Storage);
-  const { ShopsTable } = use(Storage);
+  const { ShopsTable, InvoicesTable } = use(Storage);
 
   /**
    * Called when a user interacts with a Telegram bot
@@ -62,13 +70,17 @@ function Shop({ stack }: StackContext) {
     stack,
     "shopTelegramWebhookHandler",
     {
+      bind: [InvoicesTable, ShopsTable],
       handler: "src/functions/shopTelegramWebhook/handler.handler",
     }
   );
 
   const checkoutHandler = new Function(stack, "checkoutHandler", {
-    bind: [ShopsTable],
+    bind: [ShopsTable, InvoicesTable],
     handler: "src/functions/checkout/handler.handler",
+    environment: {
+      TELEGRAM_WEBHOOK_SECRET: process.env.TELEGRAM_WEBHOOK_SECRET as string,
+    },
   });
 
   const getPublicShopHandler = new Function(stack, "getPublicShopHandler", {

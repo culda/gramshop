@@ -1,9 +1,9 @@
-import { Currency, Shop, ShoppingCart, TgUser } from "@/model";
+import { Currency, Invoice, Shop, ShoppingCart, TgUser } from "@/model";
 import { APIGatewayProxyHandlerV2 } from "aws-lambda";
 import { Telegram } from "puregram";
 import { lambdaWrapper } from "../lambdaWrapper";
 import { ApiResponse, checkTrue, ddb } from "../utils";
-import { QueryCommand } from "@aws-sdk/client-dynamodb";
+import { PutItemCommand, QueryCommand } from "@aws-sdk/client-dynamodb";
 import { Table } from "sst/node/table";
 import { marshall, unmarshall } from "@aws-sdk/util-dynamodb";
 import { validateDataFromTelegram } from "./validate";
@@ -41,6 +41,21 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) =>
 
     const authData = new URLSearchParams(data.authData);
     const user = JSON.parse(authData.get("user") as string) as TgUser;
+    const invoiceId = randomUUID();
+
+    await ddb.send(
+      new PutItemCommand({
+        TableName: Table.InvoicesTable.tableName,
+        Item: marshall({
+          id: invoiceId,
+          shopId: data.shopId,
+          userId: user.id.toString(),
+          cart: data.cart,
+          currency: shop.currency,
+          status: "pending",
+        } satisfies Invoice),
+      })
+    );
 
     await sendInvoiceToChat({
       chatId: user.id,
@@ -48,6 +63,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) =>
       currency: shop.currency,
       botToken: shop.botToken!,
       providerToken: shop.providerToken!,
+      invoiceId,
     });
     return {
       statusCode: 200,
@@ -60,18 +76,19 @@ async function sendInvoiceToChat({
   currency,
   botToken,
   providerToken,
+  invoiceId,
 }: {
   chatId: number;
   cart: ShoppingCart;
   currency: Currency;
   botToken: string;
   providerToken: string;
+  invoiceId: string;
 }) {
   const title = "Your Purchase";
   const description = cart.items
     .map((item) => `${item.product.name} x ${item.quantity}`)
     .join(", "); // List items purchased in the description
-  const payload = randomUUID();
   const startParameter = "start"; // Used in deep-linking
 
   const prices = cart.items.map((item) => ({
@@ -86,7 +103,7 @@ async function sendInvoiceToChat({
       chat_id: chatId,
       title,
       description,
-      payload,
+      payload: invoiceId,
       provider_token: providerToken,
       start_parameter: startParameter,
       currency,

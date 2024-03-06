@@ -41,6 +41,15 @@ export type Shop = {
   activationRequested?: boolean;
 };
 
+export type Invoice = {
+  id: string;
+  shopId: string;
+  userId: string;
+  cart: ShoppingCart;
+  currency: Currency;
+  status: "pending" | "paid" | "failed";
+};
+
 export type TempShop = {
   id: string;
   products: Product[];
