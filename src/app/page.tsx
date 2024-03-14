@@ -118,6 +118,20 @@ export default function Home() {
             </div>
             <div className="flex flex-col mb-10 md:items-start items-center">
               <div className="w-12 h-12 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-500 mb-5">
+                <FaLightbulb className="text-xl" />
+              </div>
+              <div className="flex-grow">
+                <h2 className="text-gray-900  mb-3">
+                  Repeat orders simplified
+                </h2>
+                <p className="leading-relaxed text-base">
+                  Improve LTV by providing a seamless repeat buying experience.
+                  Users can reorder using their Telegram chat history.
+                </p>
+              </div>
+            </div>
+            <div className="flex flex-col mb-10 md:items-start items-center">
+              <div className="w-12 h-12 inline-flex items-center justify-center rounded-full bg-blue-100 text-blue-500 mb-5">
                 <FaRocket className="text-xl" />
               </div>
               <div className="flex-grow">

@@ -8,6 +8,9 @@ import { FaArrowRight } from "react-icons/fa";
 export default async function Page() {
   console.log("dashboard");
   const shopsRes = await fetchAuth("shops");
+  if (!shopsRes.ok) {
+    return <h1>Failed to load shops</h1>;
+  }
   const shops = (await shopsRes.json()) as Shop[];
   console.log(shops);
 

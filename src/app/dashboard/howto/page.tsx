@@ -16,7 +16,7 @@ export default function Page() {
           your shop operates securely and efficiently on the Telegram platform.
         </p>
       </Section>
-      <Section title="Create your bot on Telegram">
+      <Section className="mt-6" title="Create your bot on Telegram">
         <p>
           Visit{" "}
           <a className="font-medium underline" href="https://t.me/botfather">
@@ -26,7 +26,7 @@ export default function Page() {
           create a new bot.
         </p>
       </Section>
-      <Section title="Setup a payment provider">
+      <Section className="mt-6" title="Setup a payment provider">
         <p>
           White still on BotFather, navigate to your bot settings, then to
           Payments, and connect a payment provider of your choice, such as
