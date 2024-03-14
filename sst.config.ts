@@ -102,11 +102,6 @@ function Shop({ stack }: StackContext) {
     bind: [ImagesBucket, ShopsTable],
     handler: "src/functions/shop/put/handler.handler",
   });
-  putShopHandler.addLayers(
-    new lambda.LayerVersion(stack, "SharpLayer", {
-      code: lambda.Code.fromAsset("src/layers/sharp"),
-    })
-  );
 
   const postShopHandler = new Function(stack, "postShopHandler", {
     bind: [ShopsTable],

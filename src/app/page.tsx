@@ -96,7 +96,7 @@ export default function Home() {
                 height: "100%",
                 border: 0,
               }}
-              src="https://www.tella.tv/video/cltg3p20l00000gjm6wl3gkvn/embed?b=0&title=0&a=0&loop=1&t=0&muted=0&wt=0"
+              src="https://www.tella.tv/video/cltg3p20l00000gjm6wl3gkvn/embed?b=0&title=0&a=1&loop=1&t=0&muted=0&wt=0"
               allowFullScreen
               allowTransparency
             ></iframe>
