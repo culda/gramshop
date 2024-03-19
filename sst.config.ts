@@ -37,6 +37,13 @@ function Storage({ stack }: StackContext) {
     },
   });
 
+  const UsersTable = new Table(stack, "UsersTable", {
+    fields: {
+      id: "string",
+    },
+    primaryIndex: { partitionKey: "id" },
+  });
+
   const TempShopsTable = new Table(stack, "TempShopTable", {
     fields: {
       id: "string",
@@ -54,6 +61,7 @@ function Storage({ stack }: StackContext) {
   return {
     ImagesBucket,
     ShopsTable,
+    UsersTable,
     TempShopsTable,
     InvoicesTable,
   };
@@ -61,7 +69,7 @@ function Storage({ stack }: StackContext) {
 
 function Shop({ stack }: StackContext) {
   const { ImagesBucket } = use(Storage);
-  const { ShopsTable, InvoicesTable } = use(Storage);
+  const { ShopsTable, InvoicesTable, UsersTable } = use(Storage);
 
   /**
    * Called when a user interacts with a Telegram bot
@@ -108,11 +116,20 @@ function Shop({ stack }: StackContext) {
     handler: "src/functions/shop/post/handler.handler",
   });
 
+  const loginHandler = new Function(stack, "loginHandler", {
+    bind: [UsersTable],
+    handler: "src/functions/login/handler.handler",
+  });
+
   const jwtAuthorizer = new Function(stack, "jwtAuthorizer", {
     handler: "src/functions/jwtAuthorizer/handler.handler",
     environment: {
       SECRET: process.env.NEXTAUTH_SECRET as string,
     },
+  });
+
+  const googleJwtAuthorizer = new Function(stack, "googleJwtAuthorizer", {
+    handler: "src/functions/googleJwtAuthorizer/handler.handler",
   });
 
   const api = new Api(stack, "Api", {
@@ -121,6 +138,11 @@ function Shop({ stack }: StackContext) {
         type: "lambda",
         function: jwtAuthorizer,
         identitySource: ["$request.header.Cookie"],
+      },
+      googleJwt: {
+        type: "lambda",
+        function: googleJwtAuthorizer,
+        identitySource: ["$request.header.Authorization"],
       },
     },
     customDomain:
@@ -145,6 +167,10 @@ function Shop({ stack }: StackContext) {
       "GET /shops/{id}": getShopHandler,
       "PUT /shops": putShopHandler,
       "POST /shops": postShopHandler,
+      "POST /login": {
+        function: loginHandler,
+        authorizer: "googleJwt",
+      },
     },
     defaults: {
       authorizer: "jwt",

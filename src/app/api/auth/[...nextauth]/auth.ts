@@ -1,4 +1,3 @@
-import fetchAuth from "@/app/fetchAuth";
 import {
   GetServerSidePropsContext,
   NextApiRequest,
@@ -28,7 +27,7 @@ const cookies: Partial<CookiesOptions> = {
   },
 };
 
-export const config = {
+export const config: NextAuthOptions = {
   cookies,
   pages: {
     signIn: "/login",
@@ -38,7 +37,13 @@ export const config = {
     GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID as string,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET as string,
-      authorization: { params: { access_type: "offline", prompt: "consent" } },
+      // authorization: {
+      //   params: {
+      //     request_uri: GOOGLE_AUTHORIZATION_URL,
+      //     access_type: "offline",
+      //     prompt: "consent",
+      //   },
+      // },
     }),
   ],
   session: {
@@ -55,10 +60,40 @@ export const config = {
       if (user) {
         token.user = user; // Attach user details to the JWT token
       }
-      return token;
+
+      if (!token.exp || (token.exp && Date.now() < token.exp * 1000)) {
+        return token;
+      }
+
+      throw new Error("Bad Token");
+    },
+    signIn: async ({ user, account, profile }) => {
+      const token = account?.id_token;
+
+      try {
+        const res = await fetch(`${process.env.API_ENDPOINT}/login`, {
+          method: "POST",
+          body: JSON.stringify({
+            user,
+          }),
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        if (res.ok) {
+          return true;
+        } else {
+          return false;
+        }
+      } catch (err) {
+        console.error(err);
+        return false;
+      }
     },
   },
-} satisfies NextAuthOptions;
+};
 
 export function auth(
   ...args:
