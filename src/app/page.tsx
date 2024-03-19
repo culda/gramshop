@@ -29,14 +29,16 @@ export default function Home() {
 
   return (
     <div className="landing">
-      <header className="md:px-8 bg-gray-200 sticky top-0 z-50 shadow-xl">
+      <header className="md:px-8 bg-gray-200 sticky top-0 z-50 shadow-xl py-2 ">
         <div className="mx-auto justify-between flex flex-wrap px-5 items-center">
           <a className="flex title-font font-medium items-center md:mb-0">
             <Logo />
           </a>
 
-          <div className="text-3xl font-bold text-center py-5">
-            <span>First ever Telegram ecommerce platform</span>
+          <div className="hidden sm:block">
+            <span className="sm:text-xl lg:text-3xl font-bold text-center py-5">
+              First ever Telegram ecommerce platform
+            </span>
           </div>
 
           {/* <div className="flex flex-row gap-4 text-lg">
