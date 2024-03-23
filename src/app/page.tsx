@@ -11,6 +11,8 @@ import SupportedShops from "@/components/SupportedShops";
 import Link from "next/link";
 import { FaLightbulb, FaMoneyBill, FaRocket } from "react-icons/fa";
 import FAQSection from "@/components/FaqSection";
+import { Header } from "@/components/Header";
+import { Footer } from "@/components/Footer";
 
 export default function Home() {
   const [upload, setUpload] = useState<TempShop | null>();
@@ -29,29 +31,7 @@ export default function Home() {
 
   return (
     <div className="landing">
-      <header className="md:px-8 bg-gray-200 sticky top-0 z-50 shadow-xl py-2 ">
-        <div className="mx-auto justify-between flex flex-wrap px-5 items-center">
-          <a className="flex title-font font-medium items-center md:mb-0">
-            <Logo />
-          </a>
-
-          <div className="hidden sm:block">
-            <span className="sm:text-xl lg:text-3xl font-bold text-center py-5">
-              First ever Telegram ecommerce platform
-            </span>
-          </div>
-
-          {/* <div className="flex flex-row gap-4 text-lg">
-            <a href="#faq">Faq</a>
-            <a href="#demo">Demo</a>
-            <a href="#pricing">Pricing</a>
-          </div> */}
-
-          <div>
-            <Button href="/dashboard">Login</Button>
-          </div>
-        </div>
-      </header>
+      <Header />
       <section className="">
         <div className="container mx-auto flex px-5 py-24 items-center justify-center flex-col">
           <h1 className="title-font sm:text-5xl text-4xl mb-4 font-bold">
@@ -158,73 +138,7 @@ export default function Home() {
         <FAQSection />
       </section>
 
-      <footer className="bg-gray-200 text-gray-600 body-font">
-        <div className="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
-          <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
-            <a className="flex title-font font-medium items-center md:mb-0">
-              <Logo />
-            </a>
-            <p className="mt-2 text-sm text-gray-500">
-              Gramshop helps you sell on Telegram
-            </p>
-          </div>
-          <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
-            <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-              <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
-                Support
-              </h2>
-              <nav className="list-none mb-10 flex flex-col md:items-start items-center gap-2">
-                <li>
-                  <a
-                    href="https://t.me/+FTPqqyO__eYyNTFk"
-                    target="_blank"
-                    className="text-gray-600 hover:text-gray-800"
-                  >
-                    <div className="flex flex-row gap-2">
-                      <img
-                        className="text-sm w-6 h-6"
-                        src="/telegram-logo.svg"
-                        alt="telegram"
-                      ></img>
-                      Telegram
-                    </div>
-                  </a>
-                </li>
-              </nav>
-            </div>
-            <div className="lg:w-1/4 md:w-1/2 w-full px-4">
-              <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
-                Site Map
-              </h2>
-              <nav className="list-none mb-10 flex flex-col md:items-start items-center gap-2">
-                <li>
-                  <Link
-                    href="/legal/privacy"
-                    className="text-gray-600 hover:text-gray-800"
-                  >
-                    <div className="flex flex-row gap-2">Privacy Policy</div>
-                  </Link>
-                </li>
-                <li>
-                  <Link
-                    href="/legal/terms"
-                    className="text-gray-600 hover:text-gray-800"
-                  >
-                    <div className="flex flex-row gap-2">Terms of Service</div>
-                  </Link>
-                </li>
-              </nav>
-            </div>
-          </div>
-        </div>
-        <div className="bg-gray-100">
-          <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
-            <p className="text-gray-500 text-sm text-center sm:text-left">
-              © 2024 Gramshop
-            </p>
-          </div>
-        </div>
-      </footer>
+      <Footer />
     </div>
   );
 }

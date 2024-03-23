@@ -4,7 +4,6 @@ import AppScene from "@/components/AppScene";
 import Button from "@/components/Button";
 import { isFalseyOrEmptyArray } from "@/utils";
 import { FaArrowRight } from "react-icons/fa";
-import { auth } from "../api/auth/[...nextauth]/auth";
 
 export default async function Page() {
   const shopsRes = await fetchAuth("shops");
