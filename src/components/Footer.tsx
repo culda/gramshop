@@ -5,23 +5,30 @@ export const Footer = () => {
   return (
     <footer className="bg-gray-200 text-gray-600 body-font">
       <div className="container px-5 py-24 mx-auto flex md:items-center lg:items-start md:flex-row md:flex-nowrap flex-wrap flex-col">
+        {/* Logo and Introduction */}
         <div className="w-64 flex-shrink-0 md:mx-0 mx-auto text-center md:text-left">
           <a
-            className="flex title-font font-medium items-center md:mb-0"
+            className="flex title-font font-medium items-center md:justify-start justify-center"
             href="/"
           >
             <Logo />
+            <span className="ml-3 text-xl">Gramshop</span>
           </a>
           <p className="mt-2 text-sm text-gray-500">
-            First ever Telegram ecommerce platform
+            Revolutionize your business with Gramshop, the first-ever Telegram
+            ecommerce platform. Seamlessly convert your shop from Shopify or
+            WooCommerce and engage with customers directly on Telegram.
           </p>
         </div>
+
+        {/* Enhanced Links with Keywords */}
         <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
+          {/* Support Section */}
           <div className="lg:w-1/4 md:w-1/2 w-full px-4">
             <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
               Support
             </h2>
-            <nav className="list-none mb-10 flex flex-col md:items-start items-center gap-2">
+            <nav className="list-none mb-10">
               <li>
                 <a
                   href="https://t.me/+FTPqqyO__eYyNTFk"
@@ -29,63 +36,50 @@ export const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-gray-800"
                 >
-                  <div className="flex flex-row gap-2">
-                    <img
-                      className="text-sm w-6 h-6"
-                      src="/telegram-logo.svg"
-                      alt="telegram"
-                    ></img>
-                    Telegram
-                  </div>
+                  Join Our Telegram Support Group
                 </a>
               </li>
             </nav>
           </div>
+
+          {/* Site Map with Keyword Rich Links */}
           <div className="lg:w-1/4 md:w-1/2 w-full px-4">
             <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
-              Site Map
+              Explore
             </h2>
-            <nav className="list-none mb-10 flex flex-col md:items-start items-center gap-2">
+            <nav className="list-none mb-10">
               <li>
-                <Link
-                  href="/dashboard"
-                  className="text-gray-600 hover:text-gray-800"
-                >
-                  <div className="flex flex-row gap-2">Dashboard</div>
+                <Link href="/dashboard">
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Dashboard Integration
+                  </a>
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/blog"
-                  className="text-gray-600 hover:text-gray-800"
-                >
-                  <div className="flex flex-row gap-2">Blog</div>
+                <Link href="/blog">
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Ecommerce Insights Blog
+                  </a>
                 </Link>
               </li>
               <li>
-                <Link
-                  href="/legal/privacy"
-                  className="text-gray-600 hover:text-gray-800"
-                >
-                  <div className="flex flex-row gap-2">Privacy Policy</div>
-                </Link>
-              </li>
-              <li>
-                <Link
-                  href="/legal/terms"
-                  className="text-gray-600 hover:text-gray-800"
-                >
-                  <div className="flex flex-row gap-2">Terms of Service</div>
+                <Link href="/blog/shopify-to-telegram">
+                  <a className="text-gray-600 hover:text-gray-800">
+                    Shopify to Telegram Conversion Guide
+                  </a>
                 </Link>
               </li>
             </nav>
           </div>
         </div>
       </div>
+
+      {/* Footer Bottom */}
       <div className="bg-gray-100">
         <div className="container mx-auto py-4 px-5 flex flex-wrap flex-col sm:flex-row">
           <p className="text-gray-500 text-sm text-center sm:text-left">
-            © 2024 Gramshop
+            © {new Date().getFullYear()} Gramshop - Your Gateway to Telegram
+            Ecommerce
           </p>
         </div>
       </div>
