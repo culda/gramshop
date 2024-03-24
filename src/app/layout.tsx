@@ -14,7 +14,6 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <head></head>
       <body className={font.className}>
         <GoogleTagManager gtmId="GTM-KW4844N3" />
         <SnackbarProvider>

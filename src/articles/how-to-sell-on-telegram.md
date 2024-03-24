@@ -1,9 +1,8 @@
 ---
 title: "How to Sell on Telegram: A Step-by-Step Guide"
-author: "Your Name"
-date: "2022-01-01"
-keywords: "Telegram, Selling, Business, Guide"
+date: "2024-03-24"
 description: "A step-by-step guide on how to sell on Telegram. This article provides valuable insights and strategies to help businesses maximize their success on Telegram."
+image: "https://images.byword.ai/wVHEPECT4l7vD17ymo8fjlnxkw1vi01KSfejPuaq83alF0DlA-out-0.png"
 ---
 
 # How to Sell on Telegram: A Step-by-Step Guide

@@ -13,6 +13,7 @@ import { FaLightbulb, FaMoneyBill, FaRocket } from "react-icons/fa";
 import FAQSection from "@/components/FaqSection";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
+import Seo from "@/components/Seo";
 
 export default function Home() {
   const [upload, setUpload] = useState<TempShop | null>();
@@ -31,6 +32,10 @@ export default function Home() {
 
   return (
     <div className="landing">
+      <Seo
+        description="Launch your shop on Telegram in 60 seconds"
+        title="Shop on Telegram"
+      />
       <Header />
       <section className="">
         <div className="container mx-auto flex px-5 py-24 items-center justify-center flex-col">

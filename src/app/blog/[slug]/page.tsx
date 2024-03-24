@@ -4,6 +4,8 @@ import path from "path";
 import matter from "gray-matter";
 import { remark } from "remark";
 import html from "remark-html";
+import { Fragment } from "react";
+import Seo from "@/components/Seo";
 
 type Props = {
   params: {
@@ -24,15 +26,25 @@ const Page = ({ params }: Props) => {
   const contentHtml = processedContent.toString();
 
   return (
-    <article
-      title={metaData.title}
-      className="prose prose-lg max-w-4xl mx-auto my-12 px-4 sm:px-6 lg:px-8"
-    >
-      <div
-        className="markdown"
-        dangerouslySetInnerHTML={{ __html: contentHtml }}
+    <Fragment>
+      <Seo
+        description={metaData.description}
+        title={metaData.title}
+        article
+        authorName={"Gramshop"}
+        image_url={metaData.image}
+        readingTime={parseInt(metaData.length) / 5 + " min read"}
       />
-    </article>
+      <article
+        title={metaData.title}
+        className="prose prose-lg max-w-4xl mx-auto my-12 px-4 sm:px-6 lg:px-8"
+      >
+        <div
+          className="markdown"
+          dangerouslySetInnerHTML={{ __html: contentHtml }}
+        />
+      </article>
+    </Fragment>
   );
 };
 
