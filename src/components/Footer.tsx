@@ -13,7 +13,7 @@ export const Footer = () => {
             <Logo />
           </a>
           <p className="mt-2 text-sm text-gray-500">
-            Gramshop helps you sell on Telegram
+            First ever Telegram ecommerce platform
           </p>
         </div>
         <div className="flex-grow flex flex-wrap md:pl-20 -mb-10 md:mt-0 mt-10 md:text-left text-center">
