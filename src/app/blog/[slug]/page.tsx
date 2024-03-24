@@ -35,6 +35,7 @@ const Page = ({ params }: Props) => {
         image_url={metaData.image}
         readingTime={parseInt(metaData.length) / 5 + " min read"}
       />
+
       <article
         title={metaData.title}
         className="prose prose-lg max-w-4xl mx-auto my-12 px-4 sm:px-6 lg:px-8"

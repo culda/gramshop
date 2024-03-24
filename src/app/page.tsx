@@ -15,7 +15,7 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Seo from "@/components/Seo";
 
-export default function Home() {
+export default function Page() {
   const [upload, setUpload] = useState<TempShop | null>();
   const handleFileUpload = async (base64: string) => {
     setUpload(null);

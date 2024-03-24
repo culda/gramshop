@@ -27,14 +27,13 @@ const Seo = ({
   keywords,
 }: Seo) => {
   return (
-    <Head key={title}>
+    <>
       {article ? (
         <>
           <title>{title}</title>
           <meta property="og:site_name" content="Gramshop" />
           <meta property="og:type" content="article" />
           <meta property="article:published_time" content={publishedTime} />
-          <meta property="title" content={title} />
           <meta property="og:title" content={title} />
           <meta property="twitter:title" content={title} />
           <meta name="description" content={description} />
@@ -56,43 +55,15 @@ const Seo = ({
           <meta property="twitter:tile:info2:text" content={publishedAt} />
           <meta property="twitter:cta" content="Read on Gramshop" />
           <meta property="keywords" content={keywords} />
-          <script type="application/ld+json">
-            {`
-              {
-                "@context": "https://schema.org",
-                "@type": "${article ? "Article" : "WebSite"}",
-                "headline": "${title}",
-                "image": "${image_url}",
-                "publisher": {
-                  "@type": "Organization",
-                  "name": "gramshop",
-                  "url": "https://gramshop.co/"
-                },
-                "url": "${url}",
-                "datePublished": "${publishedAt}",
-                "dateModified": "${publishedAt}",
-                "description": "${description}",
-                "author": {
-                  "@type": "Person",
-                  "name": "${authorName}"
-                },
-                "mainEntityOfPage": {
-                  "@type": "Blog Website",
-                  "@id": "https://gramshop.co/blog"
-                }
-              }
-            `}
-          </script>
         </>
       ) : (
         <>
           <title>{title}</title>
-          <meta property="title" content={title} />
           <meta name="description" content={description} />
           <meta name="author" content={authorName} />
         </>
       )}
-    </Head>
+    </>
   );
 };
 
