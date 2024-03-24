@@ -1,10 +1,7 @@
-// utils/authenticatedFetch.js
-
 import { cookies } from "next/headers";
 
 async function fetchAuth(path: string, options: RequestInit = {}) {
   const cookieStore = cookies();
-  console.log(cookieStore);
   const sessionToken = cookieStore.get("next-auth.session-token")?.value;
 
   // Ensure headers object exists

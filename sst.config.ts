@@ -1,5 +1,4 @@
 import { SSTConfig } from "sst";
-import * as lambda from "aws-cdk-lib/aws-lambda";
 import {
   NextjsSite,
   Function,
