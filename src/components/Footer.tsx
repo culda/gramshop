@@ -26,6 +26,7 @@ export const Footer = () => {
                 <a
                   href="https://t.me/+FTPqqyO__eYyNTFk"
                   target="_blank"
+                  rel="noopener noreferrer"
                   className="text-gray-600 hover:text-gray-800"
                 >
                   <div className="flex flex-row gap-2">

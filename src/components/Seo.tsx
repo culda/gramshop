@@ -1,5 +1,4 @@
 import React from "react";
-import Head from "next/head";
 
 type Seo = {
   title: string;
@@ -26,6 +25,30 @@ const Seo = ({
   article = false,
   keywords,
 }: Seo) => {
+  const jsonLd = {
+    "@context": "https://schema.org",
+    "@type": article ? "Article" : "WebSite",
+    headline: title,
+    image: image_url,
+    publisher: {
+      "@type": "Organization",
+      name: "gramshop",
+      url: "https://gramshop.co/",
+    },
+    url: url,
+    datePublished: publishedAt,
+    dateModified: publishedAt,
+    description: description,
+    author: {
+      "@type": "Person",
+      name: authorName,
+    },
+    mainEntityOfPage: {
+      "@type": "Blog Website",
+      "@id": "https://gramshop.co/blog",
+    },
+  };
+
   return (
     <>
       {article ? (
@@ -55,6 +78,10 @@ const Seo = ({
           <meta property="twitter:tile:info2:text" content={publishedAt} />
           <meta property="twitter:cta" content="Read on Gramshop" />
           <meta property="keywords" content={keywords} />
+          <script
+            type="application/ld+json"
+            dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
+          />
         </>
       ) : (
         <>
