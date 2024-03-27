@@ -1,9 +1,9 @@
 "use client";
 import { signIn } from "next-auth/react";
-import Button from "@/components/Button";
 import { PpParams } from "./page";
 import Image from "next/image";
 import { Logo } from "@/components/Logo";
+import Seo from "@/components/Seo";
 
 export default function Page({ callbackUrl }: PpParams["searchParams"]) {
   return (
@@ -11,6 +11,7 @@ export default function Page({ callbackUrl }: PpParams["searchParams"]) {
       className="fixed top-1/2 left-1/2 md:w-md -translate-x-1/2 -translate-y-1/2 
              p-5 text-center"
     >
+      <Seo title="Login" description="Login to access Gramshop" />
       <div className="bg-white flex flex-col shadow-md rounded px-8 pt-6 pb-8 ">
         <div className="mb-8">
           <Logo />

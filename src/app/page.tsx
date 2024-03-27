@@ -1,13 +1,11 @@
 "use client";
 
-import Button from "@/components/Button";
 import FileDrop from "@/components/FileDrop";
 import ShopPreview from "@/components/shop/ShopPreview";
 import { Currency, TempShop } from "@/model";
 import React from "react";
 import { useState } from "react";
-import { Logo } from "@/components/Logo";
-import SupportedShops from "@/components/SupportedShops";
+import { SupportedShopsWide } from "@/components/SupportedShopsWide";
 import Link from "next/link";
 import { FaLightbulb, FaMoneyBill, FaRocket } from "react-icons/fa";
 import FAQSection from "@/components/FaqSection";
@@ -51,9 +49,7 @@ export default function Page() {
           <div className="flex h-[280px] items-center justify-between">
             <FileDrop onUpload={handleFileUpload} />
           </div>
-          <div className="flex flex-col gap-2 items-center">
-            <SupportedShops />
-          </div>
+          <SupportedShopsWide />
         </div>
       </section>
 
@@ -89,7 +85,6 @@ export default function Page() {
               }}
               src="https://www.tella.tv/video/cltg3p20l00000gjm6wl3gkvn/embed?b=0&title=0&a=1&loop=1&t=0&muted=0&wt=0"
               allowFullScreen
-              allowTransparency
             ></iframe>
           </div>
           <div className="flex flex-col flex-wrap md:py-6 -mb-10 md:w-1/2 md:pl-12 md:text-left text-center">

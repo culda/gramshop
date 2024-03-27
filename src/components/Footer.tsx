@@ -50,23 +50,23 @@ export const Footer = () => {
             <nav className="list-none mb-10">
               <li>
                 <Link href="/dashboard">
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Dashboard Integration
-                  </a>
+                  <span className="text-gray-600 hover:text-gray-800">
+                    Dashboard
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/blog">
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Ecommerce Insights Blog
-                  </a>
+                  <span className="text-gray-600 hover:text-gray-800">
+                    Ecommerce Insights
+                  </span>
                 </Link>
               </li>
               <li>
                 <Link href="/blog/shopify-to-telegram">
-                  <a className="text-gray-600 hover:text-gray-800">
-                    Shopify to Telegram Conversion Guide
-                  </a>
+                  <span className="text-gray-600 hover:text-gray-800">
+                    Shopify to Telegram Guide
+                  </span>
                 </Link>
               </li>
             </nav>
