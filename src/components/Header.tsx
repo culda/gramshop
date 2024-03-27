@@ -9,7 +9,7 @@ export const Header = () => {
           className="flex title-font font-medium items-center md:mb-0"
           href="/"
         >
-          <Logo />
+          <Logo text />
         </a>
 
         <div className="hidden sm:block">
