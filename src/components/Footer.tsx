@@ -46,7 +46,7 @@ export const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-gray-800"
                 >
-                  Get help via email
+                  Get help via Email
                 </a>
               </li>
             </nav>

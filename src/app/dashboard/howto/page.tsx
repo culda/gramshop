@@ -46,6 +46,19 @@ export default function Page() {
           no control over the payment process.
         </p>
       </Section>
+      <Section className="mt-6" title="Still need help?">
+        <p>
+          If you have any questions or need assistance setting up your shop,
+          please reach out to us at{" "}
+          <a
+            className="font-medium underline"
+            href="mailto:support@gramshop.co
+          "
+          >
+            support@gramshop.co
+          </a>
+        </p>
+      </Section>
     </AppScene>
   );
 }

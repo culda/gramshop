@@ -1,7 +1,7 @@
 "use client";
 import Link from "next/link";
 import React, { useState } from "react";
-import { FaPlus } from "react-icons/fa";
+import { FaPlus, FaQuestion, FaQuestionCircle } from "react-icons/fa";
 import Image from "next/image";
 import { Logo } from "@/components/Logo";
 
@@ -65,7 +65,9 @@ export default function Layout({ children }: { children: React.ReactNode }) {
                 href="/dashboard/howto"
                 className="text-black text-xl font-semibold whitespace-nowrap"
               >
-                How to
+                <div className="flex items-center justify-center">
+                  <FaQuestionCircle />
+                </div>
               </Link>
             </li>
           </ul>
