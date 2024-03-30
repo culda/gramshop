@@ -39,6 +39,16 @@ export const Footer = () => {
                   Join Our Telegram Support Group
                 </a>
               </li>
+              <li>
+                <a
+                  href="mailto:support@gramshop.co"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-gray-600 hover:text-gray-800"
+                >
+                  Get help via email
+                </a>
+              </li>
             </nav>
           </div>
 
@@ -66,6 +76,29 @@ export const Footer = () => {
                 <Link href="/blog/shopify-to-telegram">
                   <span className="text-gray-600 hover:text-gray-800">
                     Shopify to Telegram Guide
+                  </span>
+                </Link>
+              </li>
+            </nav>
+          </div>
+
+          {/* Legal links */}
+          <div className="lg:w-1/4 md:w-1/2 w-full px-4">
+            <h2 className="title-font font-medium text-gray-900 tracking-widest text-sm mb-3">
+              Legal
+            </h2>
+            <nav className="list-none mb-10">
+              <li>
+                <Link href="/legal/privacy">
+                  <span className="text-gray-600 hover:text-gray-800">
+                    Privacy policy
+                  </span>
+                </Link>
+              </li>
+              <li>
+                <Link href="/legal/terms">
+                  <span className="text-gray-600 hover:text-gray-800">
+                    Terms of service
                   </span>
                 </Link>
               </li>
