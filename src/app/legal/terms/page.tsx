@@ -74,8 +74,7 @@ const TermsPage: React.FC = () => {
         <h2>Governing Law</h2>
         <p>
           These Terms shall be governed and construed in accordance with the
-          laws of [Your Country/State], without regard to its conflict of law
-          provisions.
+          laws of UK, without regard to its conflict of law provisions.
         </p>
 
         <h2>Changes</h2>
