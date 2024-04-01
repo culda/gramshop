@@ -13,7 +13,8 @@ export default function Page() {
           Welcome to Gramshop. We are committed to respecting the privacy of our
           users and ensuring the security of their personal information. This
           Privacy Policy outlines how we collect, use, disclose, and safeguard
-          your data when you visit our website https://gramshop.co.
+          your data when you visit our website{" "}
+          <a href="https://gramshop.co">https://gramshop.co</a>.
         </p>
         <h2>2. Information Collection</h2>
         <p>
@@ -65,7 +66,7 @@ export default function Page() {
         <p>
           If you have any questions about this Privacy Policy, the practices of
           this site, or your dealings with this site, please contact us at
-          culda@gramshop.co
+          <a href="mailto:support@gramshop.co">support@gramshop.co</a>
         </p>
       </div>
     </div>
