@@ -109,6 +109,9 @@ export const NewScene = ({ ts }: { ts?: TempShop }) => {
         </div>
       </Section>
       <Section className="mt-8" title="Products">
+        <Button variant="secondary" href="mailto:support@gramshop.co">
+          Request manual upload
+        </Button>
         <p>
           Drops a .csv file containing your products. The file should include a
           name and a price for each product.

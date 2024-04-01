@@ -31,7 +31,6 @@ const Page = async ({ searchParams }: PpParams) => {
       ts = unmarshall(Item) as TempShop;
     }
   }
-  console.log(searchParams, ts);
   return (
     <AppScene title={"New Shop"}>
       <NewScene ts={ts} />
