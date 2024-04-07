@@ -36,7 +36,7 @@ export const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-gray-800"
                 >
-                  Join Our Telegram Support Group
+                  Telegram Support Group
                 </a>
               </li>
               <li>
@@ -46,7 +46,7 @@ export const Footer = () => {
                   rel="noopener noreferrer"
                   className="text-gray-600 hover:text-gray-800"
                 >
-                  Get help via Email
+                  Need Help: support@gramshop.co
                 </a>
               </li>
             </nav>
