@@ -25,24 +25,32 @@ export async function PUT(req: NextRequest) {
     });
     const shopId = nanoid(10);
     const products = await productImagesToS3(shopId, parsed);
-    await updateTempShop(shopId, products);
-    return NextResponse.json({
+    console.log(shopId, products);
+    const now = new Date().toISOString();
+    const tempShop = {
       id: shopId,
-      products,
-    } satisfies TempShop);
+      created: now,
+      products: products,
+    };
+    await updateTempShop(tempShop);
+    return NextResponse.json(tempShop);
   } catch (error) {
+    console.log(error);
     console.error(error);
     return NextResponse.json({}, { status: 500 });
   }
 }
 
-async function updateTempShop(shopId: string, products: Product[]) {
+async function updateTempShop(tempShop: TempShop) {
   await ddb.send(
     new UpdateItemCommand({
       TableName: Table.TempShopTable.tableName,
-      Key: { id: { S: shopId } },
-      UpdateExpression: "SET products = :products",
-      ExpressionAttributeValues: marshall({ ":products": products }),
+      Key: { id: { S: tempShop.id } },
+      UpdateExpression: "SET products = :products, created = :created",
+      ExpressionAttributeValues: marshall({
+        ":products": tempShop.products,
+        ":created": tempShop.created,
+      }),
     })
   );
 }

@@ -24,7 +24,7 @@ export default function Page() {
       },
       body: base64,
     });
-    const upload = (await res.json()) as TempShop;
+    const upload = (await res.json()) satisfies TempShop;
     setUpload(upload);
   };
 

@@ -53,6 +53,7 @@ export type Invoice = {
 
 export type TempShop = {
   id: string;
+  created: string;
   products: Product[];
 };
 

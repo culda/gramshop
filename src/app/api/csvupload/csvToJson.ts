@@ -24,7 +24,7 @@ export async function csvToJson(csvContent: string): Promise<unknown> {
   try {
     // Call the OpenAI API
     const response = await client.chat.completions.create({
-      model: "gpt-3.5-turbo",
+      model: "gpt-4-turbo",
       messages: [
         {
           role: "system",
@@ -46,11 +46,15 @@ export async function csvToJson(csvContent: string): Promise<unknown> {
       // Further processing, validation, etc.
       return jsonResponse;
     } catch (error) {
-      console.error("Error parsing JSON from OpenAI response:", error);
+      console.error(
+        "Error parsing JSON from OpenAI response:",
+        error,
+        csvContent
+      );
       throw error;
     }
   } catch (error) {
-    console.error("Error calling OpenAI:", error);
+    console.error("Error calling OpenAI:", error, csvContent);
     throw error;
   }
 }

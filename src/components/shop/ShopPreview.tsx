@@ -12,7 +12,7 @@ const ShopPreview = ({
 }) => {
   return (
     <section>
-      <div className="flex justify-center items-center">
+      <div className="flex justify-center items-center ">
         <div className="bg-white border-4 border-dotted border-gray-300 rounded-lg">
           <div className="flex justify-center">
             <div className="max-w-md">

@@ -17,7 +17,10 @@ export const ShopPlp = () => {
   } = useShop();
 
   return (
-    <section className="text-gray-600 body-font">
+    <section
+      className="text-gray-600 body-font"
+      style={{ maxHeight: "100vh", overflowY: "scroll" }}
+    >
       <div className="container px-5 py-12 mx-auto">
         <div className="flex flex-wrap justify-center -m-4">
           {products.map((product) => (
