@@ -12,20 +12,31 @@ import FAQSection from "@/components/FaqSection";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Seo from "@/components/Seo";
+import { useSnackbar } from "@/components/SnackbarProvider";
 
 export default function Page() {
   const [upload, setUpload] = useState<TempShop | null>();
+  const snack = useSnackbar();
   const handleFileUpload = async (base64: string) => {
     setUpload(null);
-    const res = await fetch("/api/csvupload", {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/octet-stream; base64",
-      },
-      body: base64,
-    });
-    const upload = (await res.json()) satisfies TempShop;
-    setUpload(upload);
+    try {
+      const res = await fetch("/api/csvupload", {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/octet-stream; base64",
+        },
+        body: base64,
+      });
+      const upload = (await res.json()) satisfies TempShop;
+      setUpload(upload);
+    } catch (error) {
+      snack({
+        key: "file-drop-error",
+        text: "Error uploading file. Please reach out to support@gramshop.co",
+        variant: "error",
+      });
+      console.error(error);
+    }
   };
 
   return (
