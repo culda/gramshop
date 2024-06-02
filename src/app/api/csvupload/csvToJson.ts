@@ -1,11 +1,9 @@
 import openai from "openai";
 
-const apiKey = "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";
-
 export async function csvToJson(csvContent: string): Promise<unknown> {
   // Initialize OpenAI API
   const client = new openai({
-    apiKey: apiKey,
+    apiKey: process.env.OPENAI_API_KEY,
   });
 
   // Prepare the prompt

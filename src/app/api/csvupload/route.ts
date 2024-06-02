@@ -25,7 +25,6 @@ export async function PUT(req: NextRequest) {
     });
     const shopId = nanoid(10);
     const products = await productImagesToS3(shopId, parsed);
-    console.log(shopId, products);
     const now = new Date().toISOString();
     const tempShop = {
       id: shopId,
@@ -35,7 +34,6 @@ export async function PUT(req: NextRequest) {
     await updateTempShop(tempShop);
     return NextResponse.json(tempShop);
   } catch (error) {
-    console.log(error);
     console.error(error);
     return NextResponse.json({}, { status: 500 });
   }
@@ -78,7 +76,7 @@ async function productImagesToS3(
           .toFormat("webp") // Convert to Webp with 80% quality
           .toBuffer();
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
 
       const imageKey = `${shopId}/${product.id}/${randomUUID()}`;
