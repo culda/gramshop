@@ -57,18 +57,26 @@ function Storage({ stack }: StackContext) {
     primaryIndex: { partitionKey: "id" },
   });
 
+  const DemosTable = new Table(stack, "DemosTable", {
+    fields: {
+      id: "string",
+    },
+    primaryIndex: { partitionKey: "id" },
+  });
+
   return {
     ImagesBucket,
     ShopsTable,
     UsersTable,
     TempShopsTable,
     InvoicesTable,
+    DemosTable,
   };
 }
 
 function Shop({ stack }: StackContext) {
   const { ImagesBucket } = use(Storage);
-  const { ShopsTable, InvoicesTable, UsersTable } = use(Storage);
+  const { ShopsTable, InvoicesTable, UsersTable, DemosTable } = use(Storage);
 
   /**
    * Called when a user interacts with a Telegram bot
@@ -169,6 +177,13 @@ function Shop({ stack }: StackContext) {
       "POST /login": {
         function: loginHandler,
         authorizer: "googleJwt",
+      },
+      "PUT /requestdemo": {
+        function: new Function(stack, "demoHandler", {
+          bind: [DemosTable],
+          handler: "src/functions/requestdemo/handler.handler",
+        }),
+        authorizer: "none",
       },
     },
     defaults: {

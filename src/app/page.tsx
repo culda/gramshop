@@ -13,29 +13,41 @@ import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Seo from "@/components/Seo";
 import { useSnackbar } from "@/components/SnackbarProvider";
+import TextField from "@/components/TextField";
+import { useForm } from "react-hook-form";
+import Button from "@/components/Button";
+
+type FormValues = {
+  url: string;
+};
 
 export default function Page() {
-  const [upload, setUpload] = useState<TempShop | null>();
   const snack = useSnackbar();
-  const handleFileUpload = async (base64: string) => {
-    setUpload(null);
+  const { formState, register, handleSubmit } = useForm<FormValues>({});
+
+  const onSubmit = async ({ url }: FormValues) => {
     try {
-      const res = await fetch("/api/csvupload", {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/octet-stream; base64",
-        },
-        body: base64,
-      });
-      const upload = (await res.json()) satisfies TempShop;
-      setUpload(upload);
-    } catch (error) {
+      const res = await fetch(
+        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/requestdemo`,
+        {
+          method: "PUT",
+          body: JSON.stringify({
+            url,
+          }),
+        }
+      );
       snack({
-        key: "file-drop-error",
-        text: "Error uploading file. Please reach out to support@gramshop.co",
+        key: "request-demo-success",
+        text: "Success",
+        variant: "success",
+      });
+      return;
+    } catch (err) {
+      snack({
+        key: "request-demo-failure",
+        text: "Something went wrong",
         variant: "error",
       });
-      console.error(error);
     }
   };
 
@@ -52,34 +64,40 @@ export default function Page() {
             Launch your shop on{" "}
             <span className="thick-underline">Telegram</span> in 60 seconds
           </h1>
+
           <p>
-            Import your shop from any major e-commerce platform and launch it on
-            Telegram in a few clicks.
+            Drop your shop URL below and we will generate a demo store for your
+            business that is ready to accept crypto payments.
           </p>
 
-          <div className="flex h-[280px] items-center justify-between">
-            <FileDrop onUpload={handleFileUpload} />
+          <div className="flex h-[80px] mb-2 items-center justify-between">
+            <form id="url-form" onSubmit={handleSubmit(onSubmit)}>
+              <div className="flex flex-row gap-2 ">
+                <div className="sm:flex relative focus:outline-none appearance-none mr-4 px-2 rounded-md border bg-transparent border-blue-800 focus-within:ring-2 focus-within:border-transparent shadow-xl">
+                  <span className="flex items-center pl-3 text-gray-800 font-bold rounded-lg">
+                    https://
+                  </span>
+                  <input
+                    className="sm:flex relative focus:outline-none appearance-none mr-4 px-2 rounded-md bg-transparent"
+                    {...register("url", { required: true })}
+                  />
+                </div>
+                <Button
+                  form="url-form"
+                  type="submit"
+                  className="w-full"
+                  loading={formState.isSubmitting}
+                  disabled={!formState.isValid}
+                  variant="primary"
+                >
+                  Submit
+                </Button>
+              </div>
+            </form>
           </div>
           <SupportedShopsWide />
         </div>
       </section>
-
-      {upload && (
-        <section className="flex flex-col w-full items-center  border-2 bg-blue-100 mb-8 py-8">
-          <h2 className="text-3xl thick-underline font-bold mb-8">
-            Shop Preview
-          </h2>
-          <ShopPreview currency={Currency.USD} products={upload.products} />
-          <div className="flex justify-center mt-8">
-            <Link
-              className="text-white py-4 px-8 text-xl shadow-xl bg-blue-800 rounded-xl"
-              href={`/dashboard/new?id=${upload.id}`}
-            >
-              Launch on Telegram
-            </Link>
-          </div>
-        </section>
-      )}
 
       {/* features */}
       <section className="">
@@ -105,11 +123,11 @@ export default function Page() {
               </div>
               <div className="flex-grow">
                 <h2 className="text-gray-900 mb-3">
-                  Unlock a new sales channel
+                  Accept crypto payments via Telegram wallet
                 </h2>
                 <p className="leading-relaxed text-base">
-                  Telegram&apos;s 800 million active users will instantly gain
-                  access to your shop.
+                  Telegram&apos;s 900 million active users will be able to use
+                  the native Telegram crypto wallet to pay for your products.
                 </p>
               </div>
             </div>

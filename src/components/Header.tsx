@@ -14,7 +14,7 @@ export const Header = () => {
 
         <div className="hidden sm:block">
           <span className="sm:text-xl lg:text-3xl font-bold text-center py-5">
-            First ever Telegram ecommerce platform
+            Start accepting Crypto payments via Telegram
           </span>
         </div>
 
