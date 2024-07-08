@@ -1,19 +1,13 @@
 "use client";
 
-import FileDrop from "@/components/FileDrop";
-import ShopPreview from "@/components/shop/ShopPreview";
-import { Currency, TempShop } from "@/model";
 import React from "react";
-import { useState } from "react";
 import { SupportedShopsWide } from "@/components/SupportedShopsWide";
-import Link from "next/link";
 import { FaLightbulb, FaMoneyBill, FaRocket } from "react-icons/fa";
 import FAQSection from "@/components/FaqSection";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
 import Seo from "@/components/Seo";
 import { useSnackbar } from "@/components/SnackbarProvider";
-import TextField from "@/components/TextField";
 import { useForm } from "react-hook-form";
 import Button from "@/components/Button";
 
@@ -27,15 +21,12 @@ export default function Page() {
 
   const onSubmit = async ({ url }: FormValues) => {
     try {
-      const res = await fetch(
-        `${process.env.NEXT_PUBLIC_API_ENDPOINT}/requestdemo`,
-        {
-          method: "PUT",
-          body: JSON.stringify({
-            url,
-          }),
-        }
-      );
+      await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/requestdemo`, {
+        method: "PUT",
+        body: JSON.stringify({
+          url,
+        }),
+      });
       snack({
         key: "request-demo-success",
         text: "Success",

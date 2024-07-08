@@ -38,8 +38,8 @@ export default function Page() {
   return (
     <div>
       <Seo
-        description="Launch your shop on Telegram in 60 seconds"
-        title="Shop on Telegram"
+        description="Upload a product csv and launch your shop on Telegram"
+        title="Shopify to Telegram"
       />
       <Header />
       <section className="">

@@ -24,7 +24,10 @@ export const Header = () => {
             <a href="#pricing">Pricing</a>
           </div> */}
 
-        <div>
+        <div className="flex flex-row gap-2">
+          <Button href="/csv" variant="secondary">
+            CSV Import
+          </Button>
           <Button href="/dashboard">Try Free</Button>
         </div>
       </div>
