@@ -38,8 +38,9 @@ export default function Page() {
   return (
     <div>
       <Seo
-        description="Upload a product csv and launch your shop on Telegram"
-        title="Shopify to Telegram"
+        description="Convert your Shopify product CSV to a Telegram bot shop with our free tool. Easily migrate your e-commerce store to Telegram and start accepting crypto payments. Streamline your Telegram business today!"
+        title="Free Shopify to Telegram Bot Converter | Accept Crypto Payments"
+        keywords="Telegram ecommerce, crypto telegram, migrate ecom to Telegram, Shopify to Telegram converter"
       />
       <Header />
       <section className="">

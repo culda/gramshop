@@ -78,6 +78,7 @@ const Seo = ({
           <meta property="twitter:tile:info2:text" content={publishedAt} />
           <meta property="twitter:cta" content="Read on Gramshop" />
           <meta property="keywords" content={keywords} />
+          <meta name="robots" content="index, follow" />
           <script
             type="application/ld+json"
             dangerouslySetInnerHTML={{ __html: JSON.stringify(jsonLd) }}
@@ -88,6 +89,8 @@ const Seo = ({
           <title>{title}</title>
           <meta name="description" content={description} />
           <meta name="author" content={authorName} />
+          <meta property="keywords" content={keywords} />
+          <meta name="robots" content="index, follow" />
         </>
       )}
     </>

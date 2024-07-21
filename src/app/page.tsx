@@ -35,12 +35,6 @@ export default function Page() {
     resolver: zodResolver(schema),
   });
 
-  console.log(
-    formState.errors,
-    formState.isSubmitted,
-    formState.isSubmitSuccessful
-  );
-
   const onSubmit = async ({ url, email }: FormValues) => {
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/requestdemo`, {
@@ -68,8 +62,9 @@ export default function Page() {
   return (
     <div className="landing">
       <Seo
-        description="Launch your shop on Telegram in 60 seconds"
-        title="Shop on Telegram"
+        description="Launch your Telegram e-commerce business and accept crypto payments. Learn how to migrate your existing store and start selling on Telegram effortlessly. Your one-stop resource for Telegram business success."
+        title="Sell on Telegram | Start Your Crypto E-commerce Business Today"
+        keywords="Telegram ecommerce, crypto telegram, sell on Telegram, start a business on Telegram, accept crypto payments"
       />
       <Header />
       <section className="">
