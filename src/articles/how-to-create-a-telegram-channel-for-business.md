@@ -34,7 +34,9 @@ Another compelling reason for businesses to utilize Telegram is its seamless int
 
 To create a Telegram channel for your business, follow these simple steps:
 
-![Section Image](https://images.byword.ai/QXKQfHSjjC2CNKkh7GLOwmocIA3MbG3NeKjKNNeBwwEsvYGlA-out-0.png)### Downloading and Installing Telegram
+![Section Image](https://images.byword.ai/QXKQfHSjjC2CNKkh7GLOwmocIA3MbG3NeKjKNNeBwwEsvYGlA-out-0.png)
+
+### Downloading and Installing Telegram
 
 Begin by downloading the Telegram app on your device. It is available for both Android and iOS platforms. Once downloaded, follow the installation process to set up your account.
 
@@ -105,11 +107,3 @@ Furthermore, consider conducting regular surveys or feedback sessions with your 
 Creating a Telegram channel for your business is a smart move in today's digital landscape. By understanding the significance of Telegram, setting up your channel, customizing it effectively, implementing growth strategies, and managing it efficiently, you can unlock endless possibilities for customer engagement, brand awareness, and business growth. Embrace Telegram's potential and establish a strong online presence for your business today.
 
 ![Section Image](https://images.byword.ai/WzsibkjPieysIiHH4zEZyGS4HGNGc58N0HFLPo3175elWMjSA-out-0.png)
-
-
-
-
-
-
-
-
