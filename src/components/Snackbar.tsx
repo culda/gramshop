@@ -45,7 +45,7 @@ export default function Snackbar({
 
   return open ? (
     <div
-      className={`${variants[variant]} flex items-center gap-2 mx-auto truncate whitespace-nowrap rounded-lg py-3 px-3.5 text-xs text-white shadow-md `}
+      className={`${variants[variant]} z-50 flex items-center gap-2 mx-auto truncate whitespace-nowrap rounded-lg py-3 px-3.5 text-xs text-white shadow-md `}
     >
       {Icon && (
         <span className="mr-4 text-base" aria-hidden="true">

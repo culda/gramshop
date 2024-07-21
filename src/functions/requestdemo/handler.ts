@@ -9,6 +9,7 @@ import { nanoid } from "nanoid";
 
 export type DemoRequest = {
   url: string;
+  email: string;
 };
 
 export const handler: APIGatewayProxyHandlerV2 = async (event) =>
@@ -16,6 +17,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) =>
     console.log(event.body);
     const req = JSON.parse(event.body as string) as DemoRequest;
     const url = checkNull(req.url, 400);
+    const email = checkNull(req.email, 400);
     const id = nanoid(10);
 
     await ddb.send(
@@ -24,6 +26,7 @@ export const handler: APIGatewayProxyHandlerV2 = async (event) =>
         Item: marshall({
           id,
           url,
+          email,
           created: new Date().toISOString(),
           status: "pending",
         }),

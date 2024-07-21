@@ -15,6 +15,7 @@ export default function SnackbarProvider({
   children: React.ReactNode;
 }) {
   const [{ queue }, dispatch] = useReducer(reducer, { queue: [] });
+  console.log(queue);
 
   return (
     <SnackbarContext.Provider value={{ queue, dispatch }}>
@@ -57,6 +58,7 @@ export const useSnackbar = () => {
 
   return useCallback(
     (snack: SnackbarType) => {
+      console.log("snack", snack);
       dispatch({ type: "ADD_SNACKBAR", payload: { current: snack } });
     },
     [dispatch]

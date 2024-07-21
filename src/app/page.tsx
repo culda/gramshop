@@ -1,8 +1,13 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 import { SupportedShopsWide } from "@/components/SupportedShopsWide";
-import { FaLightbulb, FaMoneyBill, FaRocket } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaLightbulb,
+  FaMoneyBill,
+  FaRocket,
+} from "react-icons/fa";
 import FAQSection from "@/components/FaqSection";
 import { Header } from "@/components/Header";
 import { Footer } from "@/components/Footer";
@@ -10,22 +15,40 @@ import Seo from "@/components/Seo";
 import { useSnackbar } from "@/components/SnackbarProvider";
 import { useForm } from "react-hook-form";
 import Button from "@/components/Button";
+import { DemoRequest } from "@/functions/requestdemo/handler";
+import { z } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
 
+const schema = z.object({
+  url: z.string().min(1, "URL is required"),
+  email: z.string().email("Invalid email").min(1, "Email is required"),
+});
 type FormValues = {
   url: string;
+  email: string;
 };
 
 export default function Page() {
   const snack = useSnackbar();
-  const { formState, register, handleSubmit } = useForm<FormValues>({});
+  const { formState, register, handleSubmit, watch } = useForm<FormValues>({
+    mode: "onSubmit",
+    resolver: zodResolver(schema),
+  });
 
-  const onSubmit = async ({ url }: FormValues) => {
+  console.log(
+    formState.errors,
+    formState.isSubmitted,
+    formState.isSubmitSuccessful
+  );
+
+  const onSubmit = async ({ url, email }: FormValues) => {
     try {
       await fetch(`${process.env.NEXT_PUBLIC_API_ENDPOINT}/requestdemo`, {
         method: "PUT",
         body: JSON.stringify({
           url,
-        }),
+          email,
+        } satisfies DemoRequest),
       });
       snack({
         key: "request-demo-success",
@@ -64,25 +87,43 @@ export default function Page() {
           <div className="flex h-[80px] mb-2 items-center justify-between">
             <form id="url-form" onSubmit={handleSubmit(onSubmit)}>
               <div className="flex flex-row gap-2 ">
-                <div className="sm:flex relative focus:outline-none appearance-none mr-4 px-2 rounded-md border bg-transparent border-blue-800 focus-within:ring-2 focus-within:border-transparent shadow-xl">
-                  <span className="flex items-center pl-3 text-gray-800 font-bold rounded-lg">
-                    https://
-                  </span>
-                  <input
-                    className="sm:flex relative focus:outline-none appearance-none mr-4 px-2 rounded-md bg-transparent"
-                    {...register("url", { required: true })}
-                  />
+                <div className="flex flex-col gap-2">
+                  <div className="h-full sm:flex relative focus:outline-none appearance-none mr-4 px-2 rounded-md border bg-transparent border-blue-800 focus-within:ring-2 focus-within:border-transparent shadow-xl">
+                    <span className="flex items-center pl-3 text-gray-800 font-bold rounded-lg">
+                      https://
+                    </span>
+                    <input
+                      className="sm:flex relative focus:outline-none appearance-none mr-4 px-2 rounded-md bg-transparent"
+                      {...register("url", { required: true })}
+                    />
+                  </div>
+                  {formState.isSubmitted && !formState.isSubmitSuccessful && (
+                    <div className="h-full sm:flex relative focus:outline-none appearance-none mr-4 px-2 rounded-md border bg-transparent border-blue-800 focus-within:ring-2 focus-within:border-transparent shadow-xl">
+                      <span className="flex items-center pl-3 text-gray-800 font-bold rounded-lg">
+                        Email
+                      </span>
+                      <input
+                        className="sm:flex relative focus:outline-none appearance-none mr-4 px-2 rounded-md bg-transparent"
+                        {...register("email", { required: true })}
+                      />
+                    </div>
+                  )}
                 </div>
+
                 <Button
                   form="url-form"
                   type="submit"
                   className="w-full"
                   loading={formState.isSubmitting}
-                  disabled={!formState.isValid}
                   variant="primary"
                 >
-                  Submit
+                  Get Demo
                 </Button>
+                {formState.isSubmitSuccessful && (
+                  <div className="flex justify-center items-center">
+                    <FaCheckCircle color="green" size={24} />
+                  </div>
+                )}
               </div>
             </form>
           </div>
